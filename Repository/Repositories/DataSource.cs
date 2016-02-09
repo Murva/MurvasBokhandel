@@ -13,8 +13,7 @@ namespace Repository.Repositories
     {
         public static string getConnectionString(string name)
         {
-            //return System.Web.Configuration.WebConfigurationManager.ConnectionStrings[name].ConnectionString;
-            return null;
+            return System.Web.Configuration.WebConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
     }
 }
