@@ -6,28 +6,58 @@ using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
-    public class Book
+    public class BookResult
     {
-        public string Name { get; set; }
+        public int Aid;
+        public int ISBN;
+        public string Title;
+        public string FirstName;
+        public string Lastname;
     };
     public class PublicController : Controller
     {
         // GET: Public
         public ActionResult Start()
         {
+            
             return View();
         }
 
         public ActionResult Book(int id)
         {
-            List<Book> result = new List<Book>() { new Book() { Name="Harry Potter"} };
-            return View(result);
+            return View();
         }
 
         [HttpGet]
-        public ViewResult Search(string publicSearch)
+        public ActionResult Search(string search_field)
         {
-            ViewBag.Result = publicSearch;
+            List<BookResult> SearchResults = new List<BookResult>() 
+            {
+                new BookResult() 
+                {
+                    Aid = 1,
+                    ISBN = 11111,
+                    Title = "Harry Potter och fången från Azkaban",
+                    FirstName = "J.K",
+                    Lastname = "Rowling"
+                },
+                new BookResult() 
+                {
+                    Aid = 1,
+                    ISBN = 22222,
+                    Title = "Harry Pulver och Kalle",
+                    FirstName = "J.K",
+                    Lastname = "Rowling"
+                },
+                new BookResult() 
+                {
+                    Aid = 2,
+                    ISBN = 33333333,
+                    Title = "En murvig Murva",
+                    FirstName = "Murvan",
+                    Lastname = "Murvansson"
+                }
+            };
             return View();
         }
     }
