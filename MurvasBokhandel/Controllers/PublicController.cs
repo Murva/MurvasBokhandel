@@ -14,24 +14,10 @@ namespace MurvasBokhandel.Controllers
         public string FirstName;
         public string Lastname;
     };
+
     public class PublicController : Controller
     {
-        // GET: Public
-        public ActionResult Start()
-        {
-            
-            return View();
-        }
-
-        public ActionResult Book(int id)
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Search(string search_field)
-        {
-            List<BookResult> SearchResults = new List<BookResult>() 
+        List<BookResult> SearchResults = new List<BookResult>() 
             {
                 new BookResult() 
                 {
@@ -58,7 +44,22 @@ namespace MurvasBokhandel.Controllers
                     Lastname = "Murvansson"
                 }
             };
+        // GET: Public
+        public ActionResult Start()
+        {
+            
             return View();
+        }
+
+        public ActionResult Book(int id)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Search(string search_field)
+        {
+            return View(SearchResults);
         }
     }
 }

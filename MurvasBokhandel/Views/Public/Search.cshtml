@@ -1,35 +1,11 @@
-﻿@mode
+﻿@model IList<MurvasBokhandel.Controllers.BookResult>
+
 @{
     ViewBag.Title = "Search";
 }
 
-<h2>Sökresultat</h2>
-<div class="row">
-    <div class="col-md-4">
-        @{
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Författare</th>
-                        <th></th>
-                        <th>Boktitel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><a href="/Public/Auther/">J.K. Rowling</a></td>
-                        <td>Harry Potter</td>
-
-                    </tr>
-                    <tr>
-                        <td>Harry Martinsson</td>
-                        <td>Doktor Glas</td>
-
-                    </tr>
-                </tbody>
-            </table>
-        }
-    </div>
-</div>  
-   
+<h2>Search</h2>
+@foreach(var book in Model) {
+    @book.Title<br/>
+}
 
