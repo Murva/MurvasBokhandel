@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MurvasBokhandel.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MurvasBokhandel.Controllers
+namespace MurvasBokhandel.Controllers.Borrower
 {
     public class BorrowerController : Controller
     {
@@ -12,7 +13,8 @@ namespace MurvasBokhandel.Controllers
         // GET: /Borrower/
         public ActionResult Start()
         {
-            return View();
+            Mockup mockup = new Mockup();
+            return View(mockup);
         }
 	}
 }
