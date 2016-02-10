@@ -1,7 +1,18 @@
-﻿
+﻿@model MurvasBokhandel.Models.Mockup
+
 @{
-    ViewBag.Title = "Start";
+    ViewBag.Title = "Borrow Section";
 }
 
-<h2>Start</h2>
-Du har lånat: Allt du behöver veta om analsex - David Nilsson 2016-02-02
+<h2>Lånade böcker</h2>
+<div>
+    <form>
+        <select name="bookSelected" class="form-control">
+            @for (int i = 0; i < 5; i++) {
+                <option>@Model.books[i].title - @Model.books[i].author - @Model.books[i].daysLeft dagar kvar</option>    
+            }
+            
+        </select> <br />
+        <input value="Låna om" type="button" style="float: right" class="btn btn-success"/>  
+    </form>
+</div>
