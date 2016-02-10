@@ -13,7 +13,7 @@ namespace MurvasBokhandel.Controllers.Borrower
         // GET: /Borrower/
         public ActionResult Start()
         {
-            BorrowerMockup mockup = new BorrowerMockup();
+            Mockup mockup = new Mockup();
             return View(mockup);
         }
 	}

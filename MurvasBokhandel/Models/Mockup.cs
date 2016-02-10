@@ -47,10 +47,40 @@ namespace MurvasBokhandel.Models
             public string Category, Period;
         }
 
+        public class BORROWEDBOOK {
+            public BOOK book = new BOOK();
+            public AUTHOR author = new AUTHOR();
+            public BORROW borrow = new BORROW();
+        }
+
         // Skapa egna klasser här //
-        
-        public Mockup() { 
-                        
+        public BORROWEDBOOK[] books = new BORROWEDBOOK[3];
+
+        public Mockup()
+        {
+            for (int i = 0; i < 3; i++ )
+                books[i] = new BORROWEDBOOK();
+
+            books[0].author.Aid = 0;
+            books[0].author.FirstName = "Johan";
+            books[0].author.LastName = "Rasmussen";
+            books[0].author.BirthYear = 1994;
+            books[0].book.Title = "Den Murviga Ödlan";
+            books[0].book.PublicationYear = 2011;
+
+            books[1].author.Aid = 1;
+            books[1].author.FirstName = "Kalas";
+            books[1].author.LastName = "Knutte";
+            books[1].author.BirthYear = 1280;
+            books[1].book.Title = "How To Get Bitches";
+            books[1].book.PublicationYear = 1679;
+
+            books[2].author.Aid = 2;
+            books[2].author.FirstName = "Mona";
+            books[2].author.LastName = "Saltbil";
+            books[2].author.BirthYear = 2004;
+            books[2].book.Title = "Politik i ett nötskal";
+            books[2].book.PublicationYear = 1999;
         }
     }
 }
