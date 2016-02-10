@@ -12,7 +12,7 @@ namespace MurvasBokhandel.Controllers
         public int ISBN;
         public string Title;
         public string FirstName;
-        public string Lastname;
+        public string LastName;
     };
 
     public class PublicController : Controller
@@ -25,7 +25,7 @@ namespace MurvasBokhandel.Controllers
                     ISBN = 11111,
                     Title = "Harry Potter och fången från Azkaban",
                     FirstName = "J.K",
-                    Lastname = "Rowling"
+                    LastName = "Rowling"
                 },
                 new BookResult() 
                 {
@@ -33,7 +33,7 @@ namespace MurvasBokhandel.Controllers
                     ISBN = 22222,
                     Title = "Harry Pulver och Kalle",
                     FirstName = "J.K",
-                    Lastname = "Rowling"
+                    LastName = "Rowling"
                 },
                 new BookResult() 
                 {
@@ -41,7 +41,7 @@ namespace MurvasBokhandel.Controllers
                     ISBN = 33333333,
                     Title = "En murvig Murva",
                     FirstName = "Murvan",
-                    Lastname = "Murvansson"
+                    LastName = "Murvansson"
                 }
             };
         // GET: Public
