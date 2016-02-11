@@ -54,7 +54,9 @@ namespace MurvasBokhandel.Controllers
         // GET: Book
         public ActionResult Book(int ISBN)
         {
-            return View();
+            
+
+            return View(Books[0]);
         }
     }
 }
