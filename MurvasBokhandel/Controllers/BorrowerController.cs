@@ -16,5 +16,8 @@ namespace MurvasBokhandel.Controllers.Borrower
             Mockup mockup = new Mockup();
             return View(mockup);
         }
+        public ActionResult Reloan() {
+            return View("Start");
+        }
 	}
 }
