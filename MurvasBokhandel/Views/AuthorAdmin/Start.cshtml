@@ -22,17 +22,15 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        Namn
-                    </th>
+                    <th>Namn</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var author in Model)
                 {
                     <tr>
-                        <td><a href="/AuthorAdmin/Author/?Aid=@author.Aid">@author.FirstName @author.LastName</a></td>
-                </tr>
+                        <td><a href="/AuthorAdmin/Author/@author.Aid">@author.FirstName @author.LastName</a></td>
+                    </tr>
                 }
             </tbody>
         </table>

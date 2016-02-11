@@ -15,15 +15,15 @@ namespace MurvasBokhandel.Controllers
 
     public class AuthorResult
     {
-        public int Aid;
-        public string FirstName;
-        public string LastName;
-        public List<Book> Books;
+        public int Aid { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public List<Book> Books { get; set; }
     }
 
     public class AuthorAdminController : Controller
     {
-        List<AuthorResult> AuthorsResults = new List<AuthorResult>() {
+        static List<AuthorResult> AuthorsResults = new List<AuthorResult>() {
             new AuthorResult() {
                 Aid = 1,
                 FirstName = "J.K",
@@ -60,20 +60,45 @@ namespace MurvasBokhandel.Controllers
             return View(AuthorsResults);
         }
 
-        public ActionResult Author(int Aid)
+        public ActionResult Author(int id)
         {
-            AuthorResult a = (AuthorResult)AuthorsResults.Where(author => author.Aid == Aid).ElementAt(0);
+            if (id == 0)
+                return RedirectToAction("Start");
+
+            AuthorResult a = (AuthorResult)AuthorsResults.Where(author => author.Aid == id).ElementAt(0);
+
+            if (TempData.Count != 0)
+            {
+                ViewBag.Alert = TempData["Alert"].ToString();
+                ViewBag.Status = TempData["Status"].ToString();
+                TempData.Remove("Alert");
+                TempData.Remove("Status");
+            }
+
             return View(a);
         }
 
-        public ActionResult Update(AuthorResult m)
+        public ActionResult Update(AuthorResult a)
         {
-            AuthorsResults[m.Aid - 1] = a;
+            AuthorResult ar = (AuthorResult)AuthorsResults.Where(author => author.Aid == a.Aid).ElementAt(0);
+            ar.FirstName = a.FirstName;
+            ar.LastName = a.LastName;
 
-            ViewBag.Alert = "Författaren är uppdaterad";
-            ViewBag.Status = "success";
+            TempData["Alert"] = "Författaren är uppdaterad";
+            TempData["Status"] = "success";
 
-            return View("Author", m);
+            return RedirectToAction("Author", a);
+        }
+
+        public ActionResult Remove(AuthorResult a)
+        {
+            AuthorsResults.Remove(AuthorsResults.Where(author => author.Aid == a.Aid).ElementAt(0));
+
+            /*
+             foreach author.books, remove
+             */
+
+            return RedirectToAction("Start");
         }
     }
 }
