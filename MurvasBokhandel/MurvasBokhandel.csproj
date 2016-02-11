@@ -167,6 +167,7 @@
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\Administrator\Start.cshtml" />
     <Content Include="Views\Borrower\Start.cshtml" />
+    <Content Include="Views\Book\Book.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -176,7 +177,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Book\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
