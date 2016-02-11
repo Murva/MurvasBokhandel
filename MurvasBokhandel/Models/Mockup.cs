@@ -8,21 +8,29 @@ namespace MurvasBokhandel.Models
     public class Mockup
     {
         public class BOOK {
-            public int ISBN, SignId,
-                       PublicationYear;
-            public string Title, publicationinfo, pages;
+            public long ISBN { get; set; }
+            public int SignId { get; set; }
+            public int PublicationYear { get; set; }
+            public string Title { get; set; }
+            public string Publicationinfo { get; set; }
+            public string Pages { get; set; }
         }
         public class BOOK_AUTHOR {
-            public int ISBN;
-            public int Aid;
+            public long ISBN { get; set; }
+            public int Aid { get; set; }
         }
         public class AUTHOR {
-            public int Aid, BirthYear;
-            public string FirstName, LastName;
+            public int Aid { get; set; }
+            public int BirthYear { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
         }
         public class COPY {
-            public int Barcode, StatusId, ISBN;
-            public string Location, library;
+            public int Barcode { get; set; }
+            public int StatusId { get; set; }
+            public long ISBN { get; set; }
+            public string Location { get; set; }
+            public string Library { get; set; }
         }
         public class STATUS {
             public int statusid;
