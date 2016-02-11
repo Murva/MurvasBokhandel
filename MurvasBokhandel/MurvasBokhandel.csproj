@@ -152,8 +152,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Administrator\AdministratorController.cs" />
-    <Compile Include="Controllers\Public\PublicController.cs" />
+    <Compile Include="Controllers\AdministratorController.cs" />
+    <Compile Include="Controllers\AuthorAdminController.cs" />
+    <Compile Include="Controllers\BookAdminController.cs" />
+    <Compile Include="Controllers\BorrowerAdminController.cs" />
+    <Compile Include="Controllers\PublicController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -164,6 +167,10 @@
     <Content Include="packages.config" />
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\Administrator\Start.cshtml" />
+    <Content Include="Views\AuthorAdmin\Start.cshtml" />
+    <Content Include="Views\BorrowerAdmin\Start.cshtml" />
+    <Content Include="Views\BookAdmin\Start.cshtml" />
+    <Content Include="Views\AuthorAdmin\Author.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -173,7 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Borrower\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
