@@ -6,7 +6,6 @@
 
 <h2>Lånade böcker</h2>
 <div>
-    <form action="Reloan" method="post">
         <table class="table table-striped table-hover">
             <th class="info">
                 <font size="5">Titeln</font>
@@ -25,20 +24,28 @@
                 <font size="5">Lånad</font>
             </th>
             <th class="info">
-                <font size="5">Lämnas tillbaka</font>
-                <input value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
+                <form action="/Borrower/ReloanAll" method="post">
+                    <font size="5">Lämnas tillbaka</font>
+                    <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
+                </form>
             </th>
             @for (int i = 0; i < 3; i++)
             {
                 <tr>
                     <td>
-                        @Model.books[i].book.Title
+                        <a href="http://www.google.se">
+                            @Model.books[i].book.Title
+                        </a>
                     </td>
                     <td>
-                        @Model.books[i].author.FirstName @Model.books[i].author.LastName
+                        <a href="http://www.google.se">
+                            @Model.books[i].author.FirstName @Model.books[i].author.LastName
+                        </a>
                     </td>
                     <td>
-                        @Model.books[i].book.ISBN
+                        <a href="http://www.google.se">
+                            @Model.books[i].book.ISBN
+                        </a>
                     </td>
                     <td>
                         (@Model.books[i].book.PublicationYear)
@@ -60,5 +67,4 @@
                 </tr>
             }
         </table>
-    </form>
 </div>

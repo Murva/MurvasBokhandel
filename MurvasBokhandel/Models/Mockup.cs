@@ -68,7 +68,7 @@ namespace MurvasBokhandel.Models
             books[0].book.Title = "Den Murviga Ödlan";
             books[0].book.PublicationYear = 2011;
             books[0].book.ISBN = 190213;
-            books[0].borrow.BorrowDate = new DateTime(1878, 11, 10, 09, 37, 21);
+            books[0].borrow.BorrowDate = new DateTime(2013, 11, 10, 09, 37, 21);
             books[0].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30, 16, 47, 58);
 
             books[1].author.Aid = 1;
@@ -88,7 +88,7 @@ namespace MurvasBokhandel.Models
             books[2].book.Title = "Politik i ett nötskal";
             books[2].book.PublicationYear = 1999;
             books[2].book.ISBN = 335174;
-            books[2].borrow.BorrowDate = new DateTime(1878, 11, 10);
+            books[2].borrow.BorrowDate = new DateTime(2007, 11, 10);
             books[2].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30);
         }
     }
