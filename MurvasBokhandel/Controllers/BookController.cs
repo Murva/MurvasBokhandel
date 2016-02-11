@@ -7,17 +7,17 @@ using System.Web.Mvc;
 namespace MurvasBokhandel.Controllers
 {
     public class Book
-    {        
-        public int ISBN;        
-        public string Title;
-        public int SignId;
-        public int PublicationYear;
-        public string Publicationinfo;
-        public int Pages;
+    {
+        public int ISBN { get; set; }
+        public string Title { get; set; }
+        public int SignId { get; set; }
+        public int PublicationYear { get; set; }
+        public string Publicationinfo { get; set; }
+        public int Pages { get; set; }
     }
     public class BookController : Controller
     {
-        List<Book> Books = new List<Book>()
+        static List<Book> Books = new List<Book>()
         {
             new Book()
             {
@@ -52,11 +52,9 @@ namespace MurvasBokhandel.Controllers
 
         };
         // GET: Book
-        public ActionResult Book(int ISBN)
+        public ActionResult GetBook(int isbn)
         {
-            
-
-            return View(Books[0]);
+            return View(Books.Where(book => book.ISBN == isbn).First());
         }
     }
 }

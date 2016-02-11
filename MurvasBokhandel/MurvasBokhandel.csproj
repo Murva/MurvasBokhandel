@@ -167,7 +167,7 @@
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\Administrator\Start.cshtml" />
     <Content Include="Views\Borrower\Start.cshtml" />
-    <Content Include="Views\Book\Book.cshtml" />
+    <Content Include="Views\Book\GetBook.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

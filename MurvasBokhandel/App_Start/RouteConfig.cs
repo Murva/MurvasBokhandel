@@ -20,10 +20,12 @@ namespace MurvasBokhandel
             );
 
             routes.MapRoute(
-                name: "Administrator",
-                url: "{controller}/{subController}/{action}/{id}",
-                defaults: new { controller = "Administrator", subController = "Administrator", action = "Start", id = UrlParameter.Optional }
+                name: "Book",
+                url: "{controller}/{action}/{isbn}",
+                defaults: new { controller = "Book", action = "GetBook", isbn = UrlParameter.Optional }
             );
+
+            
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MurvasBokhandel.Controllers.Administrator
+namespace MurvasBokhandel.Controllers
 {
     public class AdministratorController : Controller
     {

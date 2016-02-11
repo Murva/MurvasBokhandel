@@ -19,9 +19,9 @@
                 @foreach (var book in Model)
                 {
                     <tr>
-                        <td><a href="/Book/Book/?Aid=@book.Aid">@book.FirstName</a></td>
-                        <td><a href="/Book/Book/?Aid=@book.Aid">@book.LastName</a></td>
-                        <td><a href="/Book/Book/?ISBN=@book.ISBN">@book.Title</a></td> 
+                        <td><a href="/Book/GetBook/?Aid=@book.Aid">@book.FirstName</a></td>
+                        <td><a href="/Book/GetBook/?Aid=@book.Aid">@book.LastName</a></td>
+                        <td><a href="/Book/GetBook/?ISBN=@book.ISBN">@book.Title</a></td> 
                     </tr>
                 }
             </tbody>

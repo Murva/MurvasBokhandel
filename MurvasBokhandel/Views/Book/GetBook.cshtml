@@ -1,0 +1,38 @@
+﻿@model MurvasBokhandel.Controllers.Book
+
+@{
+    ViewBag.Title = "GetBook";
+}
+
+<h2>Book</h2>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Författare</th>
+                    <th></th>
+                    <th>Titel</th>
+                    <th>ISBN</th>
+                    <th>Publikaionsår</th>
+                    <th>PublikationsInformation</th>
+                    <th>Antal sidor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mr</td>
+                    <td>Balle</td>
+                    <td>@Model.Title</td>
+                    <td>@Model.ISBN</td>
+                    <td>@Model.PublicationYear</td>
+                    <td>@Model.Publicationinfo</td>
+                    <td>@Model.Pages</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
