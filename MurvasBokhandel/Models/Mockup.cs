@@ -68,8 +68,8 @@ namespace MurvasBokhandel.Models
             books[0].book.Title = "Den Murviga Ödlan";
             books[0].book.PublicationYear = 2011;
             books[0].book.ISBN = 190213;
-            books[0].borrow.BorrowDate = new DateTime(2013, 11, 10, 09, 37, 21);
-            books[0].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30, 16, 47, 58);
+            books[0].borrow.BorrowDate = new DateTime(2013, 11, 10);
+            books[0].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30);
 
             books[1].author.Aid = 1;
             books[1].author.FirstName = "Kalas";
@@ -78,8 +78,8 @@ namespace MurvasBokhandel.Models
             books[1].book.Title = "How To Get Bitches";
             books[1].book.PublicationYear = 1679;
             books[1].book.ISBN = 234190;
-            books[1].borrow.BorrowDate = new DateTime(1878, 11, 10, 09, 37, 21);
-            books[1].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30, 16, 47, 58);
+            books[1].borrow.BorrowDate = new DateTime(1878, 11, 10);
+            books[1].borrow.ToBeReturnedDate = new DateTime(2016, 03, 12);
 
             books[2].author.Aid = 2;
             books[2].author.FirstName = "Mona";
@@ -89,7 +89,7 @@ namespace MurvasBokhandel.Models
             books[2].book.PublicationYear = 1999;
             books[2].book.ISBN = 335174;
             books[2].borrow.BorrowDate = new DateTime(2007, 11, 10);
-            books[2].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30);
+            books[2].borrow.ToBeReturnedDate = new DateTime(2016, 02, 24);
         }
     }
 }

@@ -8,11 +8,10 @@
 <div>
         <table class="table table-striped table-hover">
             <th class="info">
-                <font size="5">Titeln</font>
+                <font size="5">Titel</font>
             </th>
             <th class="info">
                 <font size="5">Författare</font>
-
             </th>
             <th class="info">
                 <font size="5">ISBN</font>
@@ -31,6 +30,8 @@
             </th>
             @for (int i = 0; i < 3; i++)
             {
+                <form action="/Borrower/Reloan" method="post">
+                <input type="hidden" value="@i" name="index" />
                 <tr>
                     <td>
                         <a href="http://www.google.se">
@@ -51,13 +52,22 @@
                         (@Model.books[i].book.PublicationYear)
                     </td>
                     <td>
-                        @Model.books[i].borrow.BorrowDate
+                        @{
+                            DateTime date = @Model.books[i].borrow.BorrowDate;
+                            string d = date.ToString();
+                        }
+                        @d.Substring(0, 10)
                     </td>
                     <td>
-                        @Model.books[i].borrow.ToBeReturnedDate
-                        @if (false)
+                        @{
+                            date = @Model.books[i].borrow.ToBeReturnedDate;
+                            d = date.ToString();
+                        }
+                        @d.Substring(0,10)
+                        
+                        @if (@DateTime.Today > @Model.books[i].borrow.ToBeReturnedDate)
                         {
-                            <input value="Utgången" disabled class="btn btn-danger pull-right" />
+                            <input value="Försenad" disabled class="btn btn-danger pull-right" />
                         }
                         else
                         {
@@ -65,6 +75,7 @@
                         }
                     </td>
                 </tr>
+                </form>
             }
-        </table>
+</table>
 </div>
