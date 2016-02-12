@@ -23,9 +23,7 @@ namespace MurvasBokhandel
                 name: "Book",
                 url: "{controller}/{action}/{isbn}",
                 defaults: new { controller = "Book", action = "GetBook", isbn = UrlParameter.Optional }
-            );
-
-            
+            );//oj            
         }
     }
 }
