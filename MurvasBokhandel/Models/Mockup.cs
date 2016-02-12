@@ -135,6 +135,54 @@ namespace MurvasBokhandel.Models
             }
         };
 
+       public static List<Mockup.BORROWER> Borrowers = new List<Mockup.BORROWER>() {
+            new Mockup.BORROWER() {
+                PersonId = 199007130355,
+                FirstName = "Rikard",
+                LastName = "Kungen",
+                Address = "Rogbergavägen 17A, 56144 Huskvarna",
+                Telno = "0702-642800"
+            },
+            new Mockup.BORROWER() {
+                PersonId = 199305126632,
+                FirstName = "Johan",
+                LastName = "Tjejfors",
+                Address = "MajsHansGatan 69, 666 66 Helvetet",
+                Telno = "0702-6465135"
+            },
+            new Mockup.BORROWER() {
+                PersonId = 198965482354,
+                FirstName = "Adam",
+                LastName = "Rasmusen",
+                Address = "Rogbergavägen 17A, 56144 Huskvarna",
+                Telno = "0702-642800"
+            },
+            new Mockup.BORROWER() {
+                PersonId = 192501321654,
+                FirstName = "David",
+                LastName = "Milsson",
+                Address = "Rogbergavägen 17A, 56144 Huskvarna",
+                Telno = "0702-642800"
+            }
+        };
+
+       public static List<Mockup.BORROW> Borrows = new List<Mockup.BORROW>() {
+            new Mockup.BORROW() {
+                Barcode = 123456789,
+                PersonId = 199007130355,
+                BorrowDate = new DateTime(2016,02,11),
+                ReturnDate = new DateTime(),
+                ToBeReturnedDate = new DateTime(2016,02,21)
+            },
+            new Mockup.BORROW() {
+                Barcode = 123456790,
+                PersonId = 199007130355,
+                BorrowDate = new DateTime(2016,02,11),
+                ReturnDate = new DateTime(),
+                ToBeReturnedDate = new DateTime(2016,02,21)
+            }
+        };
+
        //* ------------------------------------------------ RESULTATLISTOR END ---------------------------------------------------  *//
 
         public Mockup() { 
