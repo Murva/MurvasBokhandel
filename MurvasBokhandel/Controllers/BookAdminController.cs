@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
-    public class AdministratorController : Controller
+    public class BookAdminController : Controller
     {
-        // GET: Administrator
+        // GET: BookAdmin
         public ActionResult Start()
         {
             return View();

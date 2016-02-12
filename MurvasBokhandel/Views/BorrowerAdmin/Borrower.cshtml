@@ -1,0 +1,71 @@
+﻿@model MurvasBokhandel.Models.BorrowerWithBorrows
+@{
+    ViewBag.Title = "Borrower";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @Model.Borrower.FirstName @Model.Borrower.LastName - <small><a href="/BorrowerAdmin">Låntagare</a></small>
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h4>Låntagarinformation</h4>
+        @using (Html.BeginForm("Update", "BorrowerAdmin"))
+        {
+            <div class="form-group">
+                <label>Personnummer</label>
+                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @type = "number" })
+            </div>
+            <div class="form-group">
+                <label>Förnamn</label>
+                @Html.TextBoxFor(m => m.Borrower.FirstName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Efternamn</label>
+                @Html.TextBoxFor(m => m.Borrower.LastName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Förnamn</label>
+                @Html.TextBoxFor(m => m.Borrower.Address, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Adress</label>
+                @Html.TextBoxFor(m => m.Borrower.Address, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-warning" value="Uppdatera" />
+                <button type="submit" class="btn btn-danger pull-right" form="form-remove-borrower">Ta bort</button>
+            </div>
+        }
+
+        @using (Html.BeginForm("Remove", "AuthorAdmin", FormMethod.Post, new { @id = "form-remove-borrower" }))
+        {
+            @Html.HiddenFor(m => m.Borrower.PersonId)
+        }
+    </div>
+    <div class="col-md-6">
+        <h4>Lånade böcker</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Barcode</th>
+                    <th>Lånad den</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var borrowed in Model.Borrows)
+                {
+                    <tr>
+                        <td>@borrowed.Barcode</td>
+                        <td>@borrowed.BorrowDate.ToString()</td>
+                        <td><a href="/BorrowerAdmin/RenewLoan?barcode=@borrowed.Barcode&persondid=@borrowed.PersonId" class="btn btn-danger">Låna om</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
