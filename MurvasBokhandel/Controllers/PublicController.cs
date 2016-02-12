@@ -13,6 +13,7 @@ namespace MurvasBokhandel.Controllers
         public string Title;
         public string FirstName;
         public string LastName;
+
     };
 
     public class PublicController : Controller
