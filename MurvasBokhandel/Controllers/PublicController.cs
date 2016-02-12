@@ -51,10 +51,10 @@ namespace MurvasBokhandel.Controllers
             return View();
         }
 
-        public ActionResult Book(int id)
-        {
-            return View();
-        }
+        //public ActionResult Book(int id)
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
         public ActionResult Search(string search_field)
