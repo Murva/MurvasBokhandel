@@ -24,8 +24,8 @@ namespace MurvasBokhandel
                 name: "Book",
                 url: "{controller}/{action}/{isbn}",
                 defaults: new { controller = "Book", action = "GetBook", isbn = UrlParameter.Optional }
-            );            
-
+            );
+            routes.MapRoute(
                 name: "AuthorAdmin",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "AuthorAdmin", action = "Start", id = UrlParameter.Optional }

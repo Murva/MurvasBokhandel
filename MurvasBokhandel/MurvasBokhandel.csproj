@@ -176,12 +176,9 @@
     <Content Include="Views\BookAdmin\Start.cshtml" />
     <Content Include="Views\AuthorAdmin\Author.cshtml" />
     <Content Include="Views\Borrower\Start.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Book\GetBook.cshtml" />
-=======
     <Content Include="Views\AuthorAdmin\Create.cshtml" />
     <Content Include="Views\BorrowerAdmin\Borrower.cshtml" />
->>>>>>> AdministratorsSection
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
