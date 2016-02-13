@@ -15,6 +15,7 @@
         <h4>Låntagarinformation</h4>
         @using (Html.BeginForm("Update", "BorrowerAdmin"))
         {
+            @Html.HiddenFor(m => m.Borrower.PersonId)
             <div class="form-group">
                 <label>Personnummer</label>
                 @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @type = "number", @disabled = "disabled" })
@@ -41,17 +42,13 @@
             </div>
         }
 
-        @using (Html.BeginForm("Remove", "AuthorAdmin", FormMethod.Post, new { @id = "form-remove-borrower" }))
+        @using (Html.BeginForm("Remove", "BorrowerAdmin", FormMethod.Post, new { @id = "form-remove-borrower" }))
         {
             @Html.HiddenFor(m => m.Borrower.PersonId)
         }
     </div>
     <div class="col-md-8">
-        <h4>Lånade böcker 
-            <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#add-loan">
-                <i class="fa fa-plus"></i> Låna bok till låntagare
-            </button>
-        </h4>
+        <h4>Lånade böcker</h4>
         <table class="table">
             <thead>
                 <tr>
@@ -75,47 +72,5 @@
                 }
             </tbody>
         </table>
-
-        <!-- Modal -->
-        <div class="modal fade" id="add-loan" tabindex="-1" role="dialog" aria-labelledby="LoanBook">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Låna bok till låntagare</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/BorrowerAdmin/AddBorrowToBorrower" method="post" id="form-addborrowtoborrower">
-                            <input type="hidden" name="Aid" value="@Model.Borrower.PersonId" />
-                            <div class="form-group">
-                                <label>Barcode</label>
-                                <input type="number" class="form-control" name="Barcode" placeholder="ex. 9999999999" />
-                            </div>
-                            <div class="form-group">
-                                <label>Lånad den...</label>
-                                <input type="datetime" class="form-control" id="BorrowDate" name="BorrowDate" />
-                            </div>
-                            <div class="form-group">
-                                <label>Lämnas tillbaka den...</label>
-                                <input type="datetime" class="form-control" id="ToBeReturnedDate" name="ToBeReturnedDate">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-                        <button class="btn btn-primary" form="form-addborrowtoborrower">Spara</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-@section Scripts {
-    <script type="text/javascript" async="async">
-        $(window).ready(function () {
-            var today = new Date($.now());
-            //today.toLocaleDateString() + today.toLocaleTimeString()
-            $("#BorrowDate").val("hej");
-        });
-    </script>
-}

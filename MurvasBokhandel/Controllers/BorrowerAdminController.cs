@@ -15,11 +15,8 @@ namespace MurvasBokhandel.Controllers
             return View(Mockup.Borrowers);
         }
 
-        public ActionResult Borrower(long id = -1)
+        public ActionResult Borrower(long id)
         {
-            if (id == -1)
-                return View("Start");
-
             BorrowerWithBorrows br = new BorrowerWithBorrows()
             {
                 Borrower = Mockup.Borrowers.Where(borrower => borrower.PersonId == id).First(),
@@ -37,12 +34,31 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/BorrowerAdmin/Borrower/" + Borrower.PersonId);
         }
 
+        public ActionResult Remove(Mockup.BORROWER Borrower)
+        {
+            Mockup.Borrowers.Remove(Mockup.Borrowers.Where(b => b.PersonId == Borrower.PersonId).First());
+
+            return Redirect("Start");
+        }
+
         public ActionResult RenewLoan(long barcode, long personid)
         {
             Mockup.BORROW b = Mockup.Borrows.Where(borrow => (borrow.Barcode == barcode && borrow.PersonId == personid)).First();
             b.ToBeReturnedDate = b.ToBeReturnedDate.AddDays(7);
 
             return Redirect("/BorrowerAdmin/Borrower/"+personid);
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        public ActionResult Store(Mockup.BORROWER Borrower)
+        {
+            Mockup.Borrowers.Add(Borrower);
+
+            return Redirect("Start");
         }
     }
 }
