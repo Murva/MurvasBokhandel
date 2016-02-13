@@ -17,7 +17,7 @@
         {
             <div class="form-group">
                 <label>Personnummer</label>
-                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @type = "number" })
+                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @type = "number", @disabled = "disabled" })
             </div>
             <div class="form-group">
                 <label>Förnamn</label>
@@ -28,12 +28,12 @@
                 @Html.TextBoxFor(m => m.Borrower.LastName, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Förnamn</label>
+                <label>Adress</label>
                 @Html.TextBoxFor(m => m.Borrower.Address, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Adress</label>
-                @Html.TextBoxFor(m => m.Borrower.Address, new { @class = "form-control" })
+                <label>Telefonnummer</label>
+                @Html.TextBoxFor(m => m.Borrower.Telno, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Uppdatera" />
@@ -46,13 +46,19 @@
             @Html.HiddenFor(m => m.Borrower.PersonId)
         }
     </div>
-    <div class="col-md-6">
-        <h4>Lånade böcker</h4>
+    <div class="col-md-8">
+        <h4>Lånade böcker 
+            <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#add-loan">
+                <i class="fa fa-plus"></i> Låna bok till låntagare
+            </button>
+        </h4>
         <table class="table">
             <thead>
                 <tr>
                     <th>Barcode</th>
                     <th>Lånad den</th>
+                    <th>Lämnas tillbaka</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -61,11 +67,55 @@
                 {
                     <tr>
                         <td>@borrowed.Barcode</td>
-                        <td>@borrowed.BorrowDate.ToString()</td>
-                        <td><a href="/BorrowerAdmin/RenewLoan?barcode=@borrowed.Barcode&persondid=@borrowed.PersonId" class="btn btn-danger">Låna om</a></td>
+                        <td>@borrowed.BorrowDate.ToShortDateString()</td>
+                        <td>@borrowed.ToBeReturnedDate.ToShortDateString()</td>
+                        <td><span class="label label-warning">Lånas under tid</span></td>
+                        <td><a href="/BorrowerAdmin/RenewLoan/?barcode=@borrowed.Barcode&personid=@borrowed.PersonId" class="btn btn-default btn-xs">Låna om</a></td>
                     </tr>
                 }
             </tbody>
         </table>
+
+        <!-- Modal -->
+        <div class="modal fade" id="add-loan" tabindex="-1" role="dialog" aria-labelledby="LoanBook">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Låna bok till låntagare</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/BorrowerAdmin/AddBorrowToBorrower" method="post" id="form-addborrowtoborrower">
+                            <input type="hidden" name="Aid" value="@Model.Borrower.PersonId" />
+                            <div class="form-group">
+                                <label>Barcode</label>
+                                <input type="number" class="form-control" name="Barcode" placeholder="ex. 9999999999" />
+                            </div>
+                            <div class="form-group">
+                                <label>Lånad den...</label>
+                                <input type="datetime" class="form-control" id="BorrowDate" name="BorrowDate" />
+                            </div>
+                            <div class="form-group">
+                                <label>Lämnas tillbaka den...</label>
+                                <input type="datetime" class="form-control" id="ToBeReturnedDate" name="ToBeReturnedDate">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                        <button class="btn btn-primary" form="form-addborrowtoborrower">Spara</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+@section Scripts {
+    <script type="text/javascript" async="async">
+        $(window).ready(function () {
+            var today = new Date($.now());
+            //today.toLocaleDateString() + today.toLocaleTimeString()
+            $("#BorrowDate").val("hej");
+        });
+    </script>
+}

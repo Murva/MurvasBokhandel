@@ -21,9 +21,9 @@ namespace MurvasBokhandel.Controllers
                 return View(Mockup.Authors.OrderBy(author => author.BirthYear).ToList());
         }
 
-        public ActionResult Author(int id)
+        public ActionResult Author(int id = -1)
         {
-            if (id == 0)
+            if (id == -1)
                 return RedirectToAction("Start");
 
             AuthorWithBooks a = (AuthorWithBooks)Mockup.AuthorsWithBooksResults.Where(author => author.Author.Aid == id).First();
