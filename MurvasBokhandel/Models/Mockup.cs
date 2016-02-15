@@ -98,6 +98,7 @@ namespace MurvasBokhandel.Models
             new Mockup.BOOK_AUTHOR() { Aid = 2, ISBN = 9789164204530 },
             new Mockup.BOOK_AUTHOR() { Aid = 2, ISBN = 9789175790336 },
             new Mockup.BOOK_AUTHOR() { Aid = 3, ISBN = 9789129697308 },
+            new Mockup.BOOK_AUTHOR() { Aid = 3, ISBN = 9789129698442 },
             new Mockup.BOOK_AUTHOR() { Aid = 4, ISBN = 9789129698000 },
             new Mockup.BOOK_AUTHOR() { Aid = 4, ISBN = 9789129600000 },
             
@@ -119,6 +120,20 @@ namespace MurvasBokhandel.Models
        //* ------------------------------------------------ LISTOR END ---------------------------------------------------  *//
 
        //* ------------------------------------------------ RESULTATLISTOR ---------------------------------------------------  *//
+
+       public static List<BookWithAuthor> BooksWithAuthorResult = new List<BookWithAuthor>()
+       {
+           new BookWithAuthor() {Book = Mockup.Books[0], Author = Mockup.Authors[0]},
+           new BookWithAuthor() {Book = Mockup.Books[1], Author = Mockup.Authors[0]},
+           new BookWithAuthor() {Book = Mockup.Books[2], Author = Mockup.Authors[0]},
+           new BookWithAuthor() {Book = Mockup.Books[3], Author = Mockup.Authors[1]},
+           new BookWithAuthor() {Book = Mockup.Books[4], Author = Mockup.Authors[1]},
+           new BookWithAuthor() {Book = Mockup.Books[5], Author = Mockup.Authors[2]},    
+           new BookWithAuthor() {Book = Mockup.Books[6], Author = Mockup.Authors[2]},
+           new BookWithAuthor() {Book = Mockup.Books[7], Author = Mockup.Authors[3]},
+           new BookWithAuthor() {Book = Mockup.Books[7], Author = Mockup.Authors[3]},
+          
+       };
 
        public static List<AuthorWithBooks> AuthorsWithBooksResults = new List<AuthorWithBooks>() {
             new AuthorWithBooks() {

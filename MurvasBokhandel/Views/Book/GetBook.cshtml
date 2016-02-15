@@ -1,4 +1,4 @@
-﻿@model MurvasBokhandel.Controllers.Book
+﻿@model MurvasBokhandel.Models.BookWithAuthor
 
 @{
     ViewBag.Title = "GetBook";
@@ -23,13 +23,20 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Mr</td>
+                    @*<td>Mr</td>
                     <td>Balle</td>
                     <td>@Model.Title</td>
                     <td>@Model.ISBN</td>
                     <td>@Model.PublicationYear</td>
                     <td>@Model.Publicationinfo</td>
-                    <td>@Model.Pages</td>
+                    <td>@Model.Pages</td>*@
+                    <td>@Model.Author.FirstName</td>
+                    <td>@Model.Author.LastName</td>
+                    <td>@Model.Book.Title</td>
+                    <td>@Model.Book.ISBN</td>
+                    <td>@Model.Book.PublicationYear</td>
+                    <td>@Model.Book.Publicationinfo</td>
+                    <td>@Model.Book.Pages</td>
                 </tr>
             </tbody>
         </table>

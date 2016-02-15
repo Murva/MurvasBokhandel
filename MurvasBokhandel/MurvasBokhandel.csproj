@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministratorController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\AuthorAdminController.cs" />
     <Compile Include="Controllers\BookAdminController.cs" />
@@ -162,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthorWithBooks.cs" />
+    <Compile Include="Models\BookWithAuthor.cs" />
     <Compile Include="Models\BorrowerWithBorrows.cs" />
     <Compile Include="Models\Mockup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -188,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Author\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
