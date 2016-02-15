@@ -106,7 +106,21 @@
                         <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+
+                        @foreach (var bokstav in Model)
+                        {
+                            
+                             <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Bokstav <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul  id="demo" class="collapse">
+                            @foreach (var författare in bokstav) {<li>
+                                <a href="#">@författare.nameAuthor</a>
+                            </li> }
+                            
+                        </ul>
+                            
+                        }
+
+                        @*<a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
                                 <a href="#">Dropdown Item</a>
@@ -114,7 +128,7 @@
                             <li>
                                 <a href="#">Dropdown Item</a>
                             </li>
-                        </ul>
+                        </ul>*@
                     </li>
                     <li>
                         <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>

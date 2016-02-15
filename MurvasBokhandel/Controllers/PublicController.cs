@@ -16,6 +16,18 @@ namespace MurvasBokhandel.Controllers
     //    public string LastName;
 
     //};
+    public class Book
+    {
+        public string Name { get; set; }
+    };
+
+    public class Author
+    {
+        public string nameAuthor;
+        public string firstLetter;
+        int antalBöcker;
+
+    };
 
     public class PublicController : Controller
     {
@@ -23,8 +35,22 @@ namespace MurvasBokhandel.Controllers
         // GET: Public
         public ActionResult Start()
         {
+
+            List<List<Author>> Browser = new List<List<Author>>(){
+                new List<Author>() { new Author() { nameAuthor = "Alban Dr" }, new Author() { nameAuthor = "Ass Juice" }, new Author() { nameAuthor = "Adams Johanna" }, new Author() { nameAuthor = "Anal Klåda" } },
+                new List<Author>() { new Author() { nameAuthor = "Bobbo Krull" } },
+                new List<Author>() { new Author() { nameAuthor = "Cpt Kernal" } },
+                new List<Author>() { new Author() { nameAuthor = "Kalle Kula" }, new Author() { nameAuthor = "Knark Kungen" } },
+                new List<Author>() { new Author() { nameAuthor = "Snoppen" }, new Author() { nameAuthor = "Snippan" } }
+            };
+            foreach (var author in Browser)
+            {
+
+            }
+
+            return View(Browser);
             
-            return View();
+            //return View();
         }
 
        
