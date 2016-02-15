@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MurvasBokhandel.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,12 +7,27 @@ using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
+
     public class Book
     {
         public string Name { get; set; }
     };
     public class PublicController : Controller
     {
+
+    //public class BookResult
+    //{
+    //    public int Aid;
+    //    public int ISBN;
+    //    public string Title;
+    //    public string FirstName;
+    //    public string LastName;
+
+    //};
+
+    public class PublicController : Controller
+    {
+       
         // GET: Public
         public ActionResult Start()
         {
@@ -27,8 +43,14 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ViewResult Search(string publicSearch)
         {
+
             ViewBag.Result = publicSearch;
             return View();
+
+            //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
+            //BookWithAuthor bwa = 
+            return View(Mockup.BooksWithAuthorResult);
+
         }
     }
 }

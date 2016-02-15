@@ -91,6 +91,12 @@ namespace MurvasBokhandel.Models
                 FirstName = "Astrid",
                 LastName = "Lindgren",
                 BirthYear = 1917
+            },
+            new Mockup.AUTHOR(){
+                Aid = 4,
+                FirstName = "Murvan",
+                LastName = "Murvansson",
+                BirthYear = 1945
             }
         };
 
@@ -101,7 +107,10 @@ namespace MurvasBokhandel.Models
             new Mockup.BOOK_AUTHOR() { Aid = 2, ISBN = 9789164204530 },
             new Mockup.BOOK_AUTHOR() { Aid = 2, ISBN = 9789175790336 },
             new Mockup.BOOK_AUTHOR() { Aid = 3, ISBN = 9789129697308 },
-            new Mockup.BOOK_AUTHOR() { Aid = 4, ISBN = 9789129698442 },
+            new Mockup.BOOK_AUTHOR() { Aid = 3, ISBN = 9789129698442 },
+            new Mockup.BOOK_AUTHOR() { Aid = 4, ISBN = 9789129698000 },
+            new Mockup.BOOK_AUTHOR() { Aid = 4, ISBN = 9789129600000 },
+            
         };
 
        public static List<Mockup.BOOK> Books = new List<Mockup.BOOK>()
@@ -112,12 +121,28 @@ namespace MurvasBokhandel.Models
             new Mockup.BOOK() { ISBN=9789164204530, Title="Järnblod", SignId = 0, Pages = "523", PublicationYear = 2011, Publicationinfo = "No info"},
             new Mockup.BOOK() { ISBN=9789175790336, Title="Lyckliga gatan", SignId = 0, Pages = "566", PublicationYear = 2012, Publicationinfo = "No info"},
             new Mockup.BOOK() { ISBN=9789129697308, Title="Allrakäraste syster", SignId = 0, Pages = "876", PublicationYear = 1975, Publicationinfo = "No info"},
-            new Mockup.BOOK() { ISBN=9789129698442, Title="Känner du Pippi Långstrump?", SignId = 0, Pages = "120", PublicationYear = 1961, Publicationinfo = "No info"}
+            new Mockup.BOOK() { ISBN=9789129698442, Title="Känner du Pippi Långstrump?", SignId = 0, Pages = "120", PublicationYear = 1961, Publicationinfo = "No info"},
+            new Mockup.BOOK() { ISBN=9789129698000, Title = "Harry Pulver och Kalle", SignId = 0, Pages = "234", PublicationYear = 1975, Publicationinfo = "No info"},
+            new Mockup.BOOK() { ISBN=9789129600000, Title = "En murvig Murva", SignId = 0, Pages = "554", PublicationYear = 1976, Publicationinfo = "No info"}
         };
 
        //* ------------------------------------------------ LISTOR END ---------------------------------------------------  *//
 
        //* ------------------------------------------------ RESULTATLISTOR ---------------------------------------------------  *//
+
+       public static List<BookWithAuthor> BooksWithAuthorResult = new List<BookWithAuthor>()
+       {
+           new BookWithAuthor() {Book = Mockup.Books[0], Author = Mockup.Authors[0]},
+           new BookWithAuthor() {Book = Mockup.Books[1], Author = Mockup.Authors[0]},
+           new BookWithAuthor() {Book = Mockup.Books[2], Author = Mockup.Authors[0]},
+           new BookWithAuthor() {Book = Mockup.Books[3], Author = Mockup.Authors[1]},
+           new BookWithAuthor() {Book = Mockup.Books[4], Author = Mockup.Authors[1]},
+           new BookWithAuthor() {Book = Mockup.Books[5], Author = Mockup.Authors[2]},    
+           new BookWithAuthor() {Book = Mockup.Books[6], Author = Mockup.Authors[2]},
+           new BookWithAuthor() {Book = Mockup.Books[7], Author = Mockup.Authors[3]},
+           new BookWithAuthor() {Book = Mockup.Books[8], Author = Mockup.Authors[3]},
+          
+       };
 
        public static List<AuthorWithBooks> AuthorsWithBooksResults = new List<AuthorWithBooks>() {
             new AuthorWithBooks() {
@@ -140,6 +165,14 @@ namespace MurvasBokhandel.Models
                 Books = new List<Mockup.BOOK>() {
                     Mockup.Books[5],
                     Mockup.Books[6]
+                    
+                } 
+            },
+            new AuthorWithBooks() {
+                Author = Mockup.Authors[3],
+                Books = new List<Mockup.BOOK>() {
+                    Mockup.Books[7],
+                    Mockup.Books[8]
                 } 
             }
         };
@@ -148,7 +181,7 @@ namespace MurvasBokhandel.Models
             new Mockup.BORROWER() {
                 PersonId = 199007130355,
                 FirstName = "Rikard",
-                LastName = "Kungen",
+                LastName = "Pungen",
                 Address = "Rogbergavägen 17A, 56144 Huskvarna",
                 Telno = "0702-642800"
             },
