@@ -131,7 +131,7 @@ namespace MurvasBokhandel.Models
            new BookWithAuthor() {Book = Mockup.Books[5], Author = Mockup.Authors[2]},    
            new BookWithAuthor() {Book = Mockup.Books[6], Author = Mockup.Authors[2]},
            new BookWithAuthor() {Book = Mockup.Books[7], Author = Mockup.Authors[3]},
-           new BookWithAuthor() {Book = Mockup.Books[7], Author = Mockup.Authors[3]},
+           new BookWithAuthor() {Book = Mockup.Books[8], Author = Mockup.Authors[3]},
           
        };
 
