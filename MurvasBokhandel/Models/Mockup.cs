@@ -61,14 +61,7 @@ namespace MurvasBokhandel.Models
             public string Category, Period;
         }
 
-        public class BORROWEDBOOK {
-            public BOOK book = new BOOK();
-            public AUTHOR author = new AUTHOR();
-            public BORROW borrow = new BORROW();
-        }
-
         // Skapa egna klasser här //
-        public BORROWEDBOOK[] books = new BORROWEDBOOK[4];
 
         //* ------------------------------------------------ LISTOR ---------------------------------------------------  *//
 
@@ -225,56 +218,47 @@ namespace MurvasBokhandel.Models
             }
         };
 
+       public class BORROWEDBOOK
+       {
+           //public BOOK book = new BOOK();
+           public List<BOOK> books = new List<BOOK>();
+           //public AUTHOR author = new AUTHOR();
+           public List<AUTHOR> authors = Authors;
+           //public BORROW borrow = new BORROW();
+           public List<BORROW> borrows = Borrows;
+           public List<COPY> copies = Copies;
+           // PLOCKA FRAM UTLÅNADE BÖCKER //
+           public BORROWEDBOOK() {
+               foreach(COPY c in copies)
+                   foreach(BOOK b in Books)
+                       if(c.ISBN == b.ISBN)
+                           books.Add(b);
+           }
+           // END //
+       }
+
+       public static List<COPY> Copies = new List<COPY>(){
+            new COPY(){
+                Barcode = 123456790,
+                Location = "New Dehli, India",
+                StatusId = 1,
+                ISBN = 9789129697704,
+                Library = "Hemlis"
+            },
+            new COPY(){
+                Barcode = 123456789,
+                Location = "Bredaryd, Sverige",
+                StatusId = 1,
+                ISBN = 9789129675566,
+                Library = "Roffelmjao"
+            }
+       };
+
        //* ------------------------------------------------ RESULTATLISTOR END ---------------------------------------------------  *//
+       public BORROWEDBOOK borrow = new BORROWEDBOOK();
 
         public Mockup() {
-            for (int i = 0; i < 4; i++)
-                books[i] = new BORROWEDBOOK();
-
-            books[0].author.Aid = 0;
-            books[0].author.FirstName = "Johan";
-            books[0].author.LastName = "Rasmussen";
-            books[0].author.BirthYear = 1994;
-            books[0].book.Title = "Den Murviga Ödlan";
-            books[0].book.PublicationYear = 2011;
-            books[0].book.ISBN = 190213;
-            books[0].borrow.BorrowDate = new DateTime(2013, 11, 10);
-            books[0].borrow.ToBeReturnedDate = new DateTime(1899, 12, 30);
-            books[0].borrow.ReturnDate = DateTime.MinValue;
-
-            books[1].author.Aid = 1;
-            books[1].author.FirstName = "Kalas";
-            books[1].author.LastName = "Knutte";
-            books[1].author.BirthYear = 1280;
-            books[1].book.Title = "How To Get Bitches";
-            books[1].book.PublicationYear = 1679;
-            books[1].book.ISBN = 234190;
-            books[1].borrow.BorrowDate = new DateTime(1878, 11, 10);
-            books[1].borrow.ToBeReturnedDate = new DateTime(2016, 03, 12);
-            books[1].borrow.ReturnDate = DateTime.MinValue;
-
-            books[2].author.Aid = 2;
-            books[2].author.FirstName = "Mona";
-            books[2].author.LastName = "Saltbil";
-            books[2].author.BirthYear = 2004;
-            books[2].book.Title = "Politik i ett nötskal";
-            books[2].book.PublicationYear = 1999;
-            books[2].book.ISBN = 335174;
-            books[2].borrow.BorrowDate = new DateTime(2007, 11, 10);
-            books[2].borrow.ToBeReturnedDate = new DateTime(2016, 02, 24);
-            books[2].borrow.ReturnDate = DateTime.MinValue;
-
-            books[3].author.Aid = 3;
-            books[3].author.FirstName = "Jesus";
-            books[3].author.LastName = "Kristus";
-            books[3].author.BirthYear = 1600;
-            books[3].book.Title = "Onani = Blasfemi";
-            books[3].book.PublicationYear = 1938;
-            books[3].book.ISBN = 455543;
-            books[3].borrow.BorrowDate = new DateTime(2016, 11, 13);
-            books[3].borrow.ToBeReturnedDate = new DateTime(2016, 02, 13);
-            books[3].borrow.ReturnDate = new DateTime(2016, 02, 13);
-
+            
         }
     }
 }

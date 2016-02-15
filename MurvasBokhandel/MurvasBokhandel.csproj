@@ -165,6 +165,7 @@
     </Compile>
     <Compile Include="Models\AuthorWithBooks.cs" />
     <Compile Include="Models\BookWithAuthor.cs" />
+    <Compile Include="Models\BorrowedBookCopy.cs" />
     <Compile Include="Models\BorrowerWithBorrows.cs" />
     <Compile Include="Models\Mockup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
