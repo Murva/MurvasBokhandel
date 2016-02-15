@@ -25,10 +25,13 @@
             <th class="info">
                 <form action="/Borrower/ReloanAll" method="post">
                     <font size="5">Lämnas tillbaka</font>
-                    <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
                 </form>
             </th>
-            @for (int i = 0; i < 3; i++)
+            <th class="info">
+                <font size="5">Återlämad</font>
+                <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
+            </th>
+            @for (int i = 0; i < 4; i++)
             {
                 <form action="/Borrower/Reloan" method="post">
                 <input type="hidden" value="@i" name="index" />
@@ -63,9 +66,19 @@
                             date = @Model.books[i].borrow.ToBeReturnedDate;
                             d = date.ToString();
                         }
-                        @d.Substring(0,10)
+                        @d.Substring(0, 10)
+                    </td>
+                    <td>
+                        @{
+                            date = @Model.books[i].borrow.ReturnDate;
+                            d = date.ToString();
+                        }
                         
-                        @if (@DateTime.Today > @Model.books[i].borrow.ToBeReturnedDate)
+                        @if (@Model.books[i].borrow.ReturnDate != DateTime.MinValue)
+                        {
+                            @: @d.Substring(0,10)
+                        }
+                        else if (@DateTime.Today > @Model.books[i].borrow.ToBeReturnedDate)
                         {
                             <input value="Försenad" disabled class="btn btn-danger pull-right" />
                         }
