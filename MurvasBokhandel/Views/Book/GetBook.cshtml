@@ -4,7 +4,7 @@
     ViewBag.Title = "GetBook";
 }
 
-<h2>Book</h2>
+<h2>Böcker</h2>
 
 
 <div class="row">
@@ -23,15 +23,8 @@
             </thead>
             <tbody>
                 <tr>
-                    @*<td>Mr</td>
-                    <td>Balle</td>
-                    <td>@Model.Title</td>
-                    <td>@Model.ISBN</td>
-                    <td>@Model.PublicationYear</td>
-                    <td>@Model.Publicationinfo</td>
-                    <td>@Model.Pages</td>*@
-                    <td>@Model.Author.FirstName</td>
-                    <td>@Model.Author.LastName</td>
+                    <td><a href="/Author/GetAuthor/?aid=@Model.Author.Aid">@Model.Author.FirstName</a></td>
+                    <td><a href="/Author/GetAuthor/?aid=@Model.Author.Aid">@Model.Author.LastName</a></td>
                     <td>@Model.Book.Title</td>
                     <td>@Model.Book.ISBN</td>
                     <td>@Model.Book.PublicationYear</td>

@@ -4,6 +4,34 @@
     ViewBag.Title = "GetAuthor";
 }
 
-<h2>GetAuthor</h2>
-@Model.Author.FirstName
+<h2>Författare</h2>
+<h2>@Model.Author.FirstName @Model.Author.LastName</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>ISBN</th>
+                    <th>Publikaionsår</th>
+                    <th>PublikationsInformation</th>
+                    <th>Antal sidor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td><a href="/Book/GetBook/?ISBN=@book.ISBN">@book.ISBN</a></td>
+                        <td>@book.PublicationYear</td>
+                        <td>@book.Publicationinfo</td>
+                        <td>@book.Pages</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
