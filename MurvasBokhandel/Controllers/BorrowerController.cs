@@ -10,12 +10,15 @@ namespace MurvasBokhandel.Controllers.Borrower
     public class BorrowerController : Controller
     {
         static Mockup mockup = new Mockup();
+        static List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
         //
         // GET: /Borrower/
         public ActionResult Start()
         {
-            return View(mockup);
+            return View(BBC);
         }
+
+        // TODO: Ändra om till BorrowedBookCopy
         public ActionResult ReloanAll() {
             foreach (MurvasBokhandel.Models.Mockup.BORROW b in mockup.borrow.borrows) {
                 if (!(DateTime.Today > b.ToBeReturnedDate)) {
@@ -24,7 +27,7 @@ namespace MurvasBokhandel.Controllers.Borrower
                     b.ToBeReturnedDate = b.ToBeReturnedDate.AddDays(7);
                 }
             }
-            return RedirectToAction("Start", mockup);
+            return RedirectToAction("Start", BBC);
         }
 
         // TODO: ISBN istället, koppla ihop med böcker, status osv
@@ -34,8 +37,12 @@ namespace MurvasBokhandel.Controllers.Borrower
             mockup.borrow.borrows[index].ToBeReturnedDate = mockup.borrow.borrows[index].ToBeReturnedDate.AddDays(7);
             return RedirectToAction("Start", mockup);
         }
-        public ActionResult Reloan() {
-            return View(mockup);
+        public ActionResult Reloan(BorrowedBookCopy bbc) {
+            bbc.status.statusid = 1;
+            bbc.borrows.BorrowDate = DateTime.Today;
+            bbc.borrows.ToBeReturnedDate = DateTime.Today;
+            bbc.borrows.ToBeReturnedDate = bbc.borrows.ToBeReturnedDate.AddDays(7);
+            return View("Start", BBC);
         }
 	}
 }

@@ -1,5 +1,4 @@
-﻿@model MurvasBokhandel.Models.Mockup
-
+﻿@model IList<MurvasBokhandel.Models.BorrowedBookCopy>
 @{
     ViewBag.Title = "Borrow Section";
 }
@@ -32,64 +31,9 @@
                 <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
             </th>
             <!--TODO: Ändra om till foreach och rätta till kopplingar-->
-            @for (int i = 0; i < Model.borrow.books.Count; i++)
-            {
-                <form action="/Borrower/Reloan" method="post">
-                <input type="hidden" value="@i" name="index" />
-                <tr>
-                    <td>
-                        <a href="/Book/GetBook/?ISBN = @Model.borrow.books[i].ISBN">
-                            @Model.borrow.books[i].Title
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/Author/GetAuthor/?Aid = @Model.borrow.authors[i].Aid">
-                            @Model.borrow.authors[i].FirstName @Model.borrow.authors[i].LastName
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/Book/GetBook/?ISBN = @Model.borrow.books[i].ISBN">
-                            @Model.borrow.books[i].ISBN
-                        </a>
-                    </td>
-                    <td>
-                        (@Model.borrow.books[i].PublicationYear)
-                    </td>
-                    <td>
-                        @{
-                            DateTime date = @Model.borrow.borrows[i].BorrowDate;
-                            string d = date.ToString();
-                        }
-                        @d.Substring(0, 10)
-                    </td>
-                    <td>
-                        @{
-                            date = @Model.borrow.borrows[i].ToBeReturnedDate;
-                            d = date.ToString();
-                        }
-                        @d.Substring(0, 10)
-                    </td>
-                    <td>
-                        @{
-                            date = @Model.borrow.borrows[i].ReturnDate;
-                            d = date.ToString();
-                        }
-                        
-                        @if (@Model.borrow.borrows[i].ReturnDate != DateTime.MinValue)
-                        {
-                            @: @d.Substring(0,10)
-                        }
-                        else if (@DateTime.Today > @Model.borrow.borrows[i].ToBeReturnedDate)
-                        {
-                            <input value="Försenad" disabled class="btn btn-danger pull-right" />
-                        }
-                        else
-                        {
-                            <input value="Låna om" type="submit" class="btn btn-default pull-right" />
-                        }
-                    </td>
-                </tr>
-                </form>
+            @foreach(var borrow in Model){
+            
             }
+           
 </table>
 </div>
