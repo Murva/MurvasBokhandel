@@ -9,8 +9,21 @@ namespace MurvasBokhandel.Controllers.Borrower
 {
     public class BorrowerController : Controller
     {
-        static Mockup mockup = new Mockup();
-        static List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
+        static List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>()
+        {
+            new BorrowedBookCopy(){
+                book = Mockup.AuthorsWithBooksResults[0].Books[0],
+                author = Mockup.AuthorsWithBooksResults[0].Author,
+                copy = Mockup.Copies[0],
+                borrow = Mockup.Borrows[0]
+            },
+            new BorrowedBookCopy(){
+                book = Mockup.AuthorsWithBooksResults[3].Books[0],
+                author = Mockup.AuthorsWithBooksResults[3].Author,
+                copy = Mockup.Copies[1],
+                borrow = Mockup.Borrows[1]
+            }
+        };
         //
         // GET: /Borrower/
         public ActionResult Start()
@@ -20,28 +33,17 @@ namespace MurvasBokhandel.Controllers.Borrower
 
         // TODO: Ändra om till BorrowedBookCopy
         public ActionResult ReloanAll() {
-            foreach (MurvasBokhandel.Models.Mockup.BORROW b in mockup.borrow.borrows) {
-                if (!(DateTime.Today > b.ToBeReturnedDate)) {
-                    b.BorrowDate = DateTime.Today;
-                    b.ToBeReturnedDate = DateTime.Today;
-                    b.ToBeReturnedDate = b.ToBeReturnedDate.AddDays(7);
-                }
+            foreach (BorrowedBookCopy b in BBC) {
+                b.borrow.BorrowDate = DateTime.Today;
+                b.borrow.ToBeReturnedDate = DateTime.Today.AddDays(7);
             }
             return RedirectToAction("Start", BBC);
         }
 
-        // TODO: ISBN istället, koppla ihop med böcker, status osv
         public ActionResult Reloan(int index) {
-            mockup.borrow.borrows[index].BorrowDate = DateTime.Today;
-            mockup.borrow.borrows[index].ToBeReturnedDate = DateTime.Today;
-            mockup.borrow.borrows[index].ToBeReturnedDate = mockup.borrow.borrows[index].ToBeReturnedDate.AddDays(7);
-            return RedirectToAction("Start", mockup);
-        }
-        public ActionResult Reloan(BorrowedBookCopy bbc) {
-            bbc.status.statusid = 1;
-            bbc.borrows.BorrowDate = DateTime.Today;
-            bbc.borrows.ToBeReturnedDate = DateTime.Today;
-            bbc.borrows.ToBeReturnedDate = bbc.borrows.ToBeReturnedDate.AddDays(7);
+            BBC[index].copy.StatusId = 1;
+            BBC[index].borrow.BorrowDate = DateTime.Today;
+            BBC[index].borrow.ToBeReturnedDate = DateTime.Today.AddDays(7); 
             return View("Start", BBC);
         }
 	}

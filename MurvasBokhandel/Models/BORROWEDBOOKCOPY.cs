@@ -10,7 +10,7 @@ namespace MurvasBokhandel.Models
         public MurvasBokhandel.Models.Mockup.BOOK book { get; set; }
         public MurvasBokhandel.Models.Mockup.COPY copy { get; set; }
         public MurvasBokhandel.Models.Mockup.STATUS status { get; set; }
-        public MurvasBokhandel.Models.Mockup.AUTHOR authors { get; set; }
-        public MurvasBokhandel.Models.Mockup.BORROW borrows { get; set; }
+        public MurvasBokhandel.Models.Mockup.AUTHOR author { get; set; }
+        public MurvasBokhandel.Models.Mockup.BORROW borrow { get; set; }
     }
 }

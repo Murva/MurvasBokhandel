@@ -249,7 +249,7 @@ namespace MurvasBokhandel.Models
                 Barcode = 123456789,
                 Location = "Bredaryd, Sverige",
                 StatusId = 1,
-                ISBN = 9789129675566,
+                ISBN = 9789164204530,
                 Library = "Roffelmjao"
             }
        };

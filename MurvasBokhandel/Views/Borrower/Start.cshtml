@@ -24,16 +24,40 @@
             <th class="info">
                 <form action="/Borrower/ReloanAll" method="post">
                     <font size="5">Lämnas tillbaka</font>
+                    <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
                 </form>
             </th>
-            <th class="info">
-                <font size="5">Återlämad</font>
-                <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
-            </th>
             <!--TODO: Ändra om till foreach och rätta till kopplingar-->
-            @foreach(var borrow in Model){
-            
-            }
+            <form action="/Borrower/Reloan" method="post">
+                @{
+                    int i = 0;
+                    foreach (var borrow in Model) {
+                       <input type="hidden" value="@i" name="index"/>
+                        <tr>
+                            <td>
+                                <a href="/Book/GetBook/?isbn=@borrow.book.ISBN">@borrow.book.Title</a>
+                            </td>
+                            <td>
+                                <a href="/Author/GetAuthor/?aid=@borrow.author.Aid">@borrow.author.FirstName @borrow.author.LastName</a>
+                            </td>
+                            <td>
+                                <a href="/Book/GetBook/?isbn=@borrow.book.ISBN">@borrow.book.ISBN</a>
+                            </td>
+                            <td>
+                                @borrow.book.PublicationYear
+                            </td>
+                            <td>
+                                @borrow.borrow.BorrowDate
+                            </td>
+                            <td>
+                                @borrow.borrow.ToBeReturnedDate
+                                <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-info" />
+                            </td>
+                        </tr>
+                        i++;
+                    }   
+                }
+            </form>
            
 </table>
 </div>
