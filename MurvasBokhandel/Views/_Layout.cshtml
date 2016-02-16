@@ -110,7 +110,15 @@
                         <a href="javascript:;" data-toggle="collapse" data-target="#Författare"><i class="fa fa-fw fa-arrows-v"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="Författare" class="collapse">
                             <li>
-                            @foreach (var bokstav in Model)
+                                @foreach (var itemInList in Model)
+                                {
+                                    <li>
+                                        <a href="#">@itemInList.LastName @itemInList.FirstName</a>
+                                    </li>
+                                }
+
+
+                            @*@foreach (var bokstav in Model)
                             {
 
                                 <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Bokstav <i class="fa fa-fw fa-caret-down"></i></a>
@@ -123,7 +131,7 @@
 
                                 </ul>
 
-                            }
+                            }*@
 
                         </ul>
 

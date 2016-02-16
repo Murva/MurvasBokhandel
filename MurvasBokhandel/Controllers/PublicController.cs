@@ -48,7 +48,7 @@ namespace MurvasBokhandel.Controllers
 
             }
 
-            return View(Browser);
+            return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
             
             //return View();
         }
@@ -61,6 +61,16 @@ namespace MurvasBokhandel.Controllers
             //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
             //BookWithAuthor bwa = 
             return View(Mockup.BooksWithAuthorResult);
+        }
+        [HttpGet]
+        public ActionResult ClickFörfattare()
+        {
+            return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
+        }
+        [HttpGet]
+        public ActionResult ClickBook()
+        {
+            return View(Mockup.Books.OrderBy(bok => bok.Title).ToList());
         }
     }
 }
