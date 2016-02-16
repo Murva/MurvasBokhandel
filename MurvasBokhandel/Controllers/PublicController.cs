@@ -34,7 +34,7 @@ namespace MurvasBokhandel.Controllers
         {
             //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
             //BookWithAuthor bwa = 
-            return View(Mockup.BooksWithAuthorResult);
+            return View(Mockup.BooksWithAuthorResult.OrderBy(author => author.Author.FirstName).ToList());
         }
     }
 }
