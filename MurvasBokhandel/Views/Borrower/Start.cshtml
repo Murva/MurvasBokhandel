@@ -28,36 +28,32 @@
                 </form>
             </th>
             <!--TODO: Ändra om till foreach och rätta till kopplingar-->
-            <form action="/Borrower/Reloan" method="post">
-                @{
-                    int i = 0;
-                    foreach (var borrow in Model) {
-                       <input type="hidden" value="@i" name="index"/>
-                        <tr>
-                            <td>
-                                <a href="/Book/GetBook/?isbn=@borrow.book.ISBN">@borrow.book.Title</a>
-                            </td>
-                            <td>
-                                <a href="/Author/GetAuthor/?aid=@borrow.author.Aid">@borrow.author.FirstName @borrow.author.LastName</a>
-                            </td>
-                            <td>
-                                <a href="/Book/GetBook/?isbn=@borrow.book.ISBN">@borrow.book.ISBN</a>
-                            </td>
-                            <td>
-                                @borrow.book.PublicationYear
-                            </td>
-                            <td>
-                                @borrow.borrow.BorrowDate
-                            </td>
-                            <td>
-                                @borrow.borrow.ToBeReturnedDate
-                                <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-info" />
-                            </td>
-                        </tr>
-                        i++;
-                    }   
-                }
-            </form>
-           
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <form action="/Borrower/Reloan" method="post">
+                    <input type="hidden" value="@i" name="index" />
+                    <tr>
+                        <td>
+                            <a href="/Book/GetBook/?isbn=@Model[i].book.ISBN">@Model[i].book.Title</a>
+                        </td>
+                        <td>
+                            <a href="/Author/GetAuthor/?aid=@Model[i].author.Aid">@Model[i].author.FirstName @Model[i].author.LastName</a>
+                        </td>
+                        <td>
+                            <a href="/Book/GetBook/?isbn=@Model[i].book.ISBN">@Model[i].book.ISBN</a>
+                        </td>
+                        <td>
+                            @Model[i].book.PublicationYear
+                        </td>
+                        <td>
+                            @Model[i].borrow.BorrowDate
+                        </td>
+                        <td>
+                            @Model[i].borrow.ToBeReturnedDate
+                            <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
+                        </td>
+                    </tr>
+                </form>
+            }
 </table>
 </div>
