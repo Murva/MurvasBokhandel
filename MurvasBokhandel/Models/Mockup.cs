@@ -85,7 +85,7 @@ namespace MurvasBokhandel.Models
             }
         };
 
-       public static List<Mockup.BOOK_AUTHOR> Book_Authers = new List<Mockup.BOOK_AUTHOR>() {
+       public static List<Mockup.BOOK_AUTHOR> Book_Authors = new List<Mockup.BOOK_AUTHOR>() {
             new Mockup.BOOK_AUTHOR() { Aid = 1, ISBN = 9789129697704 },
             new Mockup.BOOK_AUTHOR() { Aid = 1, ISBN = 9789129675559 },
             new Mockup.BOOK_AUTHOR() { Aid = 1, ISBN = 9789129675566 },

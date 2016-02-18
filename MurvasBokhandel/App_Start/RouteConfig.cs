@@ -30,6 +30,12 @@ namespace MurvasBokhandel
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "BorrowerAdmin", action = "Start", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "BookAdmin",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "BorrowerAdmin", action = "Start", id = UrlParameter.Optional }
+            );
         }
     }
 }

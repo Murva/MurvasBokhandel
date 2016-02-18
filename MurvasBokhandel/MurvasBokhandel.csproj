@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthorWithBooks.cs" />
+    <Compile Include="Models\BookAndAuthors.cs" />
     <Compile Include="Models\BorrowerWithBorrows.cs" />
     <Compile Include="Models\Mockup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,6 +179,8 @@
     <Content Include="Views\AuthorAdmin\Create.cshtml" />
     <Content Include="Views\BorrowerAdmin\Borrower.cshtml" />
     <Content Include="Views\BorrowerAdmin\Create.cshtml" />
+    <Content Include="Views\BookAdmin\Book.cshtml" />
+    <Content Include="Views\BookAdmin\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

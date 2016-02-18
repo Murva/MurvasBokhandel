@@ -1,4 +1,4 @@
-﻿
+﻿@model IList<MurvasBokhandel.Models.Mockup.BOOK>
 @{
     ViewBag.Title = "Start";
 }
@@ -6,16 +6,43 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            Administrator - <small>Böcker</small>
+            Böcker <small><label class="label label-warning">Administratorläge</label></small>
+            <a href="/BookAdmin/Create" class="btn btn-default pull-right">Skapa ny bok</a>
         </h1>
     </div>
 </div>
 <div class="row">
-    <div>
-        <a href="/AuthorAdmin">Författare</a>
-        <a href="/BorrowerAdmin">Författare</a>
-        <a href="/BookAdmin">Böcker</a>
+    <div class="text-center">
+        <a href="/AuthorAdmin" class="btn btn-default">Författare</a>
+        <a href="/BorrowerAdmin" class="btn btn-default">Låntagare</a>
+        <a href="/BookAdmin" class="btn btn-default active">Böcker</a>
     </div>
     <hr />
 </div>
-
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center">ISBN</th>
+                    <th class="text-center">Titel</th>
+                    <th class="text-center">Publikationsår</th>
+                    <th class="text-center">Information</th>
+                    <th class="text-center">Antal sidor</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td><a href="/BookAdmin/Book/@book.ISBN">@book.ISBN</a></td>
+                        <td>@book.Title</td>
+                        <td>@book.PublicationYear</td>
+                        <td>@book.Publicationinfo</td>
+                        <td>@book.Pages</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
