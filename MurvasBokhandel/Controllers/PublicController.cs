@@ -36,21 +36,21 @@ namespace MurvasBokhandel.Controllers
         public ActionResult Start()
         {
 
-            List<List<Author>> Browser = new List<List<Author>>(){
-                new List<Author>() { new Author() { nameAuthor = "Alban Dr" }, new Author() { nameAuthor = "Ass Juice" }, new Author() { nameAuthor = "Adams Johanna" }, new Author() { nameAuthor = "Anal Klåda" } },
-                new List<Author>() { new Author() { nameAuthor = "Bobbo Krull" } },
-                new List<Author>() { new Author() { nameAuthor = "Cpt Kernal" } },
-                new List<Author>() { new Author() { nameAuthor = "Kalle Kula" }, new Author() { nameAuthor = "Knark Kungen" } },
-                new List<Author>() { new Author() { nameAuthor = "Snoppen" }, new Author() { nameAuthor = "Snippan" } }
-            };
-            foreach (var author in Browser)
-            {
+            //List<List<Author>> Browser = new List<List<Author>>(){
+            //    new List<Author>() { new Author() { nameAuthor = "Alban Dr" }, new Author() { nameAuthor = "Ass Juice" }, new Author() { nameAuthor = "Adams Johanna" }, new Author() { nameAuthor = "Anal Klåda" } },
+            //    new List<Author>() { new Author() { nameAuthor = "Bobbo Krull" } },
+            //    new List<Author>() { new Author() { nameAuthor = "Cpt Kernal" } },
+            //    new List<Author>() { new Author() { nameAuthor = "Kalle Kula" }, new Author() { nameAuthor = "Knark Kungen" } },
+            //    new List<Author>() { new Author() { nameAuthor = "Snoppen" }, new Author() { nameAuthor = "Snippan" } }
+            //};
+            //foreach (var author in Browser)
+            //{
 
-            }
+            //}
 
-            return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
+            //return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
             
-            //return View();
+            return View();
         }
 
        
@@ -62,15 +62,17 @@ namespace MurvasBokhandel.Controllers
             //BookWithAuthor bwa = 
             return View(Mockup.BooksWithAuthorResult);
         }
+
         [HttpGet]
-        public ActionResult ClickFörfattare()
+        public ActionResult BrowseAuthor()
         {
             return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
         }
+
         [HttpGet]
-        public ActionResult ClickBook()
+        public ActionResult BrowseBook()
         {
-            return View(Mockup.Books.OrderBy(bok => bok.Title).ToList());
+            return View(Mockup.Books.OrderBy(book => book.Title).ToList());
         }
     }
 }

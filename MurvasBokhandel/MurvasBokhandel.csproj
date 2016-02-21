@@ -182,6 +182,8 @@
     <Content Include="Views\AuthorAdmin\Create.cshtml" />
     <Content Include="Views\BorrowerAdmin\Borrower.cshtml" />
     <Content Include="Views\Author\GetAuthor.cshtml" />
+    <Content Include="Views\Public\BrowseAuthor.cshtml" />
+    <Content Include="Views\Public\BrowseBook.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
