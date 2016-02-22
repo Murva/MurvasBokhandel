@@ -1,18 +1,59 @@
-﻿@model MurvasBokhandel.Models.Mockup
-
+﻿@model IList<MurvasBokhandel.Models.BorrowedBookCopy>
 @{
     ViewBag.Title = "Borrow Section";
 }
 
 <h2>Lånade böcker</h2>
 <div>
-    <form>
-        <select name="bookSelected" class="form-control">
-            @for (int i = 0; i < 5; i++) {
-                <option>@Model.books[i].title - @Model.books[i].author - @Model.books[i].daysLeft dagar kvar</option>    
+        <table class="table table-striped table-hover">
+            <th class="info">
+                <font size="5">Titel</font>
+            </th>
+            <th class="info">
+                <font size="5">Författare</font>
+            </th>
+            <th class="info">
+                <font size="5">ISBN</font>
+            </th>
+            <th class="info">
+                <font size="5">Publicerad</font>
+            </th>
+            <th class="info">
+                <font size="5">Lånad</font>
+            </th>
+            <th class="info">
+                <form action="/Borrower/ReloanAll" method="post">
+                    <font size="5">Lämnas tillbaka</font>
+                    <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
+                </form>
+            </th>
+            <!--TODO: Ändra om till foreach och rätta till kopplingar-->
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <form action="/Borrower/Reloan" method="post">
+                    <input type="hidden" value="@i" name="index" />
+                    <tr>
+                        <td>
+                            <a href="/Book/GetBook/?isbn=@Model[i].book.ISBN">@Model[i].book.Title</a>
+                        </td>
+                        <td>
+                            <a href="/Author/GetAuthor/?aid=@Model[i].author.Aid">@Model[i].author.FirstName @Model[i].author.LastName</a>
+                        </td>
+                        <td>
+                            <a href="/Book/GetBook/?isbn=@Model[i].book.ISBN">@Model[i].book.ISBN</a>
+                        </td>
+                        <td>
+                            @Model[i].book.PublicationYear
+                        </td>
+                        <td>
+                            @Model[i].borrow.BorrowDate
+                        </td>
+                        <td>
+                            @Model[i].borrow.ToBeReturnedDate
+                            <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
+                        </td>
+                    </tr>
+                </form>
             }
-            
-        </select> <br />
-        <input value="Låna om" type="button" style="float: right" class="btn btn-success"/>  
-    </form>
+</table>
 </div>

@@ -7,15 +7,6 @@ using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
-    //public class BookResult
-    //{
-    //    public int Aid;
-    //    public int ISBN;
-    //    public string Title;
-    //    public string FirstName;
-    //    public string LastName;
-
-    //};
 
     public class PublicController : Controller
     {
@@ -23,14 +14,11 @@ namespace MurvasBokhandel.Controllers
         // GET: Public
         public ActionResult Start()
         {
-            
             return View();
         }
 
-       
-
         [HttpGet]
-        public ActionResult Search(string search_field)
+        public ViewResult Search(string publicSearch)
         {
             //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
             //BookWithAuthor bwa = 

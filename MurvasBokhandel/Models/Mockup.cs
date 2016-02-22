@@ -61,6 +61,8 @@ namespace MurvasBokhandel.Models
             public string Category, Period;
         }
 
+        // Skapa egna klasser här //
+
         //* ------------------------------------------------ LISTOR ---------------------------------------------------  *//
 
         public static List<Mockup.AUTHOR> Authors = new List<Mockup.AUTHOR>()
@@ -216,10 +218,47 @@ namespace MurvasBokhandel.Models
             }
         };
 
-       //* ------------------------------------------------ RESULTATLISTOR END ---------------------------------------------------  *//
+       public class BORROWEDBOOK
+       {
+           //public BOOK book = new BOOK();
+           public List<BOOK> books = new List<BOOK>();
+           //public AUTHOR author = new AUTHOR();
+           public List<AUTHOR> authors = Authors;
+           //public BORROW borrow = new BORROW();
+           public List<BORROW> borrows = Borrows;
+           public List<COPY> copies = Copies;
+           // PLOCKA FRAM UTLÅNADE BÖCKER //
+           public BORROWEDBOOK() {
+               foreach(COPY c in copies)
+                   foreach(BOOK b in Books)
+                       if(c.ISBN == b.ISBN)
+                           books.Add(b);
+           }
+           // END //
+       }
 
-        public Mockup() { 
-                        
+       public static List<COPY> Copies = new List<COPY>(){
+            new COPY(){
+                Barcode = 123456790,
+                Location = "New Dehli, India",
+                StatusId = 1,
+                ISBN = 9789129697704,
+                Library = "Hemlis"
+            },
+            new COPY(){
+                Barcode = 123456789,
+                Location = "Bredaryd, Sverige",
+                StatusId = 1,
+                ISBN = 9789164204530,
+                Library = "Roffelmjao"
+            }
+       };
+
+       //* ------------------------------------------------ RESULTATLISTOR END ---------------------------------------------------  *//
+       public BORROWEDBOOK borrow = new BORROWEDBOOK();
+
+        public Mockup() {
+            
         }
     }
 }
