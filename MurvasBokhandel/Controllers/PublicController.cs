@@ -18,7 +18,7 @@ namespace MurvasBokhandel.Controllers
         }
 
         [HttpGet]
-        public ViewResult Search(string publicSearch)
+        public ActionResult Search(string search_field)
         {
             //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
             //BookWithAuthor bwa = 
