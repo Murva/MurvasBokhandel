@@ -1,11 +1,37 @@
-﻿
+﻿@model IList<MurvasBokhandel.Models.BookWithAuthor>
+
 @{
     ViewBag.Title = "Search";
 }
 
-<h2>Sökresultat</h2>
-
-@{
-    @ViewBag.Result
-}
+<h2><a href="javascript:void(0);" onclick="history.go(-1);">Böcker</a></h2>
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-hover">
+            <thead class="alert-info">
+                <tr>
+                    <th>Författare</th>
+                    <th></th>
+                    <th>Boktitel</th>
+                </tr>
+            </thead> 
+            <tbody>
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.FirstName</a></td>
+                        <td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.LastName</a></td>
+                        <td><a href="/Book/GetBook/?ISBN=@book.Book.ISBN">@book.Book.Title</a></td> 
+                    </tr>
+                }
+            </tbody>
+            
+        </table>
+        <form class="nav" method="get" action="/Public/Start">
+            <div class="form-inline">
+                <input class="btn btn-default" value="Tillbaka" type="submit" />
+            </div>
+        </form>
+    </div>
+</div>
 

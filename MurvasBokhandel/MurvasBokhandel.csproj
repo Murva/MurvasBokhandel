@@ -153,6 +153,8 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministratorController.cs" />
+    <Compile Include="Controllers\AuthorController.cs" />
+    <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\AuthorAdminController.cs" />
     <Compile Include="Controllers\BookAdminController.cs" />
     <Compile Include="Controllers\BorrowerAdminController.cs" />
@@ -162,6 +164,7 @@
     </Compile>
     <Compile Include="Models\AuthorWithBooks.cs" />
     <Compile Include="Models\BookAndAuthors.cs" />
+    <Compile Include="Models\BookWithAuthor.cs" />
     <Compile Include="Models\BorrowerWithBorrows.cs" />
     <Compile Include="Models\Mockup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -176,11 +179,13 @@
     <Content Include="Views\BookAdmin\Start.cshtml" />
     <Content Include="Views\AuthorAdmin\Author.cshtml" />
     <Content Include="Views\Borrower\Start.cshtml" />
+    <Content Include="Views\Book\GetBook.cshtml" />
     <Content Include="Views\AuthorAdmin\Create.cshtml" />
     <Content Include="Views\BorrowerAdmin\Borrower.cshtml" />
     <Content Include="Views\BorrowerAdmin\Create.cshtml" />
     <Content Include="Views\BookAdmin\Book.cshtml" />
     <Content Include="Views\BookAdmin\Create.cshtml" />
+    <Content Include="Views\Author\GetAuthor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
