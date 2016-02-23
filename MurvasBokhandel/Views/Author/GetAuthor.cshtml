@@ -1,4 +1,4 @@
-﻿@model MurvasBokhandel.Models.AuthorWithBooks
+﻿@model Common.Model.AuthorWithBooks
 
 @{
     ViewBag.Title = "GetAuthor";
@@ -26,8 +26,8 @@
                         <td><a href="/Book/GetBook/?ISBN=@book.ISBN">@book.Title</a></td>
                         <td><a href="/Book/GetBook/?ISBN=@book.ISBN">@book.ISBN</a></td>
                         <td>@book.PublicationYear</td>
-                        <td>@book.Publicationinfo</td>
-                        <td>@book.Pages</td>
+                        <td>@book.publicationinfo</td>
+                        <td>@book.pages</td>
                     </tr>
                 }
             </tbody>

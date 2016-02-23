@@ -8,7 +8,7 @@ namespace Repository.EntityModel
 {
     public class bookAuthor
     {
-        public long ISBN { get; set; }
+        public string ISBN { get; set; }
         public int Aid { get; set; }
     }
 }

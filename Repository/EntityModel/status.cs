@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Repository.EntityModel
 {
-    public class status
+    public class Status
     {
         public int statusid { get; set; }
-        public string Status { get; set; }
+        public string status { get; set; }
     }
 }

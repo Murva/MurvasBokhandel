@@ -8,11 +8,11 @@ namespace Repository.EntityModel
 {
     public class book
     {
-        public long ISBN { get; set; }
+        public string ISBN { get; set; }
         public int SignId { get; set; }
-        public int PublicationYear { get; set; }
+        public string PublicationYear { get; set; }
         public string Title { get; set; }
-        public string Publicationinfo { get; set; }
-        public string Pages { get; set; }
+        public string publicationinfo { get; set; }
+        public int pages { get; set; }
     }
 }

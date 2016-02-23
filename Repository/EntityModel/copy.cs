@@ -8,10 +8,10 @@ namespace Repository.EntityModel
 {
     public class copy
     {
-        public int Barcode { get; set; }
+        public string Barcode { get; set; }
         public int StatusId { get; set; }
-        public long ISBN { get; set; }
+        public string ISBN { get; set; }
         public string Location { get; set; }
-        public string Library { get; set; }
+        public string library { get; set; }
     }
 }

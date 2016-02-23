@@ -8,7 +8,7 @@ namespace Repository.EntityModel
 {
     public class borrower
     {
-        public long PersonId { get; set; }
+        public string PersonId { get; set; }
         public int CategoryId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
