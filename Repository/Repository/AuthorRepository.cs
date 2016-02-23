@@ -29,7 +29,7 @@ namespace Repository.Repository
                     _authorObj.Aid = aid;
                     _authorObj.FirstName = dar["FirstName"].ToString();
                     _authorObj.LastName = dar["LastName"].ToString();
-                    _authorObj.BirthYear = Convert.ToUInt16(dar["BirthYear"].ToString());
+                    _authorObj.BirthYear = dar["BirthYear"].ToString();
                 }
             }
             catch (Exception eObj)

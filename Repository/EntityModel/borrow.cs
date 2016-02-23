@@ -8,8 +8,8 @@ namespace Repository.EntityModel
 {
     public class borrow
     {
-        public long Barcode { get; set; }
-        public long PersonId { get; set; }
+        public string Barcode { get; set; }
+        public string PersonId { get; set; }
         public DateTime BorrowDate { get; set; }
         public DateTime ToBeReturnedDate { get; set; }
         public DateTime ReturnDate { get; set; }

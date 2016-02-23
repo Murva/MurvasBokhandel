@@ -10,7 +10,7 @@ namespace Common.Model
     {
         public book book { get; set; }
         public copy copy { get; set; }
-        public status status { get; set; }
+        public Status status { get; set; }
         public author author { get; set; }
         public borrow borrow { get; set; }
     }

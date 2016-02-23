@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    class BookAuthorRepository
+    public class BookAuthorRepository
     {
+        
     }
 }

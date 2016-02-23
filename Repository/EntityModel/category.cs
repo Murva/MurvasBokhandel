@@ -8,7 +8,9 @@ namespace Repository.EntityModel
 {
     public class category
     {
-        public int CategoryId, Penaltyperday;
-        public string Category, Period;
+        public int CategoryId {get; set;}
+        public int Penaltyperday { get; set; }
+        public string Category { get; set; } 
+        public byte Period {get; set;}
     }
 }

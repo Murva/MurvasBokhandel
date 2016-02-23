@@ -1,4 +1,5 @@
-﻿using MurvasBokhandel.Models;
+﻿using Common.Model;
+using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace MurvasBokhandel.Controllers
         // GET: Author
         public ActionResult GetAuthor(int aid)
         {
-            AuthorWithBooks a = (AuthorWithBooks)Mockup.AuthorsWithBooksResults.Where(author => author.Author.Aid == aid).First();
-            a.Books = a.Books.OrderBy(books => books.Title).ToList();
+            AuthorWithBooks a = AuthorService.GetAuthorWithBooks(aid);
             return View(a);
         }
     }
