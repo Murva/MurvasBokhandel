@@ -40,9 +40,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AuthorService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Service\" />
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{8c896b8e-e677-4aef-a1da-56cbf7861c81}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{fbbf4c5b-b088-45de-a34e-6109b26bc58e}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
