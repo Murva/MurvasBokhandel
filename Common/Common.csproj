@@ -39,10 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AuthorWithBooks.cs" />
+    <Compile Include="Model\BookAndAuthors.cs" />
+    <Compile Include="Model\BookWithAuthor.cs" />
+    <Compile Include="Model\BORROWEDBOOKCOPY.cs" />
+    <Compile Include="Model\BorrowerWithBorrows.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{fbbf4c5b-b088-45de-a34e-6109b26bc58e}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
