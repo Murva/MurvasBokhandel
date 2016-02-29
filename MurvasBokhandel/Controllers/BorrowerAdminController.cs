@@ -15,7 +15,7 @@ namespace MurvasBokhandel.Controllers
             return View(Mockup.Borrowers);
         }
 
-        public ActionResult Borrower(long id)
+        public ActionResult Borrower(string PersonId)
         {
             BorrowerWithBorrows br = new BorrowerWithBorrows()
             {
