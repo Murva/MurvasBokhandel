@@ -11,7 +11,7 @@ namespace Common.Model
         public book book { get; set; }
         public copy copy { get; set; }
         public Status status { get; set; }
-        public author author { get; set; }
+        public List<author> authors { get; set; }
         public borrow borrow { get; set; }
     }
 }
