@@ -43,6 +43,7 @@
     <Compile Include="Service\AuthorService.cs" />
     <Compile Include="Service\BookService.cs" />
     <Compile Include="Service\BorrowService.cs" />
+    <Compile Include="Service\BorrowerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

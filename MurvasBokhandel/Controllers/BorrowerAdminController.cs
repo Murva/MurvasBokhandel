@@ -19,8 +19,8 @@ namespace MurvasBokhandel.Controllers
         {
             BorrowerWithBorrows br = new BorrowerWithBorrows()
             {
-                Borrower = Mockup.Borrowers.Where(borrower => borrower.PersonId == id).First(),
-                Borrows = Mockup.Borrows.Where(b => b.PersonId == id).ToList()
+                Borrower = Mockup.Borrowers.Where(borrower => borrower.PersonId == Convert.ToInt32(PersonId)).First(),
+                Borrows = Mockup.Borrows.Where(b => b.PersonId == Convert.ToInt32(PersonId)).ToList()
             };
 
             return View(br);
