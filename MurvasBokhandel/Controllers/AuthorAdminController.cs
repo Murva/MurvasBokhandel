@@ -5,20 +5,16 @@ using System.Web;
 using System.Web.Mvc;
 using MurvasBokhandel.Models;
 using MurvasBokhandel.Controllers;
+using Services.Service;
 
 namespace MurvasBokhandel.Controllers
 {
     public class AuthorAdminController : Controller
     {
         // GET: AuthorAdmin
-        public ActionResult Start(string orderBy = "id")
+        public ActionResult Start(string orderBy = "Aid")
         {
-            if (orderBy == "id")
-                return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
-            else if (orderBy == "name")
-                return View(Mockup.Authors.OrderBy(author => author.FirstName).ToList());
-            else
-                return View(Mockup.Authors.OrderBy(author => author.BirthYear).ToList());
+            return View(AuthorService.GetAuthors(orderBy));
         }
 
         public ActionResult Author(int id)

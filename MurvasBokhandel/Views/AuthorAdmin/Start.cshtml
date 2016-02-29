@@ -1,4 +1,4 @@
-﻿@model IList<MurvasBokhandel.Models.Mockup.AUTHOR>
+﻿@model IList<Repository.EntityModel.author>
 @{
     ViewBag.Title = "Författare";
 }
@@ -19,13 +19,13 @@
     <hr />
 </div>
 <div class="row">
-    <div class="col-md-4 col-md-offset-4 text-center">
+    <div class="col-md-8 col-md-offset-2 text-center">
         <table class="table">
             <thead>
                 <tr>
-                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=id">#</a></th>
-                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=name">Författarnamn</a></th>
-                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=year">Födelseår</a></th>
+                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=Aid">#</a></th>
+                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=FirstName">Författarnamn</a></th>
+                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=BirthYear">Födelseår</a></th>
                 </tr>
             </thead>
             <tbody>

@@ -11,6 +11,42 @@ namespace Repository.Repository
 {
     public class AuthorRepository
     {
+        public static List<author> dbGetAuthors(string orderBy)
+        {
+            List<author> _authList = null;
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM author ORDER BY "+orderBy+";", con);
+            try
+            {
+                con.Open();
+                SqlDataReader dar = cmd.ExecuteReader();
+                if (dar != null)
+                {
+                    _authList = new List<author>();
+                    while (dar.Read())
+                    {
+                        author authObj = new author();
+                        authObj.Aid = Convert.ToInt32(dar["Aid"]);
+                        authObj.FirstName = dar["FirstName"] as string;
+                        authObj.LastName = dar["LastName"] as string;
+                        authObj.BirthYear = dar["BirthYear"] as string;
+                        _authList.Add(authObj);
+                    }
+                }
+            }
+            catch (Exception eObj)
+            {
+                throw eObj;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+            return _authList;
+        }
+
         public static author dbGetAuthor(int aid)
         {
             author _authorObj = null;
