@@ -1,4 +1,4 @@
-﻿@model IList<MurvasBokhandel.Models.Mockup.AUTHOR>
+﻿@model IList<Repository.EntityModel.author>
 
     @{
         ViewBag.Title = "BrowseAuthor";
@@ -12,11 +12,11 @@
             @foreach (var author in Model)
             {
 
-                
-                    <li>
-                        <a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName @author.FirstName</a>
-                    </li>             
-                               
+
+                <li>
+                    <a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName @author.FirstName</a>
+                </li>
+
             }
         </ul>
     </div>

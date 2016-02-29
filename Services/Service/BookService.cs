@@ -10,5 +10,10 @@ namespace Services.Service
         {
             return BookRepository.dbGetBookListByAuthor(aid);
         }
+        public static List<book> GetBooks()
+        {
+            return BookRepository.dbGetBooks();
+        }
+
     }
 }
