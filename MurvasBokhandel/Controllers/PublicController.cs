@@ -27,13 +27,16 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult BrowseAuthor()
         {
-            return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
+            //return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
+            return View(Services.Service.AuthorService.GetAuthors("LastName"));
+            //LastName
         }
 
         [HttpGet]
         public ActionResult BrowseBook()
         {
-            return View(Mockup.Books.OrderBy(book => book.Title).ToList());
+            //return View(Mockup.Books.OrderBy(book => book.Title).ToList());
+            return View(Services.Service.BookService.GetBooks().OrderBy(book => book.Title).ToList());
         }
     }
 }
