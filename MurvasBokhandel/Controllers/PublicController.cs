@@ -7,11 +7,10 @@ using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
-
     public class PublicController : Controller
     {
        
-        // GET: Public
+        
         public ActionResult Start()
         {
             return View();
@@ -23,6 +22,21 @@ namespace MurvasBokhandel.Controllers
             //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
             //BookWithAuthor bwa = 
             return View(Mockup.BooksWithAuthorResult.OrderBy(author => author.Author.FirstName).ToList());
+        }
+
+        [HttpGet]
+        public ActionResult BrowseAuthor()
+        {
+            //return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
+            return View(Services.Service.AuthorService.GetAuthors("LastName"));
+            //LastName
+        }
+
+        [HttpGet]
+        public ActionResult BrowseBook()
+        {
+            //return View(Mockup.Books.OrderBy(book => book.Title).ToList());
+            return View(Services.Service.BookService.GetBooks().OrderBy(book => book.Title).ToList());
         }
     }
 }

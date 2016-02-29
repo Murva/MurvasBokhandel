@@ -11,12 +11,17 @@ namespace Services.Service
 {
     public class AuthorService
     {
-        public static AuthorWithBooks GetAuthorWithBooks(int aid)
+        public static List<author> GetAuthors(string orderBy)
         {
-            return MapAuthor(AuthorRepository.dbGetAuthor(aid));
+            return AuthorRepository.dbGetAuthors(orderBy);
         }
 
-        public static AuthorWithBooks MapAuthor(author a)
+        public static AuthorWithBooks GetAuthorWithBooks(int aid)
+        {
+            return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
+        }
+
+        public static AuthorWithBooks MapAuthorWithBooks(author a)
         {
             AuthorWithBooks authorwithbooks = new AuthorWithBooks();
             authorwithbooks.Author = a;

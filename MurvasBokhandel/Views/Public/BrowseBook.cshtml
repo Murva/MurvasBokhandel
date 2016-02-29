@@ -1,0 +1,17 @@
+﻿@model IList<Repository.EntityModel.book>
+    @{
+        ViewBag.Title = "BrowseBook";
+    }
+
+    <h2>Browse all Books</h2>
+    <div>
+        <ul>
+            @foreach (var bok in Model)
+            {
+                <li>
+                    <a href ="/Book/GetBook/?ISBN=@bok.ISBN">@bok.Title</a>
+                </li>
+            }
+        </ul>
+    </div>
+

@@ -10,8 +10,15 @@ namespace Services.Service
         {
             return BookRepository.dbGetBookListByAuthor(aid);
         }
+
         public static book GetBook(string isbn) {
             return BookRepository.dbGetBook(isbn);
         }
+
+        public static List<book> GetBooks()
+        {
+            return BookRepository.dbGetBooks();
+        }
+
     }
 }
