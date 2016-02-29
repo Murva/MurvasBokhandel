@@ -11,9 +11,9 @@ namespace Services.Service
 {
     public class AuthorService
     {
-        public static List<author> GetAuthors()
+        public static List<author> GetAuthors(string orderBy)
         {
-            return AuthorRepository.dbGetAuthors();
+            return AuthorRepository.dbGetAuthors(orderBy);
         }
 
         public static AuthorWithBooks GetAuthorWithBooks(int aid)

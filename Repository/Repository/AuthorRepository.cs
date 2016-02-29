@@ -11,12 +11,12 @@ namespace Repository.Repository
 {
     public class AuthorRepository
     {
-        public static List<author> dbGetAuthors()
+        public static List<author> dbGetAuthors(string orderBy)
         {
             List<author> _authList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM author;", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM author ORDER BY "+orderBy+";", con);
             try
             {
                 con.Open();

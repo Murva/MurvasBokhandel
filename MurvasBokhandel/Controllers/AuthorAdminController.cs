@@ -12,9 +12,9 @@ namespace MurvasBokhandel.Controllers
     public class AuthorAdminController : Controller
     {
         // GET: AuthorAdmin
-        public ActionResult Start()
+        public ActionResult Start(string orderBy = "Aid")
         {
-            return View(AuthorService.GetAuthors());
+            return View(AuthorService.GetAuthors(orderBy));
         }
 
         public ActionResult Author(int id)
