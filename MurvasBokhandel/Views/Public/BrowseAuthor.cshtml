@@ -1,0 +1,23 @@
+﻿@model IList<MurvasBokhandel.Models.Mockup.AUTHOR>
+
+    @{
+        ViewBag.Title = "BrowseAuthor";
+    }
+
+    <h2>Browse all Author</h2>
+
+    <div>
+        <ul>
+
+            @foreach (var author in Model)
+            {
+
+                
+                    <li>
+                        <a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName @author.FirstName</a>
+                    </li>             
+                               
+            }
+        </ul>
+    </div>
+

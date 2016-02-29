@@ -232,6 +232,8 @@
     <Content Include="Views\BookAdmin\Create.cshtml" />
     <Content Include="Views\Author\GetAuthor.cshtml" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
+    <Content Include="Views\Public\BrowseAuthor.cshtml" />
+    <Content Include="Views\Public\BrowseBook.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
