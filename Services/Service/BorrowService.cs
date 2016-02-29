@@ -11,13 +11,22 @@ namespace Services.Service
 {
     class BorrowService
     {
-        public static BorrowedBookCopy GetBorrowedBooks(string PersonId) {
-            return MapBorrow(BorrowRepository.dbGetBorrow(PersonId));    
+        public static List<BorrowedBookCopy> GetBorrowedBooks(string PersonId) {
+            return MapBorrow(BorrowRepository.dbGetBorrowList(PersonId));    
         }
 
-        public static BorrowedBookCopy MapBorrow(borrow b) {
-            BorrowedBookCopy borrowedBookCopy = new BorrowedBookCopy();
-            borrowedBookCopy.borrow = b;
+        public static List<BorrowedBookCopy> MapBorrow(List<borrow> b) {
+            List<BorrowedBookCopy> borrowedBookCopy = new List<BorrowedBookCopy>();
+            foreach (borrow borrow in b)
+            {
+                BorrowedBookCopy bcopy = new BorrowedBookCopy();
+                bcopy.borrow = borrow;
+                bcopy.copy = CopyRepository.dbGetBookCopy(borrow.Barcode);
+                bcopy.book = BookRepository.dbGetBook(bcopy.copy.ISBN);
+                bcopy.authors = BookAuthorRepository.dbGetAuthorsByBook(bcopy.copy.ISBN);
+                bcopy.status = StatusRepository.dbGetStatus(bcopy.copy.StatusId);
+                borrowedBookCopy.Add(bcopy);
+            }
             return borrowedBookCopy;
         }
     }
