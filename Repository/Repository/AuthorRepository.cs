@@ -16,7 +16,7 @@ namespace Repository.Repository
             List<author> _authList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM department where depid > 0;", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM author;", con);
             try
             {
                 con.Open();
@@ -30,8 +30,8 @@ namespace Repository.Repository
                         authObj.Aid = Convert.ToInt32(dar["Aid"]);
                         authObj.FirstName = dar["FirstName"] as string;
                         authObj.LastName = dar["LastName"] as string;
-                        authObj.BossId = Convert.ToInt32(dar["bossid"]);
-                        _authList.Add(depObj);
+                        authObj.BirthYear = dar["BirthYear"] as string;
+                        _authList.Add(authObj);
                     }
                 }
             }
