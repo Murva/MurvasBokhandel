@@ -38,7 +38,7 @@
                         </td>
                         <td>
                             @for (int j = 0; j < Model[i].authors.Count; j++) { 
-                                <a href="/Author/GetAuthor/?aid=@Model[i].authors[j].Aid">@Model[i].authors[j].FirstName @Model[i].authors[j].LastName </a>
+                                <a href="/Author/GetAuthor/?aid=@Model[i].authors[j].Aid">@Model[i].authors[j].FirstName @Model[i].authors[j].LastName,</a>
                             }
                         </td>
                         <td>

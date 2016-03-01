@@ -15,9 +15,6 @@ namespace MurvasBokhandel.Controllers
         // GET: Book
         public ActionResult GetBook(string isbn)
         {
-            BookWithAuthor bwa = (BookWithAuthor)Mockup.BooksWithAuthorResult.Where(book => book.Book.ISBN == isbn).First();           
-            return View(bwa);
-            //BookWithAuthor bwa = (BookWithAuthor)Mockup.BooksWithAuthorResult.Where(book => book.Book.ISBN == isbn).First();
             BookAndAuthors baa = BookService.GetBookAndAuthors(isbn);
             return View(baa);
         }
