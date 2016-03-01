@@ -4,7 +4,7 @@
     ViewBag.Title = "GetBook";
 }
 
-<h2>Titel:@Model.Book.Title</h2>
+<h2>Titel: @Model.Book.Title</h2>
 
 
 <div class="row">
@@ -31,14 +31,13 @@
             <thead class="alert-info">
                 <tr>
                     <th>Författare</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var author in Model.Authors)
                 {
                     <tr>
-                        @*<td><a href="/Author/GetAuthor/?aid=@Model.Authors[0].Aid">@Model.Authors[0].FirstName</a></td>
-                        <td><a href="/Author/GetAuthor/?aid=@Model.Authors[0].Aid">@Model.Authors[0].LastName</a></td>*@
                         <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.FirstName</a></td>
                         <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.LastName</a></td>
                     </tr>
