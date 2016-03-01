@@ -7,6 +7,5 @@ namespace Common.Model
     {
         public book Book { get; set; }
         public List<author> Authors { get; set; }
-        public int Aid { get; set; }
     }
 }

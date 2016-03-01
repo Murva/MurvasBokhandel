@@ -17,6 +17,7 @@ namespace Repository.Repository
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
             SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK WHERE ISBN = '" + isbn + "';", con);
+            
             try
             {
                 con.Open();
