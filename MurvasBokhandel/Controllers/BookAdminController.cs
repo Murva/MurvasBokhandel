@@ -1,4 +1,5 @@
 ﻿using MurvasBokhandel.Models;
+using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,17 @@ namespace MurvasBokhandel.Controllers
         // GET: BookAdmin
         public ActionResult Start()
         {
-            return View(Mockup.Books);
+            return View(BookService.GetBooks());
         }
 
-        public ActionResult Book(long id)
+        public ActionResult Book(string id)
         {
-            return View(Mockup.Books.Where(b => b.ISBN == id).First());
+            return View(BookService.GetBook(id));
         }
 
-        public ActionResult Update(Mockup.BOOK Book)
+        public ActionResult Update(Repository.EntityModel.book Book)
         {
-            Mockup.Books.Remove(Mockup.Books.Where(b => b.ISBN == Book.ISBN).First());
-            Mockup.Books.Add(Book);
+            BookService.UpdateBook(Book);
 
             return Redirect("/BookAdmin/Book/"+Book.ISBN);
         }
