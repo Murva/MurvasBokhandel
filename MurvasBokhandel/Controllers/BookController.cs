@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using MurvasBokhandel.Models;
+using Common.Model;
 using MurvasBokhandel.Controllers;
 
 namespace MurvasBokhandel.Controllers
@@ -18,8 +18,8 @@ namespace MurvasBokhandel.Controllers
         public ActionResult GetBook(string isbn)
         {
             //BookWithAuthor bwa = (BookWithAuthor)Mockup.BooksWithAuthorResult.Where(book => book.Book.ISBN == isbn).First();
-            BookAndAuthors baa = AuthorService.GetAuthors(isbn)
-            return View(bwa);
+            BookAndAuthors baa = BookService.GetBookAndAuthors(isbn);
+            return View(baa);
         }
     }
 }

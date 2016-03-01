@@ -29,5 +29,9 @@ namespace Services.Service
 
             return authorwithbooks;
         }
+        public static List<author> GetAuthersByBook(string isbn)
+        {
+            return AuthorRepository.dbGetAuthors(isbn);
+        }
     }
 }
