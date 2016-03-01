@@ -52,5 +52,20 @@ namespace Services.Service
         //    return authorwithbooks;
         //}
 
+        public static void UpdateBook(book b)
+        {
+            BookRepository.dbUpdateBook(b);
+        }
+
+        public static void StoreBook(book b)
+        {
+            BookRepository.dbStoreBook(b);
+        }
+
+        public static void RemoveBook(book b)
+        {
+            BookRepository.dbRemoveBook(b);
+            BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
+        }
     }
 }

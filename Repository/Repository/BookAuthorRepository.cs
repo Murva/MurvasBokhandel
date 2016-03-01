@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class BookAuthorRepository
+    public class BookAuthorRepository : Base.BaseRepository
     {
         static public List<author> dbGetAuthorsByBook(string isbn){
             List<author> _authorList = null;
@@ -25,12 +25,7 @@ namespace Repository.Repository
                     _authorList = new List<author>();
                     while (dar.Read())
                     {
-                        author a = new author();
-                        a.Aid = (int) dar["Aid"];
-                        a.BirthYear = dar["BirthYear"] as string;
-                        a.FirstName = dar["FirstName"] as string;
-                        a.LastName = dar["LastName"] as string;
-                        _authorList.Add(a);
+                        _authorList.Add(AuthorRepository.MapAuthor(dar));
                     }
                 }
             }
@@ -45,6 +40,11 @@ namespace Repository.Repository
             }
 
             return _authorList;
+        }
+
+        public static void dbRemoveBookAuthorByISBN(string isbn)
+        {
+            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = "+isbn);
         }
     }
 }

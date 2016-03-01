@@ -1,4 +1,4 @@
-﻿@model MurvasBokhandel.Models.Mockup.BOOK
+﻿@model Repository.EntityModel.book
 @{
     ViewBag.Title = "Book";
 }
@@ -29,11 +29,11 @@
             </div>
             <div class="form-group">
                 <label>Publikationsinformation</label>
-                @Html.TextAreaFor(m => m.Publicationinfo, new { @class = "form-control" })
+                @Html.TextAreaFor(m => m.publicationinfo, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label>Antal sidor</label>
-                @Html.TextBoxFor(m => m.Pages, new { @class = "form-control", @type="number" })
+                @Html.TextBoxFor(m => m.pages, new { @class = "form-control", @type="number" })
             </div>
             <div class="form-group">
                 <input type="submit" value="Uppdate" class="btn btn-warning" />
@@ -44,8 +44,8 @@
         @using (Html.BeginForm("Remove", "BookAdmin", FormMethod.Post, new { @id = "form-remove-book" }))
         {
             @Html.HiddenFor(m => m.ISBN)
-            @Html.HiddenFor(m => m.Pages)
-            @Html.HiddenFor(m => m.Publicationinfo)
+            @Html.HiddenFor(m => m.pages)
+            @Html.HiddenFor(m => m.publicationinfo)
             @Html.HiddenFor(m => m.PublicationYear)
             @Html.HiddenFor(m => m.SignId)
             @Html.HiddenFor(m => m.Title)
