@@ -25,14 +25,14 @@ namespace Services.Service
             return BookRepository.dbGetBooks();
         }
 
-        public static BookAndAuthors GetBookAndAuthors(string isbn)
+        public static BookWithAuthorS GetBookWithAuthors(string isbn)
         {
-            return MapBookAndAuthors(BookRepository.dbGetBook(isbn));
+            return MapBookWithAuthorS(BookRepository.dbGetBook(isbn));
         }
 
-        private static BookAndAuthors MapBookAndAuthors(book b)
+        private static BookWithAuthorS MapBookWithAuthorS(book b)
         {
-            BookAndAuthors bookandauthers = new BookAndAuthors();
+            BookWithAuthorS bookandauthers = new BookWithAuthorS();
             bookandauthers.Book = b;
             bookandauthers.Authors = AuthorService.GetAuthersByBook(b.ISBN);
             return bookandauthers;
