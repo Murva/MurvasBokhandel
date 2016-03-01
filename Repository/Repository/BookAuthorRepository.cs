@@ -15,7 +15,7 @@ namespace Repository.Repository
             List<author> _authorList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR WHERE ISBN = '" + isbn + "';", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = '"+isbn+"';", con);
             try
             {
                 con.Open();
@@ -25,9 +25,12 @@ namespace Repository.Repository
                     _authorList = new List<author>();
                     while (dar.Read())
                     {
-                        bookAuthor bA = new bookAuthor();
-                        bA.Aid = (int) dar["Aid"];
-                        _authorList.Add(AuthorRepository.dbGetAuthor(bA.Aid));
+                        author a = new author();
+                        a.Aid = (int) dar["Aid"];
+                        a.BirthYear = dar["BirthYear"] as string;
+                        a.FirstName = dar["FirstName"] as string;
+                        a.LastName = dar["LastName"] as string;
+                        _authorList.Add(a);
                     }
                 }
             }
