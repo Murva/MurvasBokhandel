@@ -1,4 +1,5 @@
 ﻿using System;
+using Services.Service;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,10 +15,10 @@ namespace MurvasBokhandel.Controllers
         
         //};
         // GET: Book
-        public ActionResult GetBook(long isbn)
+        public ActionResult GetBook(string isbn)
         {
-            BookWithAuthor bwa = (BookWithAuthor)Mockup.BooksWithAuthorResult.Where(book => book.Book.ISBN == isbn).First();
-            
+            //BookWithAuthor bwa = (BookWithAuthor)Mockup.BooksWithAuthorResult.Where(book => book.Book.ISBN == isbn).First();
+            BookAndAuthors baa = AuthorService.GetAuthors(isbn)
             return View(bwa);
         }
     }

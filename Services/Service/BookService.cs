@@ -1,6 +1,11 @@
-﻿using Repository.EntityModel;
-using Repository.Repository;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Common.Model;
+using Repository.Repository;
+using Repository.EntityModel;
 
 namespace Services.Service
 {
@@ -19,6 +24,33 @@ namespace Services.Service
         {
             return BookRepository.dbGetBooks();
         }
+
+        public static BookAndAuthors GetBookAndAuthors(string isbn)
+        {
+            return MapBookAndAuthors(BookRepository.dbGetBook(isbn));
+        }
+
+        private static BookAndAuthors MapBookAndAuthors(book b)
+        {
+            BookAndAuthors bookandauthers = new BookAndAuthors();
+            bookandauthers.Book = b;
+            bookandauthers.Authors = AuthorService.GetAuthersByBook(b.ISBN);
+            return bookandauthers;
+        }
+
+        //public static AuthorWithBooks GetAuthorWithBooks(int aid)
+        //{
+        //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
+        //}
+
+        //public static AuthorWithBooks MapAuthorWithBooks(author a)
+        //{
+        //    AuthorWithBooks authorwithbooks = new AuthorWithBooks();
+        //    authorwithbooks.Author = a;
+        //    authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
+
+        //    return authorwithbooks;
+        //}
 
     }
 }
