@@ -11,6 +11,17 @@ namespace Repository.Repository
 {
     public class AuthorRepository
     {
+        private static author mapAuthor(SqlDataReader dar)
+        {
+            author authObj = new author();
+            authObj.Aid = Convert.ToInt32(dar["Aid"]);
+            authObj.FirstName = dar["FirstName"] as string;
+            authObj.LastName = dar["LastName"] as string;
+            authObj.BirthYear = dar["BirthYear"] as string;
+
+            return authObj;
+        }
+
         public static List<author> dbGetAuthors(string orderBy)
         {
             List<author> _authList = null;
@@ -26,12 +37,7 @@ namespace Repository.Repository
                     _authList = new List<author>();
                     while (dar.Read())
                     {
-                        author authObj = new author();
-                        authObj.Aid = Convert.ToInt32(dar["Aid"]);
-                        authObj.FirstName = dar["FirstName"] as string;
-                        authObj.LastName = dar["LastName"] as string;
-                        authObj.BirthYear = dar["BirthYear"] as string;
-                        _authList.Add(authObj);
+                        _authList.Add(mapAuthor(dar));
                     }
                 }
             }
@@ -61,11 +67,7 @@ namespace Repository.Repository
 
                 if (dar.Read())
                 {
-                    _authorObj = new author();
-                    _authorObj.Aid = aid;
-                    _authorObj.FirstName = dar["FirstName"].ToString();
-                    _authorObj.LastName = dar["LastName"].ToString();
-                    _authorObj.BirthYear = dar["BirthYear"].ToString();
+                    _authorObj = mapAuthor(dar);
                 }
             }
             catch (Exception eObj)
