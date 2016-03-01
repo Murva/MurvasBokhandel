@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class BookRepository
+    public class BookRepository : Base.BaseRepository
     {
         private static book mapBook(SqlDataReader dar)
         {
@@ -92,28 +92,6 @@ namespace Repository.Repository
             return dbGetBookList("SELECT * FROM BOOK");
         }
 
-        private static void dbPostData(string query)
-        {
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            try
-            {
-                con.Open();
-                cmd.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
-        }
-
         public static void dbUpdateBook(book b)
         {
             dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "';");
@@ -122,6 +100,11 @@ namespace Repository.Repository
         public static void dbStoreBook(book b)
         {
             dbPostData("INSERT INTO BOOK VALUES ('"+b.ISBN+"','"+b.Title+"' , "+b.SignId.ToString()+", '"+b.PublicationYear+"', '"+b.publicationinfo+"', "+b.pages.ToString()+");");
+        }
+
+        public static void dbRemoveBook(book b)
+        {
+            dbPostData("DELETE FROM BOOK WHERE ISBN = "+b.ISBN+";");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Repository.Repository
 {
     public class AuthorRepository
     {
-        private static author mapAuthor(SqlDataReader dar)
+        public static author MapAuthor(SqlDataReader dar)
         {
             author authObj = new author();
             authObj.Aid = Convert.ToInt32(dar["Aid"]);
@@ -37,7 +37,7 @@ namespace Repository.Repository
                     _authList = new List<author>();
                     while (dar.Read())
                     {
-                        _authList.Add(mapAuthor(dar));
+                        _authList.Add(MapAuthor(dar));
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace Repository.Repository
                     _authList = new List<author>();
                     while (dar.Read())
                     {
-                        _authList.Add(mapAuthor(dar));
+                        _authList.Add(MapAuthor(dar));
                     }
                 }
             }
@@ -103,7 +103,7 @@ namespace Repository.Repository
 
                 if (dar.Read())
                 {
-                    _authorObj = mapAuthor(dar);
+                    _authorObj = MapAuthor(dar);
                 }
             }
             catch (Exception eObj)

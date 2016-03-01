@@ -32,7 +32,8 @@ namespace Services.Service
 
         public static void RemoveBook(book b)
         {
+            BookRepository.dbRemoveBook(b);
+            BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
         }
-
     }
 }
