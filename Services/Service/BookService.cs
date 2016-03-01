@@ -25,5 +25,10 @@ namespace Services.Service
             BookRepository.dbUpdateBook(b);
         }
 
+        public static void StoreBook(book b)
+        {
+            BookRepository.dbStoreBook(b);
+        }
+
     }
 }

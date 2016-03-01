@@ -1,10 +1,9 @@
 ﻿using MurvasBokhandel.Models;
 using Services.Service;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Common.Model;
+using Repository.EntityModel;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -43,21 +42,16 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Create()
         {
-            return View(new BookAndAuthors()
+            return View(new BookWithClassifications()
             {
-                Book = new Mockup.BOOK(),
-                Authors = Mockup.Authors
+                Book = new Repository.EntityModel.book(),
+                Classifications = ClassificationService.GetClassifications()
             });
         }
 
-        public ActionResult Store(BookAndAuthors b)
+        public ActionResult Store(BookWithClassifications bwc)
         {
-            AuthorWithBooks awb = Mockup.AuthorsWithBooksResults.Where(author => author.Author.Aid == b.Aid).First();
-            
-            //OBS! Ska adderas till tabellen "BOOK" och "BOOK_AUTHOR" i databasen
-            awb.Books.Add(b.Book);
-            Mockup.Books.Add(b.Book);
-            Mockup.Book_Authors.Add(new Mockup.BOOK_AUTHOR() { Aid = b.Aid, ISBN = b.Book.ISBN });
+            BookService.StoreBook(bwc.Book);
 
             return Redirect("/BookAdmin/");
         }

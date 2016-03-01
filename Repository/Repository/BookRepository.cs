@@ -91,12 +91,11 @@ namespace Repository.Repository
         {
             return dbGetBookList("SELECT * FROM BOOK");
         }
-        public static void dbUpdateBook(book b)
+
+        private static void dbPostData(string query)
         {
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
-
-            string query = "UPDATE BOOK SET Title = '"+b.Title+"', PublicationYear = '"+b.PublicationYear.ToString()+"', publicationinfo = '"+b.publicationinfo.ToString()+"', pages = "+b.pages.ToString()+" WHERE ISBN = '"+b.ISBN.ToString()+"';";
             SqlCommand cmd = new SqlCommand(query, con);
 
             try
@@ -113,6 +112,16 @@ namespace Repository.Repository
                 if (con != null)
                     con.Close();
             }
+        }
+
+        public static void dbUpdateBook(book b)
+        {
+            dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "';");
+        }
+
+        public static void dbStoreBook(book b)
+        {
+            dbPostData("INSERT INTO BOOK VALUES ('"+b.ISBN+"','"+b.Title+"' , "+b.SignId.ToString()+", '"+b.PublicationYear+"', '"+b.publicationinfo+"', "+b.pages.ToString()+");");
         }
     }
 }

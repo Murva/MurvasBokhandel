@@ -42,6 +42,7 @@
     <Compile Include="Model\AuthorWithBooks.cs" />
     <Compile Include="Model\BookAndAuthors.cs" />
     <Compile Include="Model\BookWithAuthor.cs" />
+    <Compile Include="Model\BookWithClassifications.cs" />
     <Compile Include="Model\BorrowedBookCopy.cs" />
     <Compile Include="Model\BorrowerWithBorrows.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

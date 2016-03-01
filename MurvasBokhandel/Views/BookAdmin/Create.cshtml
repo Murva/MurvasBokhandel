@@ -1,4 +1,4 @@
-﻿@model Common.Model.BookAndAuthors
+﻿@model Common.Model.BookWithClassifications
 @{
     ViewBag.Title = "Create";
 }
@@ -8,11 +8,9 @@
 @using (Html.BeginForm("Store", "BookAdmin"))
 {
     <div class="form-group">
-        <label>Författare</label>
-        @Html.DropDownListFor(m => m.Aid, new SelectList(Model.Authors, "Aid", "Firstname"), new { @class = "form-control" })
-        <small><a href="/AuthorAdmin/Create">Skapa författare</a></small>
+        <label>Klassifikation</label>
+        @Html.DropDownListFor(m => m.Book.SignId, new SelectList(Model.Classifications, "SignId", "Signum"), new { @class = "form-control" })
     </div>
-    <hr/>
     <div class="form-group">
         <label>ISBN</label>
         @Html.TextBoxFor(m => m.Book.ISBN, new { @class = "form-control", @type = "number" })
@@ -25,17 +23,17 @@
     
     <div class="form-group">
         <label>Publikationsår</label>
-        @Html.TextBoxFor(m => m.Book.PublicationYear, new { @class = "form-control", @type ="number" })
+        @Html.TextBoxFor(m => m.Book.PublicationYear, new { @class = "form-control", @type = "number" })
     </div>
     
     <div class="form-group">
         <label>Publikationsinformation</label>
-        @Html.TextAreaFor(m => m.Book.Publicationinfo, new { @class = "form-control" })
+        @Html.TextAreaFor(m => m.Book.publicationinfo, new { @class = "form-control" })
     </div>
     
     <div class="form-group">
         <label>Antal sidor</label>
-        @Html.TextBoxFor(m => m.Book.Pages, new { @class = "form-control", @type = "number" })
+        @Html.TextBoxFor(m => m.Book.pages, new { @class = "form-control", @type = "number" })
     </div>
     
     <div class="form-group">
