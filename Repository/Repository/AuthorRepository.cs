@@ -11,7 +11,11 @@ namespace Repository.Repository
 {
     public class AuthorRepository
     {
+<<<<<<< HEAD
         public static author MapAuthor(SqlDataReader dar)
+=======
+        private static author mapAuthor(SqlDataReader dar)
+>>>>>>> Public_D2Adam
         {
             author authObj = new author();
             authObj.Aid = Convert.ToInt32(dar["Aid"]);
@@ -37,7 +41,11 @@ namespace Repository.Repository
                     _authList = new List<author>();
                     while (dar.Read())
                     {
+<<<<<<< HEAD
                         _authList.Add(MapAuthor(dar));
+=======
+                        _authList.Add(mapAuthor(dar));
+>>>>>>> Public_D2Adam
                     }
                 }
             }
@@ -55,7 +63,16 @@ namespace Repository.Repository
 
         public static List<author> dbGetAuthors(string orderBy)
         {
+<<<<<<< HEAD
             return dbGetAuthorList("SELECT * FROM Author ORDER BY "+orderBy+";");
+=======
+            return dbGetAuthorList("SELECT * FROM Author ORDER BY " + orderBy + ";");
+        }
+
+        public static List<author> dbGetAuthorsBySearch(string search)
+        {
+            return dbGetAuthorList("SELECT * FROM Author WHERE FirstName LIKE '%" + search + "%' OR LastName LIKE '%" + search + "%';");
+>>>>>>> Public_D2Adam
         }
 
         public static author dbGetAuthor(int aid)
@@ -87,5 +104,7 @@ namespace Repository.Repository
 
             return _authorObj;
         }
+
+
     }
 }

@@ -38,10 +38,28 @@ namespace Services.Service
             return bookandauthers;
         }
 
+<<<<<<< HEAD
         public static void UpdateBook(book b)
         {
             BookRepository.dbUpdateBook(b);
         }
+=======
+        public static List<book> GetBooksBySearch(string input)
+        {
+            return BookRepository.dbGetBooksBySearch(input);
+        }
+
+        //public static AuthorWithBooks GetAuthorWithBooks(int aid)
+        //{
+        //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
+        //}
+
+        //public static AuthorWithBooks MapAuthorWithBooks(author a)
+        //{
+        //    AuthorWithBooks authorwithbooks = new AuthorWithBooks();
+        //    authorwithbooks.Author = a;
+        //    authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
+>>>>>>> Public_D2Adam
 
         public static void StoreBook(book b)
         {

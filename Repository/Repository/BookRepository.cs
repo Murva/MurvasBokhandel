@@ -24,13 +24,17 @@ namespace Repository.Repository
             return _book;
         }
 
+<<<<<<< HEAD
         public static book dbGetBook(string isbn) {
+=======
+        public static book dbGetBook(string isbn)
+        {
+>>>>>>> Public_D2Adam
             book _book = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
             SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK WHERE ISBN = '" + isbn + "';", con);
-            
             try
             {
                 con.Open();
@@ -86,13 +90,38 @@ namespace Repository.Repository
 
         public static List<book> dbGetBookListByAuthor(int aid, string orderby = "Title")
         {
-            return dbGetBookList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = "+aid.ToString()+" ORDER BY B."+orderby+";");
+            return dbGetBookList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = " + aid.ToString() + " ORDER BY B." + orderby + ";");
         }
         public static List<book> dbGetBooks()
         {
             return dbGetBookList("SELECT * FROM BOOK");
         }
 
+<<<<<<< HEAD
+=======
+        private static void dbPostData(string query)
+        {
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            try
+            {
+                con.Open();
+                cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+        }
+
+>>>>>>> Public_D2Adam
         public static void dbUpdateBook(book b)
         {
             dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "';");
@@ -100,12 +129,20 @@ namespace Repository.Repository
 
         public static void dbStoreBook(book b)
         {
+<<<<<<< HEAD
             dbPostData("INSERT INTO BOOK VALUES ('"+b.ISBN+"','"+b.Title+"' , "+b.SignId.ToString()+", '"+b.PublicationYear+"', '"+b.publicationinfo+"', "+b.pages.ToString()+");");
         }
 
         public static void dbRemoveBook(book b)
         {
             dbPostData("DELETE FROM BOOK WHERE ISBN = "+b.ISBN+";");
+=======
+            dbPostData("INSERT INTO BOOK VALUES ('" + b.ISBN + "','" + b.Title + "' , " + b.SignId.ToString() + ", '" + b.PublicationYear + "', '" + b.publicationinfo + "', " + b.pages.ToString() + ");");
+        }
+        public static List<book> dbGetBooksBySearch(string search)
+        {
+            return dbGetBookList("SELECT * FROM Book WHERE Title LIKE '%" + search + "%';");
+>>>>>>> Public_D2Adam
         }
     }
 }
