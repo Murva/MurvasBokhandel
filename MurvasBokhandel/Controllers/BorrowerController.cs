@@ -1,33 +1,21 @@
-﻿using MurvasBokhandel.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Services.Service;
+using Common.Model;
+using Repository.Repository;
 
 namespace MurvasBokhandel.Controllers.Borrower
 {
     public class BorrowerController : Controller
     {
-        static List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>()
-        {
-            new BorrowedBookCopy(){
-                book = Mockup.AuthorsWithBooksResults[0].Books[0],
-                author = Mockup.AuthorsWithBooksResults[0].Author,
-                copy = Mockup.Copies[0],
-                borrow = Mockup.Borrows[0]
-            },
-            new BorrowedBookCopy(){
-                book = Mockup.AuthorsWithBooksResults[3].Books[0],
-                author = Mockup.AuthorsWithBooksResults[3].Author,
-                copy = Mockup.Copies[1],
-                borrow = Mockup.Borrows[1]
-            }
-        };
-        //
         // GET: /Borrower/
+        static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19111111-1111");
+        
         public ActionResult Start()
-        {
+        {   
             return View(BBC);
         }
 

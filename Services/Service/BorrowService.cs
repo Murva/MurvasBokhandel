@@ -9,7 +9,7 @@ using Repository.EntityModel;
 
 namespace Services.Service
 {
-    class BorrowService
+    public class BorrowService
     {
         public static List<BorrowedBookCopy> GetBorrowedBooks(string PersonId) {
             return MapBorrow(BorrowRepository.dbGetBorrowList(PersonId));    

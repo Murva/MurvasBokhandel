@@ -24,9 +24,11 @@ namespace Repository.Repository
                 SqlDataReader dar = cmd.ExecuteReader();
                 if (dar != null)
                 {
-                    _status = new Status();
-                    _status.statusid = (int) dar["statusId"];
-                    _status.status = dar["status"] as string;
+                    if (dar.Read()) {
+                        _status = new Status();
+                        _status.statusid = (int)dar["statusId"];
+                        _status.status = dar["status"] as string;
+                    }
                 }
             }
             catch (Exception eObj)

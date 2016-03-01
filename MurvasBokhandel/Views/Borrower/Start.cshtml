@@ -1,4 +1,4 @@
-﻿@model IList<MurvasBokhandel.Models.BorrowedBookCopy>
+﻿@model IList<Common.Model.BorrowedBookCopy>
 @{
     ViewBag.Title = "Borrow Section";
 }
@@ -37,7 +37,7 @@
                             <a href="/Book/GetBook/?isbn=@Model[i].book.ISBN">@Model[i].book.Title</a>
                         </td>
                         <td>
-                            <a href="/Author/GetAuthor/?aid=@Model[i].author.Aid">@Model[i].author.FirstName @Model[i].author.LastName</a>
+                            <a href="/Author/GetAuthor/?aid=@Model[i].authors[i].Aid">@Model[i].authors[i].FirstName @Model[i].authors[i].LastName </a>
                         </td>
                         <td>
                             <a href="/Book/GetBook/?isbn=@Model[i].book.ISBN">@Model[i].book.ISBN</a>

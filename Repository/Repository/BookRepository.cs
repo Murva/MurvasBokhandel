@@ -23,13 +23,15 @@ namespace Repository.Repository
                 SqlDataReader dar = cmd.ExecuteReader();
                 if (dar != null)
                 {
-                    _book = new book();
-                    _book.ISBN = dar["ISBN"] as string;
-                    _book.pages = Convert.ToInt32(dar["Pages"]);
-                    _book.Title = dar["Title"] as string;
-                    _book.publicationinfo = dar["publicationinfo"] as string;
-                    _book.PublicationYear = dar["PublicationYear"] as string;
-                    _book.SignId = Convert.ToInt32(dar["SignId"]);
+                    if (dar.Read()) {
+                        _book = new book();
+                        _book.ISBN = dar["ISBN"] as string;
+                        _book.pages = Convert.ToInt32(dar["Pages"]);
+                        _book.Title = dar["Title"] as string;
+                        _book.publicationinfo = dar["publicationinfo"] as string;
+                        _book.PublicationYear = dar["PublicationYear"] as string;
+                        _book.SignId = Convert.ToInt32(dar["SignId"]);
+                    }
                 }
             }
             catch (Exception eObj)

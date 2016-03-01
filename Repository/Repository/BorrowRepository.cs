@@ -19,9 +19,9 @@ namespace Repository.Repository
             SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
             try
             {
+                con.Open();
                 SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null) {
-                    con.Open();                    
+                if (dar != null) {                
                     _borrow = new borrow();
                     _borrow.PersonId = dar["PersonId"] as string;
                     _borrow.ReturnDate = (DateTime)dar["ReturnDate"];
@@ -43,16 +43,16 @@ namespace Repository.Repository
         }
         static public List<borrow> dbGetBorrowList(string id)
         {
-            List<borrow> _borrowList = null;
+            List<borrow> _borrowList = new List<borrow>();
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
             SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
             try
             {
+                con.Open();
                 SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null) {
-                    con.Open();                    
+                if (dar != null) {                
                     while (dar.Read())
                     {
                         borrow borrow = new borrow();
