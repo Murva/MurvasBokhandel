@@ -22,16 +22,20 @@ namespace MurvasBokhandel.Controllers.Borrower
         // TODO: Ändra om till BorrowedBookCopy
         public ActionResult ReloanAll() {
             foreach (BorrowedBookCopy b in BBC) {
-                b.borrow.BorrowDate = DateTime.Today;
-                b.borrow.ToBeReturnedDate = DateTime.Today.AddDays(7);
+                //b.borrow.BorrowDate = DateTime.Today;
+                //b.borrow.ToBeReturnedDate = DateTime.Today.AddDays(7);
+                BorrowService.updateBorrowDate(b.borrow);
+                BorrowService.updateToBeReturnedDate(b.borrow);
             }
             return RedirectToAction("Start", BBC);
         }
 
         public ActionResult Reloan(int index) {
-            BBC[index].copy.StatusId = 1;
-            BBC[index].borrow.BorrowDate = DateTime.Today;
-            BBC[index].borrow.ToBeReturnedDate = DateTime.Today.AddDays(7); 
+            //BBC[index].copy.StatusId = 1;
+            //BBC[index].borrow.BorrowDate = DateTime.Today;
+            //BBC[index].borrow.ToBeReturnedDate = DateTime.Today.AddDays(7); 
+            BorrowService.updateBorrowDate(BBC[index].borrow);
+            BorrowService.updateToBeReturnedDate(BBC[index].borrow);
             return View("Start", BBC);
         }
 	}

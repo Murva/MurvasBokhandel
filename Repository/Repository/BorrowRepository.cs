@@ -77,5 +77,22 @@ namespace Repository.Repository
             }
             return _borrowList;
         }
+        public static void updateDate(borrow b) {
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "')", con);
+            try {
+                con.Open();
+                cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally {
+                if (con != null)
+                    con.Close();
+            }
+        }
     }
 }
