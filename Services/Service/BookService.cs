@@ -38,20 +38,6 @@ namespace Services.Service
             return bookandauthers;
         }
 
-        //public static AuthorWithBooks GetAuthorWithBooks(int aid)
-        //{
-        //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
-        //}
-
-        //public static AuthorWithBooks MapAuthorWithBooks(author a)
-        //{
-        //    AuthorWithBooks authorwithbooks = new AuthorWithBooks();
-        //    authorwithbooks.Author = a;
-        //    authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
-
-        //    return authorwithbooks;
-        //}
-
         public static void UpdateBook(book b)
         {
             BookRepository.dbUpdateBook(b);
