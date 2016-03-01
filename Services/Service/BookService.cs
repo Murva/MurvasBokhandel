@@ -30,5 +30,9 @@ namespace Services.Service
             BookRepository.dbStoreBook(b);
         }
 
+        public static void RemoveBook(book b)
+        {
+        }
+
     }
 }

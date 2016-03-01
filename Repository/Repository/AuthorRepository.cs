@@ -22,6 +22,42 @@ namespace Repository.Repository
             return authObj;
         }
 
+        private static List<author> dbGetAuthorList(string query)
+        {
+            List<author> _authList = null;
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand(query, con);
+            try
+            {
+                con.Open();
+                SqlDataReader dar = cmd.ExecuteReader();
+                if (dar != null)
+                {
+                    _authList = new List<author>();
+                    while (dar.Read())
+                    {
+                        _authList.Add(mapAuthor(dar));
+                    }
+                }
+            }
+            catch (Exception eObj)
+            {
+                throw eObj;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+            return _authList;
+        }
+
+        public static List<author> dbGetAuthors(string orderBy)
+        {
+            return dbGetAuthorList("SELECT * FROM Author ORDER BY "+orderBy+";");
+        }
+
         public static List<author> dbGetAuthors(string orderBy)
         {
             List<author> _authList = null;
