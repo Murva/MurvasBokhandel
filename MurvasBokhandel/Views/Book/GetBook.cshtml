@@ -4,17 +4,14 @@
     ViewBag.Title = "GetBook";
 }
 
+<h2>Titel:@Model.Book.Title</h2>
 
-<h2>Sökresultat</h2>
 
 <div class="row">
     <div class="col-md-12">
         <table class="table table-hover">
             <thead class="alert-info">
                 <tr>
-                    <th>Författare</th>
-                    <th></th>
-                    <th>Titel</th>
                     <th>ISBN</th>
                     <th>Publikaionsår</th>
                     <th>PublikationsInformation</th>
@@ -23,14 +20,30 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="/Author/GetAuthor/?aid=@Model.Authors[0].Aid">@Model.Authors[0].FirstName</a></td>
-                    <td><a href="/Author/GetAuthor/?aid=@Model.Authors[0].Aid">@Model.Authors[0].LastName</a></td>
-                    <td>@Model.Book.Title</td>
                     <td>@Model.Book.ISBN</td>
                     <td>@Model.Book.PublicationYear</td>
                     <td>@Model.Book.publicationinfo</td>
                     <td>@Model.Book.pages</td>
                 </tr>
+            </tbody>
+        </table>
+        <table class="table table-hover">
+            <thead class="alert-info">
+                <tr>
+                    <th>Författare</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var author in Model.Authors)
+                {
+                    <tr>
+                        @*<td><a href="/Author/GetAuthor/?aid=@Model.Authors[0].Aid">@Model.Authors[0].FirstName</a></td>
+                        <td><a href="/Author/GetAuthor/?aid=@Model.Authors[0].Aid">@Model.Authors[0].LastName</a></td>*@
+                        <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.FirstName</a></td>
+                        <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.LastName</a></td>
+                    </tr>
+                }
+                
             </tbody>
         </table>
         <a href="javascript:void(0);" onclick="history.go(-1);"><input class="btn btn-default" value="Tillbaka" type="submit" /></a>
