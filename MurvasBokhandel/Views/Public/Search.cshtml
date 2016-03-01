@@ -1,4 +1,4 @@
-﻿@model IList<MurvasBokhandel.Models.BookWithAuthor>
+﻿@model IList<Common.Model.AuthorsAndBooks>
 
 @{
     ViewBag.Title = "Search";
@@ -16,12 +16,23 @@
                 </tr>
             </thead> 
             <tbody>
-                @foreach (var book in Model)
+                @foreach (var book in Model.Books)
                 {
                     <tr>
-                        <td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.FirstName</a></td>
-                        <td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.LastName</a></td>
-                        <td><a href="/Book/GetBook/?ISBN=@book.Book.ISBN">@book.Book.Title</a></td> 
+                        <td><a href="/Book/GetBook/?ISBN=@book.ISBN">@book.Title</a></td>
+                        @*<td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.LastName</a></td>
+                        <td><a href="/Book/GetBook/?ISBN=@book.Book.ISBN">@book.Book.Title</a></td>*@ 
+                    </tr>
+                }
+            </tbody>
+            <tbody>
+                @foreach (var author in Model.Authors)
+                {
+                    <tr>
+                        <td><a href="/Author/GetAuthor/?Aid=@author.Books.ISBN">@author.FirstName</a></td>
+                        <td><a href="/Author/GetAuthor/?Aid=@author.Books.ISBN">@author.LastName</a></td>
+                        @*<td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.LastName</a></td>
+                    <td><a href="/Book/GetBook/?ISBN=@book.Book.ISBN">@book.Book.Title</a></td>*@
                     </tr>
                 }
             </tbody>

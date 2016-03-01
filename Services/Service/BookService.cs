@@ -38,6 +38,11 @@ namespace Services.Service
             return bookandauthers;
         }
 
+        public static List<book> GetBooksBySearch(string input)
+        {
+            return BookRepository.dbGetBooksBySearch(input);
+        }
+
         //public static AuthorWithBooks GetAuthorWithBooks(int aid)
         //{
         //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
