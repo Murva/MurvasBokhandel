@@ -21,8 +21,9 @@ namespace Repository.Repository
             {
                 con.Open();
                 SqlDataReader dar = cmd.ExecuteReader();
+                
                 if (dar != null)
-                {
+                {                    
                     _authList = new List<author>();
                     while (dar.Read())
                     {
@@ -32,7 +33,7 @@ namespace Repository.Repository
                         authObj.LastName = dar["LastName"] as string;
                         authObj.BirthYear = dar["BirthYear"] as string;
                         _authList.Add(authObj);
-                    }
+                    }                    
                 }
             }
             catch (Exception eObj)

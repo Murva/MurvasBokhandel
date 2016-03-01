@@ -34,7 +34,7 @@ namespace Services.Service
         {
             BookAndAuthors bookandauthers = new BookAndAuthors();
             bookandauthers.Book = b;
-            bookandauthers.Authors = AuthorService.GetAuthersByBook("LastName");
+            bookandauthers.Authors = AuthorService.GetAuthersByBook(b.ISBN);
             return bookandauthers;
         }
 

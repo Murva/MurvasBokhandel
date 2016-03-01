@@ -31,7 +31,7 @@ namespace Services.Service
         }
         public static List<author> GetAuthersByBook(string isbn)
         {
-            return AuthorRepository.dbGetAuthors(isbn);
+            return BookAuthorRepository.dbGetAuthorsByBook(isbn);
         }
     }
 }
