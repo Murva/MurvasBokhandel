@@ -15,7 +15,7 @@ namespace MurvasBokhandel.Controllers
         // GET: Book
         public ActionResult GetBook(string isbn)
         {
-            BookAndAuthors baa = BookService.GetBookAndAuthors(isbn);
+            BookWithAuthorS baa = BookService.GetBookWithAuthors(isbn);
             return View(baa);
         }
     }

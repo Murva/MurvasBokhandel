@@ -25,32 +25,39 @@ namespace Services.Service
             return BookRepository.dbGetBooks();
         }
 
-        public static BookAndAuthors GetBookAndAuthors(string isbn)
+        public static BookWithAuthorS GetBookWithAuthors(string isbn)
         {
-            return MapBookAndAuthors(BookRepository.dbGetBook(isbn));
+            return MapBookWithAuthorS(BookRepository.dbGetBook(isbn));
         }
 
-        private static BookAndAuthors MapBookAndAuthors(book b)
+        private static BookWithAuthorS MapBookWithAuthorS(book b)
         {
-            BookAndAuthors bookandauthers = new BookAndAuthors();
+            BookWithAuthorS bookandauthers = new BookWithAuthorS();
             bookandauthers.Book = b;
             bookandauthers.Authors = AuthorService.GetAuthersByBook(b.ISBN);
             return bookandauthers;
         }
 
-        //public static AuthorWithBooks GetAuthorWithBooks(int aid)
-        //{
-        //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
-        //}
 
-        //public static AuthorWithBooks MapAuthorWithBooks(author a)
-        //{
-        //    AuthorWithBooks authorwithbooks = new AuthorWithBooks();
-        //    authorwithbooks.Author = a;
-        //    authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
+        public static void UpdateBook(book b)
+        {
+            BookRepository.dbUpdateBook(b);
+        }
 
-        //    return authorwithbooks;
-        //}
+        public static List<book> GetBooksBySearch(string input)
+        {
+            return BookRepository.dbGetBooksBySearch(input);
+        }       
 
+        public static void StoreBook(book b)
+        {
+            BookRepository.dbStoreBook(b);
+        }
+
+        public static void RemoveBook(book b)
+        {
+            BookRepository.dbRemoveBook(b);
+            BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
+        }
     }
 }

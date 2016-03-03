@@ -1,4 +1,4 @@
-﻿@model IList<MurvasBokhandel.Models.Mockup.BOOK>
+﻿@model IList<Repository.EntityModel.book>
 @{
     ViewBag.Title = "Start";
 }
@@ -38,8 +38,8 @@
                         <td><a href="/BookAdmin/Book/@book.ISBN">@book.ISBN</a></td>
                         <td>@book.Title</td>
                         <td>@book.PublicationYear</td>
-                        <td>@book.Publicationinfo</td>
-                        <td>@book.Pages</td>
+                        <td>@book.publicationinfo</td>
+                        <td>@book.pages</td>
                     </tr>
                 }
             </tbody>

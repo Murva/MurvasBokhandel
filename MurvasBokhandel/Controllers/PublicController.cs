@@ -1,9 +1,10 @@
-﻿using MurvasBokhandel.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Services.Service;
+using Common.Model;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -21,14 +22,17 @@ namespace MurvasBokhandel.Controllers
         {
             //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
             //BookWithAuthor bwa = 
-            return View(Mockup.BooksWithAuthorResult.OrderBy(author => author.Author.FirstName).ToList());
+            //return View(Mockup.BooksWithAuthorResult.OrderBy(author => author.Author.FirstName).ToList());
+            AuthorsAndBooks a = AuthorService.GetSearchResult(search_field);
+            
+            return View(a);
         }
 
         [HttpGet]
         public ActionResult BrowseAuthor()
         {
             //return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
-            return View(Services.Service.AuthorService.GetAuthors("LastName"));
+            return View(AuthorService.GetAuthors("LastName"));
             //LastName
         }
 
@@ -36,7 +40,8 @@ namespace MurvasBokhandel.Controllers
         public ActionResult BrowseBook()
         {
             //return View(Mockup.Books.OrderBy(book => book.Title).ToList());
-            return View(Services.Service.BookService.GetBooks().OrderBy(book => book.Title).ToList());
+            
+            return View(BookService.GetBooks().OrderBy(book => book.Title).ToList());
         }
     }
 }
