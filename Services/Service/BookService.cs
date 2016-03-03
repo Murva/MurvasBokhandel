@@ -77,6 +77,11 @@ namespace Services.Service
             BookRepository.dbUpdateBook(b);
         }
 
+        public static List<book> GetBooksBySearch(string input)
+        {
+            return BookRepository.dbGetBooksBySearch(input);
+        }       
+
         public static void StoreBook(book b)
         {
             BookRepository.dbStoreBook(b);
