@@ -38,10 +38,16 @@ namespace Services.Service
             return bookandauthers;
         }
 
+
         public static void UpdateBook(book b)
         {
             BookRepository.dbUpdateBook(b);
         }
+
+        public static List<book> GetBooksBySearch(string input)
+        {
+            return BookRepository.dbGetBooksBySearch(input);
+        }       
 
         public static void StoreBook(book b)
         {

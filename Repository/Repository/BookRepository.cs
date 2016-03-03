@@ -24,13 +24,14 @@ namespace Repository.Repository
             return _book;
         }
 
+
         public static book dbGetBook(string isbn) {
+
             book _book = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
             SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK WHERE ISBN = '" + isbn + "';", con);
-            
             try
             {
                 con.Open();
@@ -86,12 +87,36 @@ namespace Repository.Repository
 
         public static List<book> dbGetBookListByAuthor(int aid, string orderby = "Title")
         {
-            return dbGetBookList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = "+aid.ToString()+" ORDER BY B."+orderby+";");
+            return dbGetBookList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = " + aid.ToString() + " ORDER BY B." + orderby + ";");
         }
         public static List<book> dbGetBooks()
         {
             return dbGetBookList("SELECT * FROM BOOK");
         }
+
+
+        private static void dbPostData(string query)
+        {
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            try
+            {
+                con.Open();
+                cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+        }
+
 
         public static void dbUpdateBook(book b)
         {
@@ -106,6 +131,10 @@ namespace Repository.Repository
         public static void dbRemoveBook(book b)
         {
             dbPostData("DELETE FROM BOOK WHERE ISBN = "+b.ISBN+";");
+        }
+        public static List<book> dbGetBooksBySearch(string search)
+        {
+            return dbGetBookList("SELECT * FROM Book WHERE Title LIKE '%" + search + "%';");
         }
     }
 }

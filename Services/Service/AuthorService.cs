@@ -33,5 +33,14 @@ namespace Services.Service
         {
             return BookAuthorRepository.dbGetAuthorsByBook(isbn);
         }
+
+        public static AuthorsAndBooks GetSearchResult(string input)
+        {
+            AuthorsAndBooks authorsandbooks = new AuthorsAndBooks();
+            authorsandbooks.Authors = AuthorRepository.dbGetAuthorsBySearch(input);
+            authorsandbooks.Books = BookService.GetBooksBySearch(input);
+
+            return authorsandbooks;
+        }
     }
 }

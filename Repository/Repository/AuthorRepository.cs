@@ -11,7 +11,9 @@ namespace Repository.Repository
 {
     public class AuthorRepository
     {
+
         public static author MapAuthor(SqlDataReader dar)
+
         {
             author authObj = new author();
             authObj.Aid = Convert.ToInt32(dar["Aid"]);
@@ -37,7 +39,9 @@ namespace Repository.Repository
                     _authList = new List<author>();
                     while (dar.Read())
                     {
+
                         _authList.Add(MapAuthor(dar));
+
                     }
                 }
             }
@@ -55,7 +59,14 @@ namespace Repository.Repository
 
         public static List<author> dbGetAuthors(string orderBy)
         {
-            return dbGetAuthorList("SELECT * FROM Author ORDER BY "+orderBy+";");
+
+            return dbGetAuthorList("SELECT * FROM Author ORDER BY " + orderBy + ";");
+        }
+
+        public static List<author> dbGetAuthorsBySearch(string search)
+        {
+            return dbGetAuthorList("SELECT * FROM Author WHERE FirstName LIKE '%" + search + "%' OR LastName LIKE '%" + search + "%';");
+
         }
 
         public static author dbGetAuthor(int aid)
@@ -87,5 +98,7 @@ namespace Repository.Repository
 
             return _authorObj;
         }
+
+
     }
 }
