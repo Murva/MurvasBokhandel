@@ -1,15 +1,13 @@
 ﻿using Repository.EntityModel;
 using Repository.Repositories;
+using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class AuthorRepository
+    public class AuthorRepository : BaseRepository
     {
         public static author MapAuthor(SqlDataReader dar)
         {
@@ -86,6 +84,21 @@ namespace Repository.Repository
             }
 
             return _authorObj;
+        }
+
+        public static void UpdateAuthor(author a)
+        {
+            dbPostData("UPDATE AUTHOR SET FirstName = '"+a.FirstName+"', LastName='"+a.LastName+"', BirthYear='"+a.BirthYear+"' WHERE Aid = "+a.Aid.ToString());
+        }
+
+        public static void StoreAuthor(author a)
+        {
+            dbPostData("INSERT INTO AUTHOR VALUES ('" + a.FirstName + "','" + a.LastName + "','" + a.BirthYear + "')");
+        }
+
+        public static void DeleteAuthor(author a)
+        {
+            dbPostData("DELETE FROM AUTHOR WHERE Aid = "+a.Aid.ToString());
         }
     }
 }

@@ -20,6 +20,21 @@ namespace Services.Service
             return BookRepository.dbGetBook(isbn);
         }
 
+        public static BookWithAuthorsAndAuthors GetBookWithAuthorsAndAuthors(string isbn)
+        {
+            return MapBookWithAuthorsAndAuthors(BookRepository.dbGetBook(isbn));
+        }
+
+        public static BookWithAuthorsAndAuthors MapBookWithAuthorsAndAuthors(book b)
+        {
+            BookWithAuthorsAndAuthors baa = new BookWithAuthorsAndAuthors();
+            baa.Book = b;
+            baa.Authors = AuthorService.GetAuthors("FirstName");
+            baa.BookAuthors = AuthorService.GetAuthersByBook(b.ISBN);
+
+            return baa;
+        }
+
         public static List<book> GetBooks()
         {
             return BookRepository.dbGetBooks();
@@ -36,6 +51,11 @@ namespace Services.Service
             bookandauthers.Book = b;
             bookandauthers.Authors = AuthorService.GetAuthersByBook(b.ISBN);
             return bookandauthers;
+        }
+
+        public static bool BookExists(string ISBN)
+        {
+            return (BookRepository.dbGetBook(ISBN) != null ? true : false);
         }
 
         //public static AuthorWithBooks GetAuthorWithBooks(int aid)
@@ -64,8 +84,9 @@ namespace Services.Service
 
         public static void RemoveBook(book b)
         {
-            BookRepository.dbRemoveBook(b);
             BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
+            //CopyRepository.dbRemoveCopyByBookISBN
+            BookRepository.dbRemoveBook(b);
         }
     }
 }

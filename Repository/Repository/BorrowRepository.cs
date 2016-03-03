@@ -1,16 +1,25 @@
 ﻿using Repository.EntityModel;
 using Repository.Repositories;
+using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class BorrowRepository
+    public class BorrowRepository : BaseRepository
     {
+        static public borrow MapBorrow(SqlDataReader dar)
+        {
+            borrow _borrow = new borrow();
+            _borrow.PersonId = dar["PersonId"] as string;
+            _borrow.ReturnDate = (DateTime)dar["ReturnDate"];
+            _borrow.ToBeReturnedDate = (DateTime)dar["ToBeReturnedDate"];
+            _borrow.BorrowDate = (DateTime)dar["BorrowDate"];
+            _borrow.Barcode = dar["Barcode"] as string;
+            return _borrow;
+        }
+
         static public borrow dbGetBorrow(string id){
             borrow _borrow = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
@@ -21,13 +30,8 @@ namespace Repository.Repository
             {
                 con.Open();
                 SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null) {                
-                    _borrow = new borrow();
-                    _borrow.PersonId = dar["PersonId"] as string;
-                    _borrow.ReturnDate = (DateTime)dar["ReturnDate"];
-                    _borrow.ToBeReturnedDate = (DateTime)dar["ToBeReturnedDate"];
-                    _borrow.BorrowDate = (DateTime)dar["BorrowDate"];
-                    _borrow.Barcode = dar["Barcode"] as string;
+                if (dar != null) {
+                    _borrow = MapBorrow(dar);
                 }
             }
             catch (Exception ex)
@@ -55,14 +59,7 @@ namespace Repository.Repository
                 if (dar != null) {                
                     while (dar.Read())
                     {
-                        borrow borrow = new borrow();
-                        borrow.PersonId = dar["PersonId"] as string;
-                        borrow.ReturnDate = (DateTime)dar["ReturnDate"];
-                        borrow.ToBeReturnedDate = (DateTime)dar["ToBeReturnedDate"];
-                        borrow.BorrowDate = (DateTime)dar["BorrowDate"];
-                        borrow.Barcode = dar["Barcode"] as string;
-
-                        _borrowList.Add(borrow);
+                        _borrowList.Add(MapBorrow(dar));
                     }
                 }
             }
@@ -78,21 +75,7 @@ namespace Repository.Repository
             return _borrowList;
         }
         public static void updateDate(borrow b) {
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "')", con);
-            try {
-                con.Open();
-                cmd.ExecuteReader();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally {
-                if (con != null)
-                    con.Close();
-            }
+            dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "')");
         }
     }
 }

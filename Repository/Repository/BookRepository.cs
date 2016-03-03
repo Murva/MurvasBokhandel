@@ -95,7 +95,7 @@ namespace Repository.Repository
 
         public static void dbUpdateBook(book b)
         {
-            dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "';");
+            dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "'");
         }
 
         public static void dbStoreBook(book b)
