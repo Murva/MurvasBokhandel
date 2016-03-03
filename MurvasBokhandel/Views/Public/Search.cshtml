@@ -1,4 +1,4 @@
-﻿@model IList<Common.Model.AuthorsAndBooks>
+﻿@model Common.Model.AuthorsAndBooks
 
 @{
     ViewBag.Title = "Search";
@@ -29,8 +29,8 @@
                 @foreach (var author in Model.Authors)
                 {
                     <tr>
-                        <td><a href="/Author/GetAuthor/?Aid=@author.Books.ISBN">@author.FirstName</a></td>
-                        <td><a href="/Author/GetAuthor/?Aid=@author.Books.ISBN">@author.LastName</a></td>
+                        <td><a href="/Author/GetAuthor/?Aid=@author.Aid">@author.FirstName</a></td>
+                        <td><a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName</a></td>
                         @*<td><a href="/Author/GetAuthor/?Aid=@book.Author.Aid">@book.Author.LastName</a></td>
                     <td><a href="/Book/GetBook/?ISBN=@book.Book.ISBN">@book.Book.Title</a></td>*@
                     </tr>
