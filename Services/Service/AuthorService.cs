@@ -31,7 +31,7 @@ namespace Services.Service
             AuthorWithBooksAndBooks aw = new AuthorWithBooksAndBooks();
             aw.Author = a.Author;
             aw.AuthorBooks = a.Books;
-            aw.Books = BookService.GetBooks();
+            aw.Books = BookService.GetBooks("Title");
 
             return aw;
         }

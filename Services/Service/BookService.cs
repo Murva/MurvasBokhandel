@@ -35,9 +35,9 @@ namespace Services.Service
             return baa;
         }
 
-        public static List<book> GetBooks()
+        public static List<book> GetBooks(string orderBy = "ISBN")
         {
-            return BookRepository.dbGetBooks();
+            return BookRepository.dbGetBooks(orderBy);
         }
 
         public static BookWithAuthorS GetBookWithAuthors(string isbn)
