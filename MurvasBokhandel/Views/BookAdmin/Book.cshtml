@@ -58,6 +58,7 @@
                 <tr>
                     <th>#</th>
                     <th>Författare</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -66,6 +67,7 @@
                     <tr>
                         <td>@author.Aid</td>
                         <td><a href="/AuthorAdmin/Author/@author.Aid">@author.FirstName @author.LastName</a></td>
+                        <td><a href="/BookAdmin/RemoveAuthorFromBook?Aid=@author.Aid&ISBN=@Model.Book.ISBN" class="btn btn-danger btn-xs">Ta bort</a></td>
                     </tr>
                 }
             </tbody>
