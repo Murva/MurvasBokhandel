@@ -21,6 +21,21 @@ namespace Services.Service
             return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
         }
 
+        public static AuthorWithBooksAndBooks GetAuthorWithBooksAndBooks(int aid)
+        {
+            return MapAuthorWithBooksAndClassifications(GetAuthorWithBooks(aid));
+        }
+
+        public static AuthorWithBooksAndBooks MapAuthorWithBooksAndClassifications(AuthorWithBooks a)
+        {
+            AuthorWithBooksAndBooks aw = new AuthorWithBooksAndBooks();
+            aw.Author = a.Author;
+            aw.AuthorBooks = a.Books;
+            aw.Books = BookService.GetBooks();
+
+            return aw;
+        }
+
         public static AuthorWithBooks MapAuthorWithBooks(author a)
         {
             AuthorWithBooks authorwithbooks = new AuthorWithBooks();
@@ -28,6 +43,39 @@ namespace Services.Service
             authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
 
             return authorwithbooks;
+        }
+        public static List<author> GetAuthersByBook(string isbn)
+        {
+            return BookAuthorRepository.dbGetAuthorsByBook(isbn);
+        }
+
+        public static bool AuthorExists(int Aid)
+        {
+            return (AuthorRepository.dbGetAuthor(Aid) != null ? true : false);
+        }
+
+        public static void UpdateAuthor(author a)
+        {
+            AuthorRepository.UpdateAuthor(a);
+        }
+
+        public static void StoreAuthor(author a)
+        {
+            AuthorRepository.StoreAuthor(a);
+        }
+
+        public static void DeleteAuthor(author a)
+        {
+            AuthorRepository.DeleteAuthor(a);
+        }
+
+        public static AuthorsAndBooks GetSearchResult(string input)
+        {
+            AuthorsAndBooks authorsandbooks = new AuthorsAndBooks();
+            authorsandbooks.Authors = AuthorRepository.dbGetAuthorsBySearch(input);
+            authorsandbooks.Books = BookService.GetBooksBySearch(input);
+
+            return authorsandbooks;
         }
     }
 }

@@ -39,9 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\AuthorsAndBooks.cs" />
     <Compile Include="Model\AuthorWithBooks.cs" />
-    <Compile Include="Model\BookAndAuthors.cs" />
+    <Compile Include="Model\AuthorWithBooksAndBooks.cs" />
+    <Compile Include="Model\BookWithAuthorS.cs" />
     <Compile Include="Model\BookWithAuthor.cs" />
+    <Compile Include="Model\BookWithAuthorsAndAuthors.cs" />
     <Compile Include="Model\BookWithClassifications.cs" />
     <Compile Include="Model\BorrowedBookCopy.cs" />
     <Compile Include="Model\BorrowerWithBorrows.cs" />

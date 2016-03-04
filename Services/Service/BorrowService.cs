@@ -9,7 +9,7 @@ using Repository.EntityModel;
 
 namespace Services.Service
 {
-    class BorrowService
+    public class BorrowService
     {
         public static List<BorrowedBookCopy> GetBorrowedBooks(string PersonId) {
             return MapBorrow(BorrowRepository.dbGetBorrowList(PersonId));    
@@ -29,5 +29,15 @@ namespace Services.Service
             }
             return borrowedBookCopy;
         }
+
+        public static void updateBorrowDate(borrow b) {
+            b.BorrowDate = DateTime.Today;
+            BorrowRepository.updateDate(b);
+        }
+        public static void updateToBeReturnedDate(borrow b) {
+            b.ToBeReturnedDate = DateTime.Today.AddDays(7);
+            BorrowRepository.updateDate(b);
+        }
+
     }
 }
