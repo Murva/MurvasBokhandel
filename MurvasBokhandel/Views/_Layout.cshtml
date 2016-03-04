@@ -34,7 +34,6 @@
 <body>
 
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,24 +44,36 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/Public">Murvas Bokhandel</a>
+                <a class="navbar-brand" href="/">Murvas Bokhandel</a>
             </div>
             <div class="nav navbar-left top-nav">
-                <form class="nav" name="SearchBar" method="get" action="/Public/Search">
+                <form class="nav" name="SearchBar" method="get" action="/Public/Search" style="margin-top:7px;">
                     <div class="form-inline">
                         <input type="text" class="form-control" name="search_field" placeholder="Sök..." />
                         <input class="btn btn-default" value="Sök" type="submit" />
                     </div>
                 </form>
             </div>
+            <div class="nav navbar-nav top-nav">
+                <ul class="nav navbar-nav top-nav">
+                    <li>
+                        <a href="/Public/BrowseAuthor" data-toggle="collapse" data-target="#Författare"><i class="fa fa-list"></i> Författare</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav top-nav">
+                    <li>
+                        <a href="/Public/BrowseBook" data-toggle="collapse" data-target="#Bok"><i class="fa fa-list"></i> Böcker </a>
+                    </li>
+                </ul>
+            </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                @if (1 == 2)
+                @if (1 == 1)
                 {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">John Smith <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li>
+                            @*<li>
                                 <a href="#"><i class="fa fa-fw fa-user"></i> Författare</a>
                             </li>
                             <li>
@@ -70,8 +81,8 @@
                             </li>
                             <li>
                                 <a href="#"><i class="fa fa-fw fa-book"></i> Böcker</a>
-                            </li>
-                            <li class="divider"></li>
+                            </li>*@
+                            @*<li class="divider"></li>*@
                             <li>
                                 <a href="#"><i class="fa fa-fw fa-power-off"></i> Logga ut</a>
                             </li>
@@ -85,54 +96,56 @@
             </ul>   
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">                   
-                    <li>                        
-                        <a href="/Public/BrowseAuthor" data-toggle="collapse" data-target="#Författare">Författare <i class="fa fa-fw fa-caret-right"></i></a>
-                            <ul id="Författare" class="collapse">
+                <ul class="nav navbar-nav side-nav">
+                    @if (true && true)
+                    {
+                        <li class="dropdown active">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="author" class="collapse">
+                                <li>
+                                    <a href="/AuthorAdmin">Alla författare</a>
+                                </li>
+                                <li>
+                                    <a href="/AuthorAdmin/Create">Skapa författare</a>
+                                </li>
                             </ul>
-                                                
-                        <a href="/Public/BrowseBook" data-toggle="collapse" data-target="#Bok"> Bok <i class="fa fa-fw fa-caret-right"></i></a>
-                            <ul id="Bok" class="collapse">
-                            </ul>  
-                   </li>
+                        </li>
+                        <li class="dropdown">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#borrower"><i class="fa fa-wheelchair"></i> Låntagare <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="borrower" class="collapse">
+                                <li>
+                                    <a href="/BorrowerAdmin">Alla låntagare</a>
+                                </li>
+                                <li>
+                                    <a href="/BorrowerAdmin/Create">Skapa låntagare</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#book"><i class="fa fa-book"></i> Bok <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="book" class="collapse">
+                                <li>
+                                    <a href="/BookAdmin">Alla böcker</a>
+                                </li>
+                                <li>
+                                    <a href="/BookAdmin/Create">Skapa bok</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
+                        </li>
+                    }
+                    else if (true)
+                    {
 
-
-                        @*<a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-    <ul id="demo" class="collapse">
-        <li>
-            <a href="#">Dropdown Item</a>
-        </li>
-        <li>
-            <a href="#">Dropdown Item</a>
-        </li>
-    </ul>
-
-                     
-
-    <li>
-        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-    </li>
-    <li>
-        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-    </li>
-                            <li class="active">
-            <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
-        </li>
-        <li>
-            <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-        </li>
-        <li>
-            <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-        </li>
-        <li>
-            <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-        </li>
-        <li>
-            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-        </li>
-        <li>
-            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-        </li>*@
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/Login"><i class="fa fa-key"></i> Logga in</a>
+                        </li>
+                    }
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
