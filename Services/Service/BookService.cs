@@ -89,9 +89,9 @@ namespace Services.Service
 
         public static void RemoveBook(book b)
         {
-            BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
-            //CopyRepository.dbRemoveCopyByBookISBN
-            BookRepository.dbRemoveBook(b);
+            CopyService.RemoveCopyByISBN(b.ISBN);
+            BookAuthorService.RemoveBookAuthorByISBN(b.ISBN);
+            BookRepository.dbRemoveBook(b.ISBN);
         }
     }
 }

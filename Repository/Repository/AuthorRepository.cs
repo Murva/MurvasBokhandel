@@ -97,7 +97,6 @@ namespace Repository.Repository
             return _authorObj;
         }
 
-<<<<<<< HEAD
         public static void UpdateAuthor(author a)
         {
             dbPostData("UPDATE AUTHOR SET FirstName = '"+a.FirstName+"', LastName='"+a.LastName+"', BirthYear='"+a.BirthYear+"' WHERE Aid = "+a.Aid.ToString());
@@ -112,8 +111,5 @@ namespace Repository.Repository
         {
             dbPostData("DELETE FROM AUTHOR WHERE Aid = "+a.Aid.ToString());
         }
-=======
-
->>>>>>> origin/master
     }
 }

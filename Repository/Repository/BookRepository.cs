@@ -128,9 +128,9 @@ namespace Repository.Repository
             dbPostData("INSERT INTO BOOK VALUES ('"+b.ISBN+"','"+b.Title+"' , "+b.SignId.ToString()+", '"+b.PublicationYear+"', '"+b.publicationinfo+"', "+b.pages.ToString()+");");
         }
 
-        public static void dbRemoveBook(book b)
+        public static void dbRemoveBook(string ISBN)
         {
-            dbPostData("DELETE FROM BOOK WHERE ISBN = "+b.ISBN+";");
+            dbPostData("DELETE FROM BOOK WHERE ISBN = '"+ISBN+"';");
         }
         public static List<book> dbGetBooksBySearch(string search)
         {
