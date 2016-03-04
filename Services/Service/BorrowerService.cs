@@ -13,7 +13,7 @@ namespace Services.Service
 
         public static BorrowerWithBorrows GetBorrower(string PersonId)
         {
-            return mapBorrowerWithBorrows(BorrowerRepository.GetBorrower(PersonId));
+            return mapBorrowerWithBorrows(BorrowerRepository.dbGetBorrower(PersonId));
         }
 
         private static BorrowerWithBorrows mapBorrowerWithBorrows(borrower b)

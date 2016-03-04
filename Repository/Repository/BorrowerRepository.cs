@@ -21,12 +21,12 @@ namespace Repository.Repository
             return _borrowerObj;
         }
 
-        public static borrower GetBorrower(string PersonId)
+        public static borrower dbGetBorrower(string PersonId)
         {
-            borrower _borrowerObj = null;
+            borrower _borrowerObj = new borrower();
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM borrower WHERE PersonId = '" + PersonId + "';", connection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROWER WHERE PersonId = '" + PersonId + "';", connection);
 
             try
             {
