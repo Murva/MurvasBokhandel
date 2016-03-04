@@ -89,9 +89,9 @@ namespace Repository.Repository
         {
             return dbGetBookList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = " + aid.ToString() + " ORDER BY B." + orderby + ";");
         }
-        public static List<book> dbGetBooks()
+        public static List<book> dbGetBooks(string orderBy)
         {
-            return dbGetBookList("SELECT * FROM BOOK");
+            return dbGetBookList("SELECT * FROM BOOK ORDER BY "+orderBy);
         }
 
 

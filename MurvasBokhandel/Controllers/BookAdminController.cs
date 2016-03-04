@@ -57,5 +57,12 @@ namespace MurvasBokhandel.Controllers
 
             return Redirect("/BookAdmin/Book/"+isbn);
         }
+
+        public ActionResult RemoveAuthorFromBook(string ISBN, int Aid)
+        {
+            BookAuthorService.RemoveBookAuthor(Aid, ISBN);
+
+            return Redirect("/BookAdmin/Book/"+ISBN);
+        }
     }
 }

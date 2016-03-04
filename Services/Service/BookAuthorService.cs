@@ -24,5 +24,10 @@ namespace Services.Service
         {
             BookAuthorRepository.dbRemoveBookAuthorByISBN(ISBN);
         }
+
+        public static void RemoveBookAuthor(int Aid, string ISBN)
+        {
+            BookAuthorRepository.dbRemoveBookAuthor(Aid, ISBN);
+        }
     }
 }
