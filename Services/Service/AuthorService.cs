@@ -67,6 +67,7 @@ namespace Services.Service
         public static void DeleteAuthor(author a)
         {
             AuthorRepository.DeleteAuthor(a);
+        }
 
         public static AuthorsAndBooks GetSearchResult(string input)
         {
