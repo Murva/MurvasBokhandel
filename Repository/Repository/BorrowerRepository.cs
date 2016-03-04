@@ -122,7 +122,7 @@ namespace Repository.Repository
 
         public static void dbStoreBorrower(borrower b)
         {
-            dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.CategoryId+"','"+b.FirstName+"', '"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"');");
+            dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.FirstName+"','"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"', '"+b.CategoryId+"');");
         }
     }
 }

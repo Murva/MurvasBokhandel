@@ -65,13 +65,18 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            BorrowerAndCategories bac = new BorrowerAndCategories();
+            bac.borrower = new borrower();
+            bac.categories = CategoryService.getCategories();
+            return View(bac);
         }
 
-        public ActionResult Store(borrower Borrower)
+        public ActionResult Store(BorrowerAndCategories baci)
         {
-            //Mockup.Borrowers.Add(Borrower);
-            BorrowerService.StoreBorrower(Borrower);
+            borrower b = new borrower();
+            b = baci.borrower;
+            b.CategoryId = baci.CatergoryId;
+            BorrowerService.StoreBorrower(b);
             return Redirect("Start");
         }
     }
