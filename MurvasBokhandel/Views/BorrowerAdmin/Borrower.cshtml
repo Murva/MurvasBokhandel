@@ -17,8 +17,8 @@
         {
             @Html.HiddenFor(m => m.Borrower.PersonId)
             <div class="form-group">
-                <label>Personnummer</label>
-                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @type = "number", @disabled = "disabled" })
+                <label>Personnummer @Model.Borrower.PersonId</label>
+                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
             </div>
             <div class="form-group">
                 <label>Förnamn</label>

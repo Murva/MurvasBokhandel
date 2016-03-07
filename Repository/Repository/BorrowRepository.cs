@@ -119,7 +119,7 @@ namespace Repository.Repository
 
         public static void dbRemoveBorrowsByPersonId(string PersonId)
         {
-            dbPostData("DELETE FROM BORROW WHERE PersonId = " + PersonId + ";");
+            dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
         }
     }
 }
