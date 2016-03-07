@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repository.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,9 @@ namespace Services.Service
 {
     public class AuthService
     {
-        public static bool Login(string email, string password)
-        {
-            
-        }
+        //public static bool Login(string email, string password)
+        //{
+        //    if (UserRepository)
+        //}
     }
 }

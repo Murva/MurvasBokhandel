@@ -49,7 +49,10 @@
     <Compile Include="EntityModel\category.cs" />
     <Compile Include="EntityModel\classification.cs" />
     <Compile Include="EntityModel\copy.cs" />
+    <Compile Include="EntityModel\loginAttempts.cs" />
+    <Compile Include="EntityModel\role.cs" />
     <Compile Include="EntityModel\status.cs" />
+    <Compile Include="EntityModel\user.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AuthorRepository.cs" />
     <Compile Include="Repository\Base\BaseRepository.cs" />

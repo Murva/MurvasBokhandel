@@ -1,6 +1,8 @@
-﻿using Repository.Repository.Base;
+﻿using Repository.EntityModel;
+using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +13,12 @@ namespace Repository.Repository
     {
         public static user MapAuthor(SqlDataReader dar)
         {
-            author authObj = new author();
-            authObj.Aid = Convert.ToInt32(dar["Aid"]);
-            authObj.FirstName = dar["FirstName"] as string;
-            authObj.LastName = dar["LastName"] as string;
-            authObj.BirthYear = dar["BirthYear"] as string;
-
-            return authObj;
+            return new user() {
+                PersonId = dar["PersonId"] as string,
+                Email = dar["Email"] as string,
+                Password = dar["Password"] as string,
+                RoleId = Convert.ToInt32(dar["RoleID"])
+            };
         }
 
         public bool dbUserExists(string email)
