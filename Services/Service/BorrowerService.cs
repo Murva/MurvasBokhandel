@@ -19,9 +19,12 @@ namespace Services.Service
         private static BorrowerWithBorrows mapBorrowerWithBorrows(borrower b)
         {
             BorrowerWithBorrows borrowerwithborrows = new BorrowerWithBorrows();
-            borrowerwithborrows.Borrower = b;
+            borrowerwithborrows.BorrowerWithUser = new BorrowerWithUser();
+            borrowerwithborrows.BorrowerWithUser.Borrower = b;
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowList(b.PersonId);
-
+            borrowerwithborrows.Categories = CategoryService.getCategories();
+            borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUser("SELECT * FROM \"USER\" WHERE PersonId = '" + b.PersonId + "';");
+            
             return borrowerwithborrows;
         }
         public static void RemoveBorrower(borrower b) { 
@@ -34,6 +37,11 @@ namespace Services.Service
         }
         public static void StoreBorrower(borrower b){
             BorrowerRepository.dbStoreBorrower(b);
+        }
+
+        public static BorrowerWithUser GetBorrowerWithUser()
+        {
+            throw new NotImplementedException();
         }
     }
 }

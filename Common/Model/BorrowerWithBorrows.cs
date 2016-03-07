@@ -8,7 +8,7 @@ namespace Common.Model
 {
     public class BorrowerWithBorrows
     {
-        public borrower Borrower { get; set; }
+        public BorrowerWithUser BorrowerWithUser { get; set; }
         public List<borrow> Borrows { get; set; }
         public List<category> Categories { get; set; }
     }
