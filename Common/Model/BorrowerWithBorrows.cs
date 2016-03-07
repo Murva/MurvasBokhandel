@@ -10,5 +10,6 @@ namespace Common.Model
     {
         public borrower Borrower { get; set; }
         public List<borrow> Borrows { get; set; }
+        public List<category> Categories { get; set; }
     }
 }

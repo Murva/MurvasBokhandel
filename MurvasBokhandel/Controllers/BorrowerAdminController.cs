@@ -22,6 +22,7 @@ namespace MurvasBokhandel.Controllers
         {
             BorrowerWithBorrows br = new BorrowerWithBorrows();
             br = BorrowerService.GetBorrower(id);
+            br.Categories = CategoryService.getCategories();
             return View(br);
         }
 

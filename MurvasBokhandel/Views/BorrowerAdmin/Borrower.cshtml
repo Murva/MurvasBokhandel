@@ -37,6 +37,9 @@
                 @Html.TextBoxFor(m => m.Borrower.Telno, new { @class = "form-control" })
             </div>
             <div class="form-group">
+                @Html.DropDownListFor(m => m.Borrower.CategoryId, new SelectList(Model.Categories, "CatergoryId", "Category"), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Uppdatera" />
                 <button type="submit" class="btn btn-danger pull-right" form="form-remove-borrower">Ta bort</button>
             </div>
