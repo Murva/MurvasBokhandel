@@ -1,4 +1,4 @@
-﻿@model IList<MurvasBokhandel.Models.Mockup.BORROWER>
+﻿@model IList<Repository.EntityModel.borrower>
 @{
     ViewBag.Title = "Start";
 }
@@ -12,14 +12,6 @@
     </div>
 </div>
 <div class="row">
-    <div class="text-center">
-        <a href="/AuthorAdmin" class="btn btn-default">Författare</a>
-        <a href="/BorrowerAdmin" class="btn btn-default active">Låntagare</a>
-        <a href="/BookAdmin" class="btn btn-default">Böcker</a>
-    </div>
-    <hr />
-</div>
-<div class="row">
     <div class="col-md-8 col-md-offset-2">
         <table class="table">
             <thead>
@@ -31,7 +23,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var borrower in Model) {
+                @foreach (var borrower in Model)
+                {
                     <tr>
                         <td><a href="/BorrowerAdmin/Borrower/@borrower.PersonId">@borrower.PersonId</a></td>
                         <td>@borrower.FirstName @borrower.LastName</td>

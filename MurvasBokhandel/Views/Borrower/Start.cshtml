@@ -52,7 +52,14 @@
                         </td>
                         <td>
                             @Model[i].borrow.ToBeReturnedDate
-                            <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
+                            @if (Model[i].borrow.ToBeReturnedDate >= DateTime.Today) { 
+                                <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
+                            }
+                            else
+                            {
+                                <font color="red" style="float:right">Försenad</font>
+                            }
+                            
                         </td>
                     </tr>
                 </form>

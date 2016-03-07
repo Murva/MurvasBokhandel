@@ -55,6 +55,7 @@
                     <th>ISBN</th>
                     <th>Titel</th>
                     <th>Information</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -66,6 +67,7 @@
                             <td>@book.ISBN</td>
                             <td><a href="/BookAdmin/Book/@book.ISBN">@book.Title</a></td>
                             <td>@book.publicationinfo</td>
+                            <td><a href="/AuthorAdmin/RemoveBookFromAuthor?isbn=@book.ISBN&aid=@Model.Author.Aid" class="btn btn-danger btn-xs">Ta bort</a></td>
                         </tr>
                     }
                 }

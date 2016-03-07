@@ -90,5 +90,10 @@ namespace Repository.Repository
         {
             dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = '"+isbn+"'");
         }
+
+        public static void dbRemoveBookAuthor(int Aid, string ISBN)
+        {
+            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = '"+ISBN+"' AND Aid = "+Aid.ToString());
+        }
     }
 }

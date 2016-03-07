@@ -10,8 +10,6 @@ namespace MurvasBokhandel.Controllers
 {
     public class PublicController : Controller
     {
-       
-        
         public ActionResult Start()
         {
             return View();

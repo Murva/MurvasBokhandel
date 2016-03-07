@@ -35,9 +35,9 @@ namespace Services.Service
             return baa;
         }
 
-        public static List<book> GetBooks()
+        public static List<book> GetBooks(string orderBy = "ISBN")
         {
-            return BookRepository.dbGetBooks();
+            return BookRepository.dbGetBooks(orderBy);
         }
 
         public static BookWithAuthorS GetBookWithAuthors(string isbn)
@@ -89,9 +89,9 @@ namespace Services.Service
 
         public static void RemoveBook(book b)
         {
-            BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
-            //CopyRepository.dbRemoveCopyByBookISBN
-            BookRepository.dbRemoveBook(b);
+            CopyService.RemoveCopyByISBN(b.ISBN);
+            BookAuthorService.RemoveBookAuthorByISBN(b.ISBN);
+            BookRepository.dbRemoveBook(b.ISBN);
         }
     }
 }
