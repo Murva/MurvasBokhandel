@@ -117,7 +117,7 @@ namespace Repository.Repository
 
         public static void dbUpdateBorrower(borrower b)
         {
-            dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "' WHERE PersonId = '" + b.PersonId + "' AND CategoryId = '" + b.CategoryId + "';");
+            dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "', CategoryId = '" + b.CategoryId + "' WHERE PersonId = '" + b.PersonId + "'");
         }
 
         public static void dbStoreBorrower(borrower b)

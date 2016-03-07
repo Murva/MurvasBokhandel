@@ -18,10 +18,10 @@ namespace MurvasBokhandel.Controllers
             return View(BorrowerService.getBorrowers());
         }
 
-        public ActionResult Borrower(string PersonId)
+        public ActionResult Borrower(string id)
         {
             BorrowerWithBorrows br = new BorrowerWithBorrows();
-            br = BorrowerService.GetBorrower(PersonId);
+            br = BorrowerService.GetBorrower(id);
             return View(br);
         }
 
