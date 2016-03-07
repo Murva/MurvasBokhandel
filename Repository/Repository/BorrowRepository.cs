@@ -77,5 +77,32 @@ namespace Repository.Repository
         public static void updateDate(borrow b) {
             dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "')");
         }
+
+        private static void dbPostData(string query)
+        {
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            try
+            {
+                con.Open();
+                cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+        }
+
+        public static void dbRemoveBorrowsByPersonId(string PersonId)
+        {
+            dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
+        }
     }
 }

@@ -21,12 +21,12 @@ namespace Repository.Repository
             return _borrowerObj;
         }
 
-        public static borrower GetBorrower(string PersonId)
+        public static borrower dbGetBorrower(string PersonId)
         {
-            borrower _borrowerObj = null;
+            borrower _borrowerObj = new borrower();
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM borrower WHERE PersoinId = " + PersonId + ";", connection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROWER WHERE PersonId = '" + PersonId + "';", connection);
 
             try
             {
@@ -86,6 +86,43 @@ namespace Repository.Repository
         public static List<borrower> dbGetBorrowers(int aid, string orderby = "Title")
         {
             return dbGetBorrowerList("SELECT * FROM BORROWER;");
+        }
+
+        private static void dbPostData(string query)
+        {
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            try
+            {
+                con.Open();
+                cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+        }
+
+        public static void dbRemoveBorrower(borrower b)
+        {
+            dbPostData("DELETE FROM BORROWER WHERE PersonId = '" + b.PersonId + "';");
+        }
+
+        public static void dbUpdateBorrower(borrower b)
+        {
+            dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "', CategoryId = '" + b.CategoryId + "' WHERE PersonId = '" + b.PersonId + "'");
+        }
+
+        public static void dbStoreBorrower(borrower b)
+        {
+            dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.FirstName+"','"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"', '"+b.CategoryId+"');");
         }
     }
 }
