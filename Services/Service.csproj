@@ -41,11 +41,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AuthorService.cs" />
+    <Compile Include="Service\BookAuthorService.cs" />
     <Compile Include="Service\BookService.cs" />
     <Compile Include="Service\BorrowService.cs" />
     <Compile Include="Service\BorrowerService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\ClassificationService.cs" />
+    <Compile Include="Service\CopyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

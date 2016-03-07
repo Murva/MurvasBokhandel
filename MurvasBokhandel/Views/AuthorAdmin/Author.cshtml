@@ -1,4 +1,4 @@
-﻿@model MurvasBokhandel.Models.AuthorWithBooks
+﻿@model Common.Model.AuthorWithBooksAndBooks
 @{
     ViewBag.Title = "Author";
 }
@@ -23,6 +23,10 @@
             <div class="form-group">
                 <label>Efternamn</label>
                 @Html.TextBoxFor(m => m.Author.LastName, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Fördelseår</label>
+                @Html.TextBoxFor(m => m.Author.BirthYear, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Updatera" />
@@ -51,17 +55,19 @@
                     <th>ISBN</th>
                     <th>Titel</th>
                     <th>Information</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model.Books.Count != 0)
                 {
-                    foreach (var book in Model.Books)
+                    foreach (var book in Model.AuthorBooks)
                     {
                         <tr>
                             <td>@book.ISBN</td>
                             <td><a href="/BookAdmin/Book/@book.ISBN">@book.Title</a></td>
-                            <td>@book.Publicationinfo</td>
+                            <td>@book.publicationinfo</td>
+                            <td><a href="/AuthorAdmin/RemoveBookFromAuthor?isbn=@book.ISBN&aid=@Model.Author.Aid" class="btn btn-danger btn-xs">Ta bort</a></td>
                         </tr>
                     }
                 }
@@ -80,25 +86,13 @@
                         <form action="/AuthorAdmin/AddBookToAuthor" method="post" id="form-addbooktoauthor">
                             <input type="hidden" name="Aid" value="@Model.Author.Aid" />
                             <div class="form-group">
-                                <label>ISBN</label>
-                                <input type="number" class="form-control" name="ISBN" placeholder="ex. 9999999999" />
-                            </div>
-                            <div class="form-group">
-                                <label>Titel</label>
-                                <input type="text" class="form-control" name="Title" placeholder="ex. Harry Potter och Hemligheternas Kammare" />
-                            </div>
-                            <hr />
-                            <div class="form-group">
-                                <label>Publikationsår</label>
-                                <input type="number" class="form-control" name="Publicationyear" placeholder="ex. 1990">
-                            </div>
-                            <div class="form-group">
-                                <label>Publikationsinformation</label>
-                                <textarea class="form-control" name="Publicationinfo" placeholder="..."></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Antal sidor</label>
-                                <input type="text" class="form-control" name="Pages" placeholder="ex. 578" />
+                                <label>Klassifikation</label>
+                                <select name="ISBN" class="form-control">
+                                    @foreach (var book in Model.Books)
+                                    {
+                                        <option value="@book.ISBN">@book.Title</option>
+                                    }
+                                </select>
                             </div>
                         </form>
                     </div>

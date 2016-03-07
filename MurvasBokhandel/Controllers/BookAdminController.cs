@@ -17,19 +17,19 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Book(string id)
         {
-            return View(BookService.GetBook(id));
+            return View(BookService.GetBookWithAuthorsAndAuthors(id));
         }
 
-        public ActionResult Update(Repository.EntityModel.book Book)
+        public ActionResult Update(book Book)
         {
             BookService.UpdateBook(Book);
 
             return Redirect("/BookAdmin/Book/"+Book.ISBN);
         }
 
-        public ActionResult Remove(book Book)
+        public ActionResult Remove(string isbn)
         {
-            BookService.RemoveBook(Book);
+            BookService.RemoveBook(BookService.GetBook(isbn));
 
             return Redirect("/BookAdmin/");
         }
@@ -48,6 +48,21 @@ namespace MurvasBokhandel.Controllers
             BookService.StoreBook(bwc.Book);
 
             return Redirect("/BookAdmin/");
+        }
+
+        public ActionResult AddAuthorToBook(int Aid, string isbn)
+        {
+            if (!BookAuthorService.BookAuthorExists(Aid, isbn))
+                BookAuthorService.StoreBookAuthor(new bookAuthor() { Aid = Aid, ISBN = isbn });
+
+            return Redirect("/BookAdmin/Book/"+isbn);
+        }
+
+        public ActionResult RemoveAuthorFromBook(string ISBN, int Aid)
+        {
+            BookAuthorService.RemoveBookAuthor(Aid, ISBN);
+
+            return Redirect("/BookAdmin/Book/"+ISBN);
         }
     }
 }

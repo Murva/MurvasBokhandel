@@ -42,9 +42,58 @@ namespace Repository.Repository
             return _authorList;
         }
 
+        public static bookAuthor MapAuthor(SqlDataReader dar)
+        {
+            return new bookAuthor()
+            {
+                Aid = Convert.ToInt32(dar["Aid"]),
+                ISBN = dar["ISBN"] as string
+            };
+        }
+
+        public static bookAuthor dbGetBookAuthor(int Aid, string ISBN)
+        {
+            bookAuthor _bookAuthorObj = null;
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR WHERE Aid = " + Convert.ToString(Aid) + " AND ISBN = '"+ISBN+"';", connection);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader dar = cmd.ExecuteReader();
+
+                if (dar.Read())
+                {
+                    _bookAuthorObj = MapAuthor(dar);
+                }
+            }
+            catch (Exception eObj)
+            {
+                throw eObj;
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+
+            return _bookAuthorObj;
+        }
+
+        public static void dbStoreBookAuthor(bookAuthor ba)
+        {
+            dbPostData("INSERT INTO BOOK_AUTHOR VALUES ('" + ba.ISBN + "', " + ba.Aid.ToString() + ")");
+        }
+
         public static void dbRemoveBookAuthorByISBN(string isbn)
         {
-            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = "+isbn);
+            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = '"+isbn+"'");
+        }
+
+        public static void dbRemoveBookAuthor(int Aid, string ISBN)
+        {
+            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = '"+ISBN+"' AND Aid = "+Aid.ToString());
         }
     }
 }

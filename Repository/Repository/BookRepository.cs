@@ -89,9 +89,9 @@ namespace Repository.Repository
         {
             return dbGetBookList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = " + aid.ToString() + " ORDER BY B." + orderby + ";");
         }
-        public static List<book> dbGetBooks()
+        public static List<book> dbGetBooks(string orderBy)
         {
-            return dbGetBookList("SELECT * FROM BOOK");
+            return dbGetBookList("SELECT * FROM BOOK ORDER BY "+orderBy);
         }
 
 
@@ -120,7 +120,7 @@ namespace Repository.Repository
 
         public static void dbUpdateBook(book b)
         {
-            dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "';");
+            dbPostData("UPDATE BOOK SET Title = '" + b.Title + "', PublicationYear = '" + b.PublicationYear.ToString() + "', publicationinfo = '" + b.publicationinfo.ToString() + "', pages = " + b.pages.ToString() + " WHERE ISBN = '" + b.ISBN.ToString() + "'");
         }
 
         public static void dbStoreBook(book b)
@@ -128,9 +128,9 @@ namespace Repository.Repository
             dbPostData("INSERT INTO BOOK VALUES ('"+b.ISBN+"','"+b.Title+"' , "+b.SignId.ToString()+", '"+b.PublicationYear+"', '"+b.publicationinfo+"', "+b.pages.ToString()+");");
         }
 
-        public static void dbRemoveBook(book b)
+        public static void dbRemoveBook(string ISBN)
         {
-            dbPostData("DELETE FROM BOOK WHERE ISBN = "+b.ISBN+";");
+            dbPostData("DELETE FROM BOOK WHERE ISBN = '"+ISBN+"';");
         }
         public static List<book> dbGetBooksBySearch(string search)
         {

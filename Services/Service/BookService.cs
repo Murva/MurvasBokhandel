@@ -20,9 +20,24 @@ namespace Services.Service
             return BookRepository.dbGetBook(isbn);
         }
 
-        public static List<book> GetBooks()
+        public static BookWithAuthorsAndAuthors GetBookWithAuthorsAndAuthors(string isbn)
         {
-            return BookRepository.dbGetBooks();
+            return MapBookWithAuthorsAndAuthors(BookRepository.dbGetBook(isbn));
+        }
+
+        public static BookWithAuthorsAndAuthors MapBookWithAuthorsAndAuthors(book b)
+        {
+            BookWithAuthorsAndAuthors baa = new BookWithAuthorsAndAuthors();
+            baa.Book = b;
+            baa.Authors = AuthorService.GetAuthors("FirstName");
+            baa.BookAuthors = AuthorService.GetAuthersByBook(b.ISBN);
+
+            return baa;
+        }
+
+        public static List<book> GetBooks(string orderBy = "ISBN")
+        {
+            return BookRepository.dbGetBooks(orderBy);
         }
 
         public static BookWithAuthorS GetBookWithAuthors(string isbn)
@@ -38,6 +53,24 @@ namespace Services.Service
             return bookandauthers;
         }
 
+        public static bool BookExists(string ISBN)
+        {
+            return (BookRepository.dbGetBook(ISBN) != null ? true : false);
+        }
+
+        //public static AuthorWithBooks GetAuthorWithBooks(int aid)
+        //{
+        //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
+        //}
+
+        //public static AuthorWithBooks MapAuthorWithBooks(author a)
+        //{
+        //    AuthorWithBooks authorwithbooks = new AuthorWithBooks();
+        //    authorwithbooks.Author = a;
+        //    authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
+
+        //    return authorwithbooks;
+        //}
 
         public static void UpdateBook(book b)
         {
@@ -56,8 +89,9 @@ namespace Services.Service
 
         public static void RemoveBook(book b)
         {
-            BookRepository.dbRemoveBook(b);
-            BookAuthorRepository.dbRemoveBookAuthorByISBN(b.ISBN);
+            CopyService.RemoveCopyByISBN(b.ISBN);
+            BookAuthorService.RemoveBookAuthorByISBN(b.ISBN);
+            BookRepository.dbRemoveBook(b.ISBN);
         }
     }
 }
