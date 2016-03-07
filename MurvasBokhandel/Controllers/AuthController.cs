@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Services.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,12 @@ namespace MurvasBokhandel.Controllers
         public ActionResult Login(string email, string password)
         {
             if (AuthService.Login(email, password))
+            {
+                Session["user"] = email; 
+                Session["permission"] = AuthService.GetRole(email);
+
                 return Redirect("/");
+            }
 
             return View();
         }

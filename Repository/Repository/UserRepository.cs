@@ -1,6 +1,9 @@
-﻿using Repository.Repository.Base;
+﻿using Repository.EntityModel;
+using Repository.Repositories;
+using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,20 +12,97 @@ namespace Repository.Repository
 {
     public class UserRepository : BaseRepository
     {
-        public static user MapAuthor(SqlDataReader dar)
+        public static user MapUser(SqlDataReader dar)
         {
-            author authObj = new author();
-            authObj.Aid = Convert.ToInt32(dar["Aid"]);
-            authObj.FirstName = dar["FirstName"] as string;
-            authObj.LastName = dar["LastName"] as string;
-            authObj.BirthYear = dar["BirthYear"] as string;
-
-            return authObj;
+            return new user() {
+                PersonId = dar["PersonId"] as string,
+                Email = dar["Email"] as string,
+                Password = dar["Password"] as string,
+                RoleId = Convert.ToInt32(dar["RoleID"])
+            };
         }
 
-        public bool dbUserExists(string email)
+        private static user dbGetUser(string query)
         {
+            user _userObj = null;
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand(query, connection);
 
+            try
+            {
+                connection.Open();
+                SqlDataReader dar = cmd.ExecuteReader();
+
+                if (dar.Read())
+                {
+                    _userObj = MapUser(dar);
+                }
+            }
+            catch (Exception eObj)
+            {
+                throw eObj;
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+
+            return _userObj;
+        }
+
+        public static role dbGetUserRole(string email)
+        {
+            role _roleObj = null;
+
+            if (dbUserExists(email))
+            {
+                string _connectionString = DataSource.getConnectionString("projectmanager");
+                SqlConnection connection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand("SELECT name FROM \"ROLE\" AS R INNER JOIN \"USER\" AS U ON R.Id = U.RoleId", connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dar = cmd.ExecuteReader();
+
+                    if (dar.Read())
+                    {
+                        _roleObj = new role();
+                        _roleObj.Name = dar["name"] as string;
+                    }
+                }
+                catch (Exception eObj)
+                {
+                    throw eObj;
+                }
+                finally
+                {
+                    if (connection != null)
+                        connection.Close();
+                }
+            }
+
+            return _roleObj;
+        }
+
+        public static bool dbUserExists(string email)
+        {
+            user user = dbGetUser("SELECT Email FROM \"USER\" WHERE Email = '"+email+"'");
+
+            return (user != null ? true : false);
+        }
+
+        public static bool dbCheckPassword(string email, string password)
+        {
+            user user = dbGetUser("SELECT Password FROM \"USER\" WHERE Email = '"+email+"'");
+
+            if (user != null)
+                if (user.Password == password)
+                    return true;
+
+            return false;
         }
     }
 }
