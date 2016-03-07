@@ -11,7 +11,6 @@ namespace Repository.Repository
     {
 
         public static author MapAuthor(SqlDataReader dar)
-
         {
             author authObj = new author();
             authObj.Aid = Convert.ToInt32(dar["Aid"]);

@@ -62,6 +62,7 @@
     <Compile Include="Repository\CopyRepository.cs" />
     <Compile Include="Repository\DataSource.cs" />
     <Compile Include="Repository\StatusRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interface\" />
