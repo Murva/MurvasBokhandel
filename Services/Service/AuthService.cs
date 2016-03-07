@@ -1,5 +1,5 @@
-﻿using Repository.Repository;
-using Service.Service;
+﻿using Repository.EntityModel;
+using Repository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +17,11 @@ namespace Services.Service
                     return true;
 
             return false;
+        }
+
+        public static role GetRole(string email)
+        {
+            return UserRepository.dbGetUserRole(email);
         }
     }
 }

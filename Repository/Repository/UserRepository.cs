@@ -52,16 +52,51 @@ namespace Repository.Repository
             return _userObj;
         }
 
+        public static role dbGetUserRole(string email)
+        {
+            role _roleObj = null;
+
+            if (dbUserExists(email))
+            {
+                string _connectionString = DataSource.getConnectionString("projectmanager");
+                SqlConnection connection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand("SELECT name FROM \"ROLE\" AS R INNER JOIN \"USER\" AS U ON R.Id = U.RoleId", connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader dar = cmd.ExecuteReader();
+
+                    if (dar.Read())
+                    {
+                        _roleObj = new role();
+                        _roleObj.Name = dar["name"] as string;
+                    }
+                }
+                catch (Exception eObj)
+                {
+                    throw eObj;
+                }
+                finally
+                {
+                    if (connection != null)
+                        connection.Close();
+                }
+            }
+
+            return _roleObj;
+        }
+
         public static bool dbUserExists(string email)
         {
-            user user = dbGetUser("SELECT Email FROM USER WHERE Email = '"+email+"'");
+            user user = dbGetUser("SELECT Email FROM \"USER\" WHERE Email = '"+email+"'");
 
             return (user != null ? true : false);
         }
 
         public static bool dbCheckPassword(string email, string password)
         {
-            user user = dbGetUser("SELECT Password FROM USER WHERE Email = '"+email+"'");
+            user user = dbGetUser("SELECT Password FROM \"USER\" WHERE Email = '"+email+"'");
 
             if (user != null)
                 if (user.Password == password)

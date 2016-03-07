@@ -2,7 +2,7 @@
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Service.Service
+namespace Services.Service
 {
     class InvalidHashException : Exception
     {
@@ -22,7 +22,7 @@ namespace Service.Service
             : base(message, inner) { }
     }
 
-    class PasswordService
+    public class PasswordService
     {
         // These constants may be changed without breaking existing hashes.
         public const int SALT_BYTES = 24;
