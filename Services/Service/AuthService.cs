@@ -1,4 +1,5 @@
 ﻿using Repository.Repository;
+using Service.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,13 @@ namespace Services.Service
 {
     public class AuthService
     {
-        //public static bool Login(string email, string password)
-        //{
-        //    if (UserRepository)
-        //}
+        public static bool Login(string email, string password)
+        {
+            if (UserRepository.dbUserExists(email))
+                if (UserRepository.dbCheckPassword(email, PasswordService.CreateHash(password)))
+                    return true;
+
+            return false;
+        }
     }
 }
