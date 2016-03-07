@@ -1,4 +1,5 @@
-﻿using Repository.Repository;
+﻿using Repository.EntityModel;
+using Repository.Repository;
 using Service.Service;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace Services.Service
                     return true;
 
             return false;
+        }
+        public static void CreateUser(user u) {
+            u.Password = PasswordService.CreateHash(u.Password);
+            UserRepository.dbCreateUser(u);
         }
     }
 }

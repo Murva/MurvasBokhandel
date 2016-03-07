@@ -69,5 +69,10 @@ namespace Repository.Repository
 
             return false;
         }
+
+        public static void dbCreateUser(user u)
+        {
+            dbPostData("INSERT INTO \"USER\" VALUES ('" + u.PersonId + "','" + u.Email + "','" + u.Password + "', '" + u.RoleId + "');");
+        }
     }
 }

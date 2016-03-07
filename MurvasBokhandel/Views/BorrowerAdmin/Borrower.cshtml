@@ -9,7 +9,9 @@
             @Model.BorrowerWithUser.Borrower.FirstName @Model.BorrowerWithUser.Borrower.LastName - <small><a href="/BorrowerAdmin">Låntagare</a></small>
             @if (Model.BorrowerWithUser.User == null)
             {
-                <input type="submit" class="btn btn-info" style="float:right" value="Skapa konto" />
+                <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#add-user">
+                    <i class="fa fa-plus"></i> Skapa konto
+                </button>
             }
             else
             {
@@ -25,7 +27,7 @@
         {
             @Html.HiddenFor(m => m.BorrowerWithUser.Borrower.PersonId)
             <div class="form-group">
-                <label>Personnummer @Model.BorrowerWithUser.Borrower.PersonId</label>
+                <label>Personnummer</label>
                 @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
             </div>
             <div class="form-group">
@@ -84,4 +86,38 @@
             </tbody>
         </table>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="AddUser">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Skapa konto</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="/BorrowerAdmin/AddUser" method="post" id="form-addusertoborrower">
+                        <input type="hidden" name="Aid" value="@Model.BorrowerWithUser.Borrower.PersonId" />
+                        <div class="form-group">
+                            @using (Html.BeginForm("AddUser", "BorrowerAdmin"))
+                            { 
+                                <label>Personnummer</label>
+                                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
+                                <label>E-mail</label>
+                                @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control" }) 
+                                <label>Password</label>
+                                @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
+                                <label>Role</label>
+                                @Html.TextBoxFor(m => m.BorrowerWithUser.User.RoleId, new { @class = "form-control" })
+                            }
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                    <button class="btn btn-primary" form="form-addbooktoauthor">Spara</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
