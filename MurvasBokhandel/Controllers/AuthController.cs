@@ -28,5 +28,12 @@ namespace MurvasBokhandel.Controllers
 
             return View();
         }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+
+            return Redirect("/");
+        }
     }
 }

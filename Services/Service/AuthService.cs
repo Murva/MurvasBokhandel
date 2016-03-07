@@ -13,7 +13,7 @@ namespace Services.Service
         public static bool Login(string email, string password)
         {
             if (UserRepository.dbUserExists(email))
-                if (UserRepository.dbCheckPassword(email, PasswordService.CreateHash(password)))
+                if (PasswordService.VerifyPassword(password, UserRepository.dbGetPassword(email)))
                     return true;
 
             return false;
