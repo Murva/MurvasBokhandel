@@ -23,7 +23,7 @@ namespace Services.Service
             borrowerwithborrows.BorrowerWithUser.Borrower = b;
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowList(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
-            borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUser("SELECT * FROM \"USER\" WHERE PersonId = '" + b.PersonId + "';");
+            borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
             borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
             return borrowerwithborrows;
         }

@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Repository.EntityModel.user user = (Repository.EntityModel.user)Session["User"];
+    string Permission = Session["Permission"] as string;
+    bool IsLoggedIn = (Session["IsLoggedIn"] != null ? true : false);
+}
+<!DOCTYPE html>
 <html lang="en" ng-app="MurvasApp">
 <head>
 
@@ -75,10 +80,10 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                @if (1 == 1)
+                @if (IsLoggedIn)
                 {
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">John Smith <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@user.FirstName @user.LastName<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             @*<li>
                                 <a href="#"><i class="fa fa-fw fa-user"></i> Författare</a>
@@ -91,68 +96,83 @@
                             </li>*@
                             @*<li class="divider"></li>*@
                             <li>
-                                <a href="#"><i class="fa fa-fw fa-power-off"></i> Logga ut</a>
+                                <a href="/Auth/Logout"><i class="fa fa-fw fa-power-off"></i> Logga ut</a>
                             </li>
                         </ul>
                     </li>
                 }
                 else
                 {
-                    <li><a href="/Public/Login">Logga in</a></li>
+                    <li><a href="/Auth/Login">Logga in</a></li>
                 }
             </ul>   
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    @if (true && true)
-                    {
-                        <li class="dropdown active">
-                            <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="author" class="collapse">
-                                <li>
-                                    <a href="/AuthorAdmin">Alla författare</a>
-                                </li>
-                                <li>
-                                    <a href="/AuthorAdmin/Create">Skapa författare</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="javascript:;" data-toggle="collapse" data-target="#borrower"><i class="fa fa-wheelchair"></i> Låntagare <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="borrower" class="collapse">
-                                <li>
-                                    <a href="/BorrowerAdmin">Alla låntagare</a>
-                                </li>
-                                <li>
-                                    <a href="/BorrowerAdmin/Create">Skapa låntagare</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="javascript:;" data-toggle="collapse" data-target="#book"><i class="fa fa-book"></i> Bok <i class="fa fa-fw fa-caret-down"></i></a>
-                            <ul id="book" class="collapse">
-                                <li>
-                                    <a href="/BookAdmin">Alla böcker</a>
-                                </li>
-                                <li>
-                                    <a href="/BookAdmin/Create">Skapa bok</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
-                        </li>
+                    @if (IsLoggedIn) { 
+                        if (Permission == "Admin")
+                        {
+                            <li class="dropdown active">
+                                <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
+                                <ul id="author" class="collapse">
+                                    <li>
+                                        <a href="/AuthorAdmin">Alla författare</a>
+                                    </li>
+                                    <li>
+                                        <a href="/AuthorAdmin/Create">Skapa författare</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" data-toggle="collapse" data-target="#borrower"><i class="fa fa-wheelchair"></i> Låntagare <i class="fa fa-fw fa-caret-down"></i></a>
+                                <ul id="borrower" class="collapse">
+                                    <li>
+                                        <a href="/BorrowerAdmin">Alla låntagare</a>
+                                    </li>
+                                    <li>
+                                        <a href="/BorrowerAdmin/Create">Skapa låntagare</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" data-toggle="collapse" data-target="#book"><i class="fa fa-book"></i> Bok <i class="fa fa-fw fa-caret-down"></i></a>
+                                <ul id="book" class="collapse">
+                                    <li>
+                                        <a href="/BookAdmin">Alla böcker</a>
+                                    </li>
+                                    <li>
+                                        <a href="/BookAdmin/Create">Skapa bok</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
+                            </li>
+                        }
+                        else if (Permission == "Vuxen")
+                        {
+                            <li>
+                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Vuxen</a>
+                            </li>
+                        }
+                        else if (Permission == "Barn")
+                        {
+                            <li>
+                                <a href="/Auth/Logout"><i class="fa fa-key"></i> Barn</a>
+                            </li>
+                        }
+                        @*else
+                        {
+                            <li>
+                                <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
+                            </li>
+                        }*@
                     }
-                    else if (true)
-                    {
-
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="/Login"><i class="fa fa-key"></i> Logga in</a>
-                        </li>
-                    }
+                    else { 
+                    <li>
+                        <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
+                    </li>}
+                    
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -161,7 +181,6 @@
         <div id="page-wrapper">
 
             <div class="container-fluid">
-
                 <!-- Views -->
                     @RenderBody()
                 <!-- /.Views -->

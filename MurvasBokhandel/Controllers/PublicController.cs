@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Services.Service;
 using Common.Model;
 
+
 namespace MurvasBokhandel.Controllers
 {
     public class PublicController : Controller
@@ -29,8 +30,11 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult BrowseAuthor()
         {
+            
+                return View(AuthorService.GetAuthors("LastName"));
+                  
+            
             //return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
-            return View(AuthorService.GetAuthors("LastName"));
             //LastName
         }
 

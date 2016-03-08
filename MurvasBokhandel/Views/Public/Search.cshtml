@@ -40,8 +40,7 @@
                         @foreach (var author in Model.Authors)
                         {
                             <tr>                                
-                                    <td><a href="/Author/GetAuthor/?Aid=@author.Aid">@author.FirstName</a></td>
-                                    <td><a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName</a></td>                                
+                                    <td><a href="/Author/GetAuthor/?Aid=@author.Aid">@author.FirstName @author.LastName</a></td>                        
                             </tr>
                         }
                     </tbody>

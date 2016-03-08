@@ -12,64 +12,122 @@ namespace MurvasBokhandel.Controllers
 {
     public class BorrowerAdminController : Controller
     {
+        
         // GET: BorrowerAdmin
+        
         public ActionResult Start()
         {
-            return View(BorrowerService.getBorrowers());
+            if (Session["Permission"] as string == "Admin")
+            {
+                return View(BorrowerService.getBorrowers());
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
+
         public ActionResult AddUser(BorrowerWithBorrows b, String PersonId){
-            b.BorrowerWithUser.User.PersonId = PersonId;
-            AuthService.CreateUser(b.BorrowerWithUser.User);
-            return Redirect("/BorrowerAdmin/");
+            if (Session["Permission"] as string == "Admin")
+            {
+                b.BorrowerWithUser.User.PersonId = PersonId;
+                AuthService.CreateUser(b.BorrowerWithUser.User);
+                return Redirect("/BorrowerAdmin/");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Borrower(string id)
         {
-            BorrowerWithBorrows br = new BorrowerWithBorrows();
-            br = BorrowerService.GetBorrower(id);
-            return View(br);
+            if (Session["Permission"] as string == "Admin")
+            {
+                return View(BorrowerService.GetBorrower(id));
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Update(borrower Borrower)
         {
-            BorrowerService.UpdateBorrower(Borrower);
-            return Redirect("/BorrowerAdmin/Borrower/" + Borrower.PersonId);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BorrowerService.UpdateBorrower(Borrower);
+                return Redirect("/BorrowerAdmin/Borrower/" + Borrower.PersonId);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
-            BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower);
-            return Redirect("Start");
+            if (Session["Permission"] as string == "Admin")
+            {
+                BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower);
+                return Redirect("Start");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult RenewLoan(string barcode, string personid)
         {
-            BorrowerWithBorrows b = BorrowerService.GetBorrower(personid);
-            foreach (borrow borrow in b.Borrows) {
-                if (borrow.Barcode == barcode)
-                    BorrowService.updateBorrowDate(borrow);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BorrowerWithBorrows b = BorrowerService.GetBorrower(personid);
+                foreach (borrow borrow in b.Borrows)
+                {
+                    if (borrow.Barcode == barcode)
+                        BorrowService.updateBorrowDate(borrow);
                     BorrowService.updateToBeReturnedDate(borrow);
-            }
+                }
 
-            return Redirect("/BorrowerAdmin/Borrower/"+personid);
+                return Redirect("/BorrowerAdmin/Borrower/" + personid);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Create()
         {
-            BorrowerAndCategories bac = new BorrowerAndCategories();
-            bac.borrower = new borrower();
-            bac.categories = CategoryService.getCategories();
-            return View(bac);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BorrowerAndCategories bac = new BorrowerAndCategories();
+                bac.borrower = new borrower();
+                bac.categories = CategoryService.getCategories();
+                return View(bac);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Store(BorrowerAndCategories baci)
         {
-            borrower b = new borrower();
-            b = baci.borrower;
-            b.CategoryId = baci.CatergoryId;
-            BorrowerService.StoreBorrower(b);
-            return Redirect("Start");
+            if (Session["Permission"] as string == "Admin")
+            {
+                borrower b = new borrower();
+                b = baci.borrower;
+                b.CategoryId = baci.CatergoryId;
+                BorrowerService.StoreBorrower(b);
+                return Redirect("Start");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
     }
 }

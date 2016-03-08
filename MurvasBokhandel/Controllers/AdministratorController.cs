@@ -11,7 +11,14 @@ namespace MurvasBokhandel.Controllers
         // GET: Administrator
         public ActionResult Start()
         {
-            return View();
+            if (Session["Permission"] as string == "Admin"){
+                return View();
+            }
+            else
+            {
+                return Redirect("/");
+            }
+            
         }
     }
 }

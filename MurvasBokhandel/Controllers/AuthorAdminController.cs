@@ -15,60 +15,118 @@ namespace MurvasBokhandel.Controllers
         // GET: AuthorAdmin
         public ActionResult Start(string orderBy = "Aid")
         {
-            return View(AuthorService.GetAuthors(orderBy));
+            if (Session["Permission"] as string == "Admin") 
+            {
+                return View(AuthorService.GetAuthors(orderBy));
+            }
+            else
+            {
+                return Redirect("/");
+            }
+            
         }
 
         public ActionResult Author(int id)
         {
-            if (id <= 0)
-                return RedirectToAction("Start");
+            if (Session["Permission"] as string == "Admin")
+            {
+                if (id <= 0)
+                    return RedirectToAction("Start");
 
-            return View(AuthorService.GetAuthorWithBooksAndBooks(id));
+                return View(AuthorService.GetAuthorWithBooksAndBooks(id));
+            }
+            else 
+            {
+                return Redirect("/");
+            }
+                
         }
 
         public ActionResult Update(AuthorWithBooks a)
         {
-            AuthorService.UpdateAuthor(a.Author);
+            if (Session["Permission"] as string == "Admin")
+            {
+                AuthorService.UpdateAuthor(a.Author);
 
-            return Redirect("Author/" + a.Author.Aid);
+                return Redirect("Author/" + a.Author.Aid);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Create()
         {
-            return View();
+            if (Session["Permission"] as string == "Admin")
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Store(author a)
         {
-            AuthorService.StoreAuthor(a);
+            if (Session["Permission"] as string == "Admin")
+            {
+                AuthorService.StoreAuthor(a);
 
-            return RedirectToAction("Start");
+                return RedirectToAction("Start");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Remove(AuthorWithBooks a)
         {
-            AuthorService.DeleteAuthor(a.Author);
+            if (Session["Permission"] as string == "Admin")
+            {
+                AuthorService.DeleteAuthor(a.Author);
 
-            return RedirectToAction("Start");
+                return RedirectToAction("Start");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult AddBookToAuthor(int Aid, string ISBN)
         {
-            if (!BookAuthorService.BookAuthorExists(Aid, ISBN))
-                BookAuthorService.StoreBookAuthor(new bookAuthor()
-                {
-                    ISBN = ISBN,
-                    Aid = Aid
-                });
+            if (Session["Permission"] as string == "Admin")
+            {
+                if (!BookAuthorService.BookAuthorExists(Aid, ISBN))
+                    BookAuthorService.StoreBookAuthor(new bookAuthor()
+                    {
+                        ISBN = ISBN,
+                        Aid = Aid
+                    });
 
-            return Redirect("Author/"+Aid);
+                return Redirect("Author/" + Aid);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult RemoveBookFromAuthor(int Aid, string ISBN)
         {
-            BookAuthorService.RemoveBookAuthor(Aid, ISBN);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BookAuthorService.RemoveBookAuthor(Aid, ISBN);
 
-            return Redirect("Author/"+Aid);
+                return Redirect("Author/" + Aid);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
     }
 }
