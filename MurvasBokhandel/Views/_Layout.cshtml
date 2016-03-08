@@ -146,28 +146,33 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
+                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
                             </li>
                         }
                         else if (Permission == "Vuxen")
                         {
                             <li>
-                                <a href="/Logout"><i class="fa fa-power-off"></i> Vuxen</a>
+                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Vuxen</a>
                             </li>
                         }
                         else if (Permission == "Barn")
                         {
                             <li>
-                                <a href="/Login"><i class="fa fa-key"></i> Barn</a>
+                                <a href="/Auth/Logout"><i class="fa fa-key"></i> Barn</a>
                             </li>
                         }
-                        else
+                        @*else
                         {
                             <li>
-                                <a href="/Login"><i class="fa fa-key"></i> Logga in</a>
+                                <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
                             </li>
-                        }
+                        }*@
                     }
+                    else { 
+                    <li>
+                        <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
+                    </li>}
+                    
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
