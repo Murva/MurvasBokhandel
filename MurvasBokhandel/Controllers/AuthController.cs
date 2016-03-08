@@ -1,4 +1,5 @@
-﻿using Services.Service;
+﻿using Repository.EntityModel;
+using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,9 @@ namespace MurvasBokhandel.Controllers
         {
             if (AuthService.Login(email, password))
             {
-                Session["user"] = email; 
-                Session["permission"] = AuthService.GetRole(email);
+                Session["IsLoggedIn"] = PasswordService.CreateHash(Guid.NewGuid().ToString());
+                Session["User"] = AuthService.GetUser(email); 
+                Session["Permission"] = AuthService.GetRole(email).Name;
 
                 return Redirect("/");
             }

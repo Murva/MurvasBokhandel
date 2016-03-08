@@ -1,4 +1,5 @@
-﻿using Repository.EntityModel;
+﻿using Common.Model;
+using Repository.EntityModel;
 using Repository.Repository;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace Services.Service
                     return true;
 
             return false;
+        }
+
+        public static user GetUser(string email)
+        {
+            return UserRepository.dbGetUser(email);
         }
 
         public static role GetRole(string email)
