@@ -48,6 +48,12 @@ namespace MurvasBokhandel
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Auth", action = "Login", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Api",
+                url: "Api/{controller}/{action}/{id}",
+                namespaces: new[] { "MurvasBokhandel.Controllers.Api" }
+            );
         }
     }
 }
