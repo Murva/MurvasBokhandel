@@ -95,11 +95,11 @@
                     <h4 class="modal-title" id="myModalLabel">Skapa konto</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="/BorrowerAdmin/AddUser" method="post" id="form-addusertoborrower">
-                        <input type="hidden" name="Aid" value="@Model.BorrowerWithUser.Borrower.PersonId" />
+                    @using (Html.BeginForm("AddUser", "BorrowerAdmin", FormMethod.Post, new { @id = "form-addusertoborrower" }))
+                    {
+                        @*@Html.HiddenFor(m => m.BorrowerWithUser.User.PersonId, Model.BorrowerWithUser.Borrower.PersonId);*@
+                        <input type="hidden" name="PersonId" value="@Model.BorrowerWithUser.Borrower.PersonId" />
                         <div class="form-group">
-                            @using (Html.BeginForm("AddUser", "BorrowerAdmin"))
-                            { 
                                 <label>Personnummer</label>
                                 @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
                                 <label>E-mail</label>
@@ -107,14 +107,14 @@
                                 <label>Password</label>
                                 @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
                                 <label>Role</label>
-                                @Html.TextBoxFor(m => m.BorrowerWithUser.User.RoleId, new { @class = "form-control" })
-                            }
+                                @Html.DropDownListFor(m => m.BorrowerWithUser.User.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
+                           
                         </div>
-                    </form>
+                    }
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-                    <button class="btn btn-primary" form="form-addbooktoauthor">Spara</button>
+                    <button class="btn btn-primary" form="form-addusertoborrower">Spara</button>
                 </div>
             </div>
         </div>

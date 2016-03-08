@@ -24,12 +24,14 @@ namespace Services.Service
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowList(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUser("SELECT * FROM \"USER\" WHERE PersonId = '" + b.PersonId + "';");
-            
+            borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
             return borrowerwithborrows;
         }
-        public static void RemoveBorrower(borrower b) { 
+        public static void RemoveBorrower(borrower b) {
+            string PersonId = b.PersonId;
             BorrowerRepository.dbRemoveBorrower(b);
-            BorrowRepository.dbRemoveBorrowsByPersonId(b.PersonId);
+            BorrowRepository.dbRemoveBorrowsByPersonId(PersonId);
+            UserRepository.dbRemoveUser(PersonId);
         }
         public static void UpdateBorrower(borrower b)
         {

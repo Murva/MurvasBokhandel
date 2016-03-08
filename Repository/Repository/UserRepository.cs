@@ -74,5 +74,8 @@ namespace Repository.Repository
         {
             dbPostData("INSERT INTO \"USER\" VALUES ('" + u.PersonId + "','" + u.Email + "','" + u.Password + "', '" + u.RoleId + "');");
         }
+        public static void dbRemoveUser(string PersonId){
+            dbPostData("DELETE FROM \"USER\" WHERE PersonId = '" + PersonId + "';");
+        }
     }
 }

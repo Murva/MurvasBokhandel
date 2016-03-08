@@ -18,11 +18,10 @@ namespace MurvasBokhandel.Controllers
             return View(BorrowerService.getBorrowers());
         }
 
-        public ActionResult AddUser(BorrowerWithBorrows b){
-            b.BorrowerWithUser.User = new user();
-            b.BorrowerWithUser.User.PersonId = b.BorrowerWithUser.Borrower.PersonId;
+        public ActionResult AddUser(BorrowerWithBorrows b, String PersonId){
+            b.BorrowerWithUser.User.PersonId = PersonId;
             AuthService.CreateUser(b.BorrowerWithUser.User);
-            return View("/BorrowerAdmin/Borrower/");
+            return Redirect("/BorrowerAdmin/");
         }
 
         public ActionResult Borrower(string id)
@@ -38,9 +37,9 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/BorrowerAdmin/Borrower/" + Borrower.PersonId);
         }
 
-        public ActionResult Remove(borrower Borrower)
+        public ActionResult Remove(BorrowerWithBorrows bwb)
         {
-            BorrowerService.RemoveBorrower(Borrower);
+            BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower);
             return Redirect("Start");
         }
 
