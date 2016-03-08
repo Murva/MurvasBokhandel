@@ -14,5 +14,7 @@ namespace Repository.EntityModel
         public string Email { get; set; }
         public string Address { get; set; }
         public string Telno { get; set; }
+        public int RoleId { get; set; }
+        public string Password { get; set; }
     }
 }

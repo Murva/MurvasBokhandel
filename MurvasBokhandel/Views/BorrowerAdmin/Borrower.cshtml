@@ -6,7 +6,17 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            @Model.Borrower.FirstName @Model.Borrower.LastName - <small><a href="/BorrowerAdmin">Låntagare</a></small>
+            @Model.BorrowerWithUser.Borrower.FirstName @Model.BorrowerWithUser.Borrower.LastName - <small><a href="/BorrowerAdmin">Låntagare</a></small>
+            @if (Model.BorrowerWithUser.User == null)
+            {
+                <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#add-user">
+                    <i class="fa fa-plus"></i> Skapa konto
+                </button>
+            }
+            else
+            {
+                <font size="5" color="green" style="float:right"> Konto finns</font>
+            }
         </h1>
     </div>
 </div>
@@ -15,29 +25,30 @@
         <h4>Låntagarinformation</h4>
         @using (Html.BeginForm("Update", "BorrowerAdmin"))
         {
-            @Html.HiddenFor(m => m.Borrower.PersonId)
+            @Html.HiddenFor(m => m.BorrowerWithUser.Borrower.PersonId)
             <div class="form-group">
-                <label>Personnummer @Model.Borrower.PersonId</label>
-                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
+                <label>Personnummer</label>
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
             </div>
             <div class="form-group">
                 <label>Förnamn</label>
-                @Html.TextBoxFor(m => m.Borrower.FirstName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.FirstName, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label>Efternamn</label>
-                @Html.TextBoxFor(m => m.Borrower.LastName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.LastName, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label>Adress</label>
-                @Html.TextBoxFor(m => m.Borrower.Address, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Address, new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label>Telefonnummer</label>
-                @Html.TextBoxFor(m => m.Borrower.Telno, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Telno, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                @Html.DropDownListFor(m => m.Borrower.CategoryId, new SelectList(Model.Categories, "CatergoryId", "Category"), new { @class = "form-control" })
+                <label>Kategori</label>
+                @Html.DropDownListFor(m => m.BorrowerWithUser.Borrower.CategoryId, new SelectList(Model.Categories, "CatergoryId", "Category"), new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Uppdatera" />
@@ -47,7 +58,7 @@
 
         @using (Html.BeginForm("Remove", "BorrowerAdmin", FormMethod.Post, new { @id = "form-remove-borrower" }))
         {
-            @Html.HiddenFor(m => m.Borrower.PersonId)
+            @Html.HiddenFor(m => m.BorrowerWithUser.Borrower.PersonId)
         }
     </div>
     <div class="col-md-8">
@@ -76,4 +87,38 @@
             </tbody>
         </table>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="AddUser">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Skapa konto</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("AddUser", "BorrowerAdmin", FormMethod.Post, new { @id = "form-addusertoborrower" }))
+                    {
+                        @*@Html.HiddenFor(m => m.BorrowerWithUser.User.PersonId, Model.BorrowerWithUser.Borrower.PersonId);*@
+                        <input type="hidden" name="PersonId" value="@Model.BorrowerWithUser.Borrower.PersonId" />
+                        <div class="form-group">
+                                <label>Personnummer</label>
+                                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
+                                <label>E-mail</label>
+                                @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control" }) 
+                                <label>Password</label>
+                                @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
+                                <label>Role</label>
+                                @Html.DropDownListFor(m => m.BorrowerWithUser.User.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
+                           
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
+                    <button class="btn btn-primary" form="form-addusertoborrower">Spara</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

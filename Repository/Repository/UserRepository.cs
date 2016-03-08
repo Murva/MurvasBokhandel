@@ -20,7 +20,8 @@ namespace Repository.Repository
                 FirstName = dar["FirstName"] as string,
                 LastName = dar["LastName"] as string,
                 Address = dar["Address"] as string,
-                Telno = dar["Telno"] as string
+                Telno = dar["Telno"] as string,
+                RoleId = Convert.ToInt32(dar["RoleId"])
             };
         }
 
@@ -53,13 +54,43 @@ namespace Repository.Repository
 
             return _str;
         }
-        
-        public static user dbGetUser(string email)
+
+        public static user dbGetUserByPersonId(string personId)
         {
             user _userObj = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".Email = '"+email+"'", connection);
+            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".PersonId = '" + personId + "'", connection);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader dar = cmd.ExecuteReader();
+
+                if (dar.Read())
+                {
+                    _userObj = MapUser(dar);
+                }
+            }
+            catch (Exception eObj)
+            {
+                throw eObj;
+            }
+            finally
+            {
+                if (connection != null)
+                    connection.Close();
+            }
+
+            return _userObj;
+        }
+
+        public static user dbGetUserByEmail(string email)
+        {
+            user _userObj = null;
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".Email = '"+email+"'", connection);
 
             try
             {
@@ -127,6 +158,15 @@ namespace Repository.Repository
         public static string dbGetPassword(string email)
         {
             return dbGetStringField("SELECT Password FROM \"USER\" WHERE Email = '" + email + "'", "Password");
+        }
+
+        public static void dbCreateUser(user u)
+        {
+            dbPostData("INSERT INTO \"USER\" VALUES ('" + u.PersonId + "','" + u.Email + "','" + u.Password + "', '" + u.RoleId + "');");
+        }
+        
+        public static void dbRemoveUser(string PersonId){
+            dbPostData("DELETE FROM \"USER\" WHERE PersonId = '" + PersonId + "';");
         }
     }
 }
