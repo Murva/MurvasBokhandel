@@ -24,6 +24,8 @@ namespace Repository.Repository
                 if (dar.Read())
                 {
                     _fine = (int)dar["Avgift"];
+                    if (_fine <= 0)
+                        _fine = 0;
                 }
             }
             catch (Exception eObj)

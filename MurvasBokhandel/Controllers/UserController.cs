@@ -8,26 +8,25 @@ using Common.Model;
 using Repository.Repository;
 using Repository.EntityModel;
 
-namespace MurvasBokhandel.Controllers.Borrower
+namespace MurvasBokhandel.Controllers.User
 {
-    public class BorrowerController : Controller
+    public class UserController : Controller
     {
         // GET: /Borrower/        
         static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
 
-        public BorrowerController() {
+        public ActionResult Start() {
             user u = (user)Session["User"];
             BBC = BorrowService.GetBorrowedBooks(u.PersonId);
-        }
-
-        public ActionResult Start() {
             return View(BBC);
         }
 
         public ActionResult ReloanAll() {
             foreach (BorrowedBookCopy b in BBC) {
-                BorrowService.updateBorrowDate(b.borrow);
-                BorrowService.updateToBeReturnedDate(b.borrow);
+                if (b.fine==0) {
+                    BorrowService.updateBorrowDate(b.borrow);
+                    BorrowService.updateToBeReturnedDate(b.borrow);    
+                }
             }
             return RedirectToAction("Start", BBC);
         }

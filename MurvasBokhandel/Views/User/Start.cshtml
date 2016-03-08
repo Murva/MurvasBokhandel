@@ -25,15 +25,15 @@
                 <font size="5">Lämnas tillbaka</font>
             </th>
             <th class="info">
-                <form action="/Borrower/ReloanAll" method="post">
-                    <font size="5">Avgift</font>
+                <form action="/User/ReloanAll" method="post">
+                    <font size="5">Förseningsavgift</font>
                     <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
                 </form>
             </th>
             <!--TODO: Ändra om till foreach och rätta till kopplingar-->
             @for (int i = 0; i < Model.Count; i++)
             {
-                <form action="/Borrower/Reloan" method="post">
+                <form action="/User/Reloan" method="post">
                     <input type="hidden" value="@i" name="index" />
                     <tr>
                         <td>

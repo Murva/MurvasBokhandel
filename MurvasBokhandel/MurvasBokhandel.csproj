@@ -198,7 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministratorController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\BorrowerController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\AuthorAdminController.cs" />
@@ -223,7 +223,7 @@
     <Content Include="Views\BorrowerAdmin\Start.cshtml" />
     <Content Include="Views\BookAdmin\Start.cshtml" />
     <Content Include="Views\AuthorAdmin\Author.cshtml" />
-    <Content Include="Views\Borrower\Start.cshtml" />
+    <Content Include="Views\User\Start.cshtml" />
     <Content Include="Views\Book\GetBook.cshtml" />
     <Content Include="Views\AuthorAdmin\Create.cshtml" />
     <Content Include="Views\BorrowerAdmin\Borrower.cshtml" />
