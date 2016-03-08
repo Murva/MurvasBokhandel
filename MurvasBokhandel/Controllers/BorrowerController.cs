@@ -6,19 +6,20 @@ using System.Web.Mvc;
 using Services.Service;
 using Common.Model;
 using Repository.Repository;
+using Repository.EntityModel;
 
 namespace MurvasBokhandel.Controllers.Borrower
 {
     public class BorrowerController : Controller
     {
-        // GET: /Borrower/
-        //static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19111111-1111");
-        static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19630328-2267");
-        //static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19790229-1116");
-        //static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19630328-2267");
-        //static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19630328-2267");
-        //static private List<BorrowedBookCopy> BBC = BorrowService.GetBorrowedBooks("19920227-5468");
-        
+        // GET: /Borrower/        
+        static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
+
+        public BorrowerController() {
+            user u = (user)Session["User"];
+            BBC = BorrowService.GetBorrowedBooks(u.PersonId);
+        }
+
         public ActionResult Start() {
             return View(BBC);
         }

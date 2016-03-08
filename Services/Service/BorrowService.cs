@@ -25,6 +25,7 @@ namespace Services.Service
                 bcopy.book = BookRepository.dbGetBook(bcopy.copy.ISBN);
                 bcopy.authors = BookAuthorRepository.dbGetAuthorsByBook(bcopy.copy.ISBN);
                 bcopy.status = StatusRepository.dbGetStatus(bcopy.copy.StatusId);
+                bcopy.fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId);
                 borrowedBookCopy.Add(bcopy);
             }
             return borrowedBookCopy;

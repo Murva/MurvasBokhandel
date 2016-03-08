@@ -64,6 +64,7 @@
     <Compile Include="Repository\ClassificationRepository.cs" />
     <Compile Include="Repository\CopyRepository.cs" />
     <Compile Include="Repository\DataSource.cs" />
+    <Compile Include="Repository\FineRepository.cs" />
     <Compile Include="Repository\LoginAttemptsRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\StatusRepository.cs" />

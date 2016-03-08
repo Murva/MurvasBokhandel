@@ -22,8 +22,11 @@
                 <font size="5">Lånad</font>
             </th>
             <th class="info">
+                <font size="5">Lämnas tillbaka</font>
+            </th>
+            <th class="info">
                 <form action="/Borrower/ReloanAll" method="post">
-                    <font size="5">Lämnas tillbaka</font>
+                    <font size="5">Avgift</font>
                     <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
                 </form>
             </th>
@@ -52,6 +55,9 @@
                         </td>
                         <td>
                             @Model[i].borrow.ToBeReturnedDate
+                        </td>
+                        <td>
+                            @Model[i].fine:-
                             @if (Model[i].borrow.ToBeReturnedDate >= DateTime.Today) { 
                                 <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
                             }

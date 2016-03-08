@@ -13,5 +13,6 @@ namespace Common.Model
         public Status status { get; set; }
         public List<author> authors { get; set; }
         public borrow borrow { get; set; }
+        public int fine { get; set; }
     }
 }
