@@ -12,57 +12,114 @@ namespace MurvasBokhandel.Controllers
         // GET: BookAdmin
         public ActionResult Start()
         {
-            return View(BookService.GetBooks());
+            if (Session["Permission"] as string == "Admin")
+            {
+                return View(BookService.GetBooks());
+            }
+            else
+            {
+                return Redirect("/");
+                
+            }
         }
 
         public ActionResult Book(string id)
         {
-            return View(BookService.GetBookWithAuthorsAndAuthors(id));
+            if (Session["Permission"] as string == "Admin")
+            {
+                return View(BookService.GetBookWithAuthorsAndAuthors(id));
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Update(book Book)
         {
-            BookService.UpdateBook(Book);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BookService.UpdateBook(Book);
 
-            return Redirect("/BookAdmin/Book/"+Book.ISBN);
+                return Redirect("/BookAdmin/Book/" + Book.ISBN);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Remove(string isbn)
         {
-            BookService.RemoveBook(BookService.GetBook(isbn));
+            if (Session["Permission"] as string == "Admin")
+            {
+                BookService.RemoveBook(BookService.GetBook(isbn));
 
-            return Redirect("/BookAdmin/");
+                return Redirect("/BookAdmin/");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Create()
         {
-            return View(new BookWithClassifications()
+            if (Session["Permission"] as string == "Admin")
             {
-                Book = new Repository.EntityModel.book(),
-                Classifications = ClassificationService.GetClassifications()
-            });
+                return View(new BookWithClassifications()
+                {
+                    Book = new Repository.EntityModel.book(),
+                    Classifications = ClassificationService.GetClassifications()
+                });
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult Store(BookWithClassifications bwc)
         {
-            BookService.StoreBook(bwc.Book);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BookService.StoreBook(bwc.Book);
 
-            return Redirect("/BookAdmin/");
+                return Redirect("/BookAdmin/");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult AddAuthorToBook(int Aid, string isbn)
         {
-            if (!BookAuthorService.BookAuthorExists(Aid, isbn))
-                BookAuthorService.StoreBookAuthor(new bookAuthor() { Aid = Aid, ISBN = isbn });
+            if (Session["Permission"] as string == "Admin")
+            {
+                if (!BookAuthorService.BookAuthorExists(Aid, isbn))
+                    BookAuthorService.StoreBookAuthor(new bookAuthor() { Aid = Aid, ISBN = isbn });
 
-            return Redirect("/BookAdmin/Book/"+isbn);
+                return Redirect("/BookAdmin/Book/" + isbn);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult RemoveAuthorFromBook(string ISBN, int Aid)
         {
-            BookAuthorService.RemoveBookAuthor(Aid, ISBN);
+            if (Session["Permission"] as string == "Admin")
+            {
+                BookAuthorService.RemoveBookAuthor(Aid, ISBN);
 
-            return Redirect("/BookAdmin/Book/"+ISBN);
+                return Redirect("/BookAdmin/Book/" + ISBN);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
     }
 }
