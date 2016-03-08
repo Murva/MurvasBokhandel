@@ -29,9 +29,9 @@ namespace Services.Service
         }
         public static void RemoveBorrower(borrower b) {
             string PersonId = b.PersonId;
-            BorrowerRepository.dbRemoveBorrower(b);
             BorrowRepository.dbRemoveBorrowsByPersonId(PersonId);
             UserRepository.dbRemoveUser(PersonId);
+            BorrowerRepository.dbRemoveBorrower(b);
         }
         public static void UpdateBorrower(borrower b)
         {
