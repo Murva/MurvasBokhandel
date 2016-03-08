@@ -89,20 +89,19 @@ namespace Repository.Repository
 
         public static bool dbUserExists(string email)
         {
-            user user = dbGetUser("SELECT Email FROM \"USER\" WHERE Email = '"+email+"'");
+            user user = dbGetUser("SELECT * FROM \"USER\" WHERE Email = '"+email+"'");
 
             return (user != null ? true : false);
         }
 
-        public static bool dbCheckPassword(string email, string password)
+        public static string dbGetPassword(string email)
         {
-            user user = dbGetUser("SELECT Password FROM \"USER\" WHERE Email = '"+email+"'");
+            user user = dbGetUser("SELECT * FROM \"USER\" WHERE Email = '"+email+"'");
 
             if (user != null)
-                if (user.Password == password)
-                    return true;
+                return user.Password;
 
-            return false;
+            return "";
         }
     }
 }
