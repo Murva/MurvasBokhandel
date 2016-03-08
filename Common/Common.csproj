@@ -49,6 +49,7 @@
     <Compile Include="Model\BorrowedBookCopy.cs" />
     <Compile Include="Model\BorrowerAndCategories.cs" />
     <Compile Include="Model\BorrowerWithBorrows.cs" />
+    <Compile Include="Model\BorrowerWithUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

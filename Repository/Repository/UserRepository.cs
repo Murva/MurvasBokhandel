@@ -22,7 +22,7 @@ namespace Repository.Repository
             };
         }
 
-        private static user dbGetUser(string query)
+        public static user dbGetUser(string query)
         {
             user _userObj = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
@@ -90,7 +90,6 @@ namespace Repository.Repository
         public static bool dbUserExists(string email)
         {
             user user = dbGetUser("SELECT * FROM \"USER\" WHERE Email = '"+email+"'");
-
             return (user != null ? true : false);
         }
 
@@ -102,6 +101,14 @@ namespace Repository.Repository
                 return user.Password;
 
             return "";
+        }
+
+        public static void dbCreateUser(user u)
+        {
+            dbPostData("INSERT INTO \"USER\" VALUES ('" + u.PersonId + "','" + u.Email + "','" + u.Password + "', '" + u.RoleId + "');");
+        }
+        public static void dbRemoveUser(string PersonId){
+            dbPostData("DELETE FROM \"USER\" WHERE PersonId = '" + PersonId + "';");
         }
     }
 }

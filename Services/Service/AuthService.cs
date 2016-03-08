@@ -1,5 +1,7 @@
 ﻿using Repository.EntityModel;
 using Repository.Repository;
+
+using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,10 @@ namespace Services.Service
         public static role GetRole(string email)
         {
             return UserRepository.dbGetUserRole(email);
+        }
+        public static void CreateUser(user u) {
+            u.Password = PasswordService.CreateHash(u.Password);
+            UserRepository.dbCreateUser(u);
         }
     }
 }
