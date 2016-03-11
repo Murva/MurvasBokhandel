@@ -54,12 +54,12 @@ namespace MurvasBokhandel.Controllers
             }
         }
 
-        public ActionResult Update(borrower Borrower)
+        public ActionResult Update(BorrowerWithUser BorrowerWithUser)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BorrowerService.UpdateBorrower(Borrower);
-                return Redirect("/BorrowerAdmin/Borrower/" + Borrower.PersonId);
+                BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
+                return Redirect("/BorrowerAdmin/Borrower/" + BorrowerWithUser.Borrower.PersonId);
             }
             else
             {
