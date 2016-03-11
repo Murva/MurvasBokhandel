@@ -123,6 +123,8 @@
     <Content Include="Content\plugins\morris.css" />
     <Content Include="Content\sb-admin-rtl.css" />
     <Content Include="Content\sb-admin.css" />
+    <Content Include="Scripts\Widget\search-widget.html" />
+    <Content Include="Scripts\Widget\widget.js" />
     <Content Include="font-awesome\css\font-awesome.css" />
     <Content Include="font-awesome\css\font-awesome.min.css" />
     <Content Include="font-awesome\fonts\fontawesome-webfont.svg" />
@@ -197,6 +199,9 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdministratorController.cs" />
+    <Compile Include="Controllers\Api\AuthorController.cs" />
+    <Compile Include="Controllers\Api\BookController.cs" />
+    <Compile Include="Controllers\Api\FileController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
@@ -208,11 +213,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AuthorWithBooks.cs" />
-    <Compile Include="Models\BookAndAuthors.cs" />
-    <Compile Include="Models\BookWithAuthor.cs" />
-    <Compile Include="Models\BorrowerWithBorrows.cs" />
-    <Compile Include="Models\Mockup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +244,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\Api\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
