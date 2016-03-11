@@ -15,6 +15,22 @@ namespace Services.Service
         {
             return mapBorrowerWithBorrows(BorrowerRepository.dbGetBorrower(PersonId));
         }
+        public static BorrowerWithUser GetBorrowerWithUser(string Email)
+        {
+            BorrowerWithUser activeUser = new BorrowerWithUser();
+            activeUser.User = AuthService.GetUser(Email);
+            activeUser.Borrower = BorrowerRepository.dbGetBorrower(activeUser.User.PersonId);
+           
+            return activeUser;
+        }
+        public static BorrowerWithUser GetBorrowerWithUserByPersonId(string PersonId)
+        {
+            BorrowerWithUser activeUser = new BorrowerWithUser();
+            activeUser.User = AuthService.GetUserByPersonId(PersonId);
+            activeUser.Borrower = BorrowerRepository.dbGetBorrower(activeUser.User.PersonId);
+
+            return activeUser;
+        }
 
         private static BorrowerWithBorrows mapBorrowerWithBorrows(borrower b)
         {

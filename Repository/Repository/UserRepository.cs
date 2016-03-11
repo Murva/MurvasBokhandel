@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Repository.Repository
 {
     public class UserRepository : BaseRepository
@@ -167,6 +168,19 @@ namespace Repository.Repository
         
         public static void dbRemoveUser(string PersonId){
             dbPostData("DELETE FROM \"USER\" WHERE PersonId = '" + PersonId + "';");
+        }
+        public static void dbChangePassword(string Password) 
+        {
+            //här ska det in ett anrop till databsen med det nya lösenordet
+        }
+        public static void dbUpdateUser(user u)
+        {
+            //här ska det in ett anrop till databasen som ändrar emailen i databasen.
+            //förs vill vi bara se om den fungerar eller inte så vi kör utan string
+            
+            
+            dbPostData("UPDATE \"USER\" SET Email = '" + u.Email + "', Password = '" + u.Password + "' WHERE PersonId='" +u.PersonId + "' ;");
+
         }
     }
 }
