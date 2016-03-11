@@ -25,6 +25,7 @@ namespace Services.Service
                 bcopy.book = BookRepository.dbGetBook(bcopy.copy.ISBN);
                 bcopy.authors = BookAuthorRepository.dbGetAuthorsByBook(bcopy.copy.ISBN);
                 bcopy.status = StatusRepository.dbGetStatus(bcopy.copy.StatusId);
+                bcopy.category = CategoryRepository.dbGetCategory(BorrowerRepository.dbGetBorrower( bcopy.borrow.PersonId).CategoryId);
                 bcopy.fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId);
                 borrowedBookCopy.Add(bcopy);
             }
@@ -35,8 +36,8 @@ namespace Services.Service
             b.BorrowDate = DateTime.Today;
             BorrowRepository.updateDate(b);
         }
-        public static void updateToBeReturnedDate(borrow b) {
-            b.ToBeReturnedDate = DateTime.Today.AddDays(7);
+        public static void updateToBeReturnedDate(borrow b, int period) {
+            b.ToBeReturnedDate = DateTime.Today.AddDays(period);
             BorrowRepository.updateDate(b);
         }
 

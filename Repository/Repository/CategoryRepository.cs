@@ -48,5 +48,40 @@ namespace Repository.Repository
 
             return categories;
         }
+        public static category dbGetCategory(int categoryId)
+        {
+
+            category _category = new category();
+            
+            string _connectionString = DataSource.getConnectionString("projectmanager");
+            SqlConnection con = new SqlConnection(_connectionString);
+            // ' ' behövdes för att id skulle ses som string
+            SqlCommand cmd = new SqlCommand("SELECT * FROM CATEGORY WHERE CatergoryId = '" + categoryId + "';", con);
+            try
+            {
+                con.Open();
+                SqlDataReader dar = cmd.ExecuteReader();
+                if (dar.Read())
+                {
+                    _category.Category = dar["Category"] as string;
+                    
+                    _category.Penaltyperday = (int)dar["Penaltyperday"];
+                    _category.CatergoryId = Convert.ToInt32(dar["CatergoryId"]);
+                    _category.Period = Convert.ToInt32(dar["Period"]);
+                    
+                }
+            }
+            catch (Exception eObj)
+            {
+                throw eObj;
+            }
+            finally
+            {
+                if (con != null)
+                    con.Close();
+            }
+
+            return _category;
+        }
     }
 }

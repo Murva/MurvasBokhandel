@@ -25,15 +25,16 @@ namespace MurvasBokhandel.Controllers.User
             foreach (BorrowedBookCopy b in BBC) {
                 if (b.fine==0) {
                     BorrowService.updateBorrowDate(b.borrow);
-                    BorrowService.updateToBeReturnedDate(b.borrow);    
+                    BorrowService.updateToBeReturnedDate(b.borrow, b.category.Period);    
                 }
             }
             return RedirectToAction("Start", BBC);
         }
 
         public ActionResult Reloan(int index) {
+            
             BorrowService.updateBorrowDate(BBC[index].borrow);
-            BorrowService.updateToBeReturnedDate(BBC[index].borrow);
+            BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period );
             return View("Start", BBC);
         }
 	}

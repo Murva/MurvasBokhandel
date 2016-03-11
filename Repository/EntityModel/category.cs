@@ -11,6 +11,6 @@ namespace Repository.EntityModel
         public int CatergoryId {get; set;}
         public int Penaltyperday { get; set; }
         public string Category { get; set; } 
-        public byte Period {get; set;}
+        public int Period {get; set;}
     }
 }

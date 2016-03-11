@@ -88,7 +88,7 @@ namespace MurvasBokhandel.Controllers
                 {
                     if (borrow.Barcode == barcode)
                         BorrowService.updateBorrowDate(borrow);
-                    BorrowService.updateToBeReturnedDate(borrow);
+                    BorrowService.updateToBeReturnedDate(borrow, 30 );
                 }
 
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);
