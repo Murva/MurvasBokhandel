@@ -19,9 +19,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Search(string search_field)
         {
-            //return View(Mockup.Authors.OrderBy(author => author.Aid).ToList());
-            //BookWithAuthor bwa = 
-            //return View(Mockup.BooksWithAuthorResult.OrderBy(author => author.Author.FirstName).ToList());
+            
             AuthorsAndBooks a = AuthorService.GetSearchResult(search_field);
             
             return View(a);
@@ -32,17 +30,14 @@ namespace MurvasBokhandel.Controllers
         {
             
                 return View(AuthorService.GetAuthors("LastName"));
-                  
+                            
             
-            //return View(Mockup.Authors.OrderBy(author => author.LastName).ToList());
-            //LastName
         }
 
         [HttpGet]
         public ActionResult BrowseBook()
         {
-            //return View(Mockup.Books.OrderBy(book => book.Title).ToList());
-            
+                       
             return View(BookService.GetBooks().OrderBy(book => book.Title).ToList());
         }
     }

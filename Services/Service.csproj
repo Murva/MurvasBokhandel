@@ -50,6 +50,7 @@
     <Compile Include="Service\ClassificationService.cs" />
     <Compile Include="Service\CopyService.cs" />
     <Compile Include="Service\PasswordService.cs" />
+    <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

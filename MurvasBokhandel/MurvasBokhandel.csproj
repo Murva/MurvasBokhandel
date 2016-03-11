@@ -235,6 +235,7 @@
     <Content Include="Views\Public\BrowseAuthor.cshtml" />
     <Content Include="Views\Public\BrowseBook.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\User\GetAcountInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

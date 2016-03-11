@@ -37,5 +37,28 @@ namespace MurvasBokhandel.Controllers.User
             BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period );
             return View("Start", BBC);
         }
+        public ActionResult GetAcountInfo()
+        {
+            Repository.EntityModel.user user = (Repository.EntityModel.user)Session["User"];        
+            BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
+            
+            //BorrowerWithUser activeUser = new BorrowerWithUser();
+            return View(activeUser);
+        }
+
+        [HttpPost]
+        public ActionResult Update(user user, borrower borrower)
+        {
+            BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
+            borrowerWithUser.User = user;
+            borrowerWithUser.Borrower = borrower;
+            borrowerWithUser.Borrower.PersonId = user.PersonId;
+            UserService.update(borrowerWithUser);
+            Session["User"] = AuthService.GetUser(borrowerWithUser.User.Email);//Denna måste nog ändras
+
+            // + user.Borrower.PersonId
+            return Redirect("/User/GetAcountInfo/");
+                        
+        }
 	}
 }

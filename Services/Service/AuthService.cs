@@ -27,6 +27,11 @@ namespace Services.Service
             return UserRepository.dbGetUserByEmail(email);
         }
 
+        public static user GetUserByPersonId(string PersonId)
+        {
+            return UserRepository.dbGetUserByPersonId(PersonId);
+        }
+
         public static role GetRole(string email)
         {
             return UserRepository.dbGetUserRole(email);
