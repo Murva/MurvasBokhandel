@@ -16,34 +16,63 @@ namespace MurvasBokhandel.Controllers.User
         static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
 
         public ActionResult Start() {
-            user u = (user)Session["User"];
-            BBC = BorrowService.GetBorrowedBooks(u.PersonId);
-            return View(BBC);
+            if (Session["Permission"] as string != null)
+            {
+                user u = (user)Session["User"];
+                BBC = BorrowService.GetBorrowedBooks(u.PersonId);
+                return View(BBC);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         public ActionResult ReloanAll() {
-            foreach (BorrowedBookCopy b in BBC) {
-                if (b.fine==0) {
-                    BorrowService.updateBorrowDate(b.borrow);
-                    BorrowService.updateToBeReturnedDate(b.borrow, b.category.Period);    
+            if (Session["Permission"] as string != null)
+            {
+                foreach (BorrowedBookCopy b in BBC)
+                {
+                    if (b.fine == 0)
+                    {
+                        BorrowService.updateBorrowDate(b.borrow);
+                        BorrowService.updateToBeReturnedDate(b.borrow, b.category.Period);
+                    }
                 }
+                return RedirectToAction("Start", BBC);
             }
-            return RedirectToAction("Start", BBC);
+            else
+            {
+                return Redirect("/");
+            }
         }
 
-        public ActionResult Reloan(int index) {
-            
-            BorrowService.updateBorrowDate(BBC[index].borrow);
-            BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period );
-            return View("Start", BBC);
+        public ActionResult Reloan(int index) 
+        {
+            if (Session["Permission"] as string != null) 
+            {
+                BorrowService.updateBorrowDate(BBC[index].borrow);
+                BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period);
+                return View("Start", BBC);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
         public ActionResult GetAcountInfo()
         {
-            Repository.EntityModel.user user = (Repository.EntityModel.user)Session["User"];        
-            BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
+            if (Session["Permission"] as string != null) {
+                Repository.EntityModel.user user = (Repository.EntityModel.user)Session["User"];        
+                BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
             
-            //BorrowerWithUser activeUser = new BorrowerWithUser();
-            return View(activeUser);
+                //BorrowerWithUser activeUser = new BorrowerWithUser();
+                return View(activeUser);
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         [HttpPost]
@@ -54,7 +83,7 @@ namespace MurvasBokhandel.Controllers.User
             borrowerWithUser.Borrower = borrower;
             borrowerWithUser.Borrower.PersonId = user.PersonId;
             UserService.update(borrowerWithUser);
-            Session["User"] = AuthService.GetUser(borrowerWithUser.User.Email);//Denna måste nog ändras
+            Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
 
             // + user.Borrower.PersonId
             return Redirect("/User/GetAcountInfo/");

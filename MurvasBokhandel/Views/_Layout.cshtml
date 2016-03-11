@@ -147,16 +147,16 @@
                                 <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
                             </li>
                         }
-                        else if (Permission == "Vuxen")
+                        else if (Permission == "User")
                         {
                             <li>
-                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Vuxen</a>
+                                <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Konto</a>
                             </li>
-                        }
-                        else if (Permission == "Barn")
-                        {
                             <li>
-                                <a href="/Auth/Logout"><i class="fa fa-key"></i> Barn</a>
+                                <a href="/User/"><i class="fa fa-book"></i> Lån</a>
+                            </li>
+                            <li>
+                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
                             </li>
                         }
                         @*else
