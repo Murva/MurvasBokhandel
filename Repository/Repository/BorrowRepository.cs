@@ -74,8 +74,8 @@ namespace Repository.Repository
             }
             return _borrowList;
         }
-        public static void updateDate(borrow b) {
-            dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "')");
+        public static void updateDate(borrow b){
+            dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
         }
 
         private static void dbPostData(string query)
