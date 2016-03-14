@@ -13,7 +13,8 @@ namespace Repository.Repository
         {
             borrow _borrow = new borrow();
             _borrow.PersonId = dar["PersonId"] as string;
-            _borrow.ReturnDate = (DateTime)dar["ReturnDate"];
+            try { _borrow.ReturnDate = (DateTime)dar["ReturnDate"]; }
+            catch (Exception ex) {}
             _borrow.ToBeReturnedDate = (DateTime)dar["ToBeReturnedDate"];
             _borrow.BorrowDate = (DateTime)dar["BorrowDate"];
             _borrow.Barcode = dar["Barcode"] as string;
@@ -25,7 +26,8 @@ namespace Repository.Repository
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
+            //SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "' AND ReturnDate = NULL;", con);
             try
             {
                 con.Open();
@@ -51,7 +53,8 @@ namespace Repository.Repository
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
+            //SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "' AND ReturnDate IS NULL;", con);
             try
             {
                 con.Open();
