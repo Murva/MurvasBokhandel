@@ -123,6 +123,8 @@
     <Content Include="Content\plugins\morris.css" />
     <Content Include="Content\sb-admin-rtl.css" />
     <Content Include="Content\sb-admin.css" />
+    <Content Include="Scripts\parsley-sv.js" />
+    <Content Include="Scripts\parsley.min.js" />
     <Content Include="Scripts\Widget\search-widget.html" />
     <Content Include="Scripts\Widget\widget.js" />
     <Content Include="font-awesome\css\font-awesome.css" />
