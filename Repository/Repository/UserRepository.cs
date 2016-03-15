@@ -182,5 +182,6 @@ namespace Repository.Repository
             dbPostData("UPDATE \"USER\" SET Email = '" + u.Email + "', Password = '" + u.Password + "' WHERE PersonId='" +u.PersonId + "' ;");
 
         }
+        
     }
 }

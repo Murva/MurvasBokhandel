@@ -14,7 +14,7 @@ namespace MurvasBokhandel.Controllers.User
     {
         // GET: /Borrower/        
         static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
-
+        
         public ActionResult Start() {
             if (Session["Permission"] as string != null)
             {
@@ -60,6 +60,7 @@ namespace MurvasBokhandel.Controllers.User
                 return Redirect("/");
             }
         }
+        [HttpGet]
         public ActionResult GetAcountInfo()
         {
             if (Session["Permission"] as string != null) {
@@ -74,19 +75,35 @@ namespace MurvasBokhandel.Controllers.User
                 return Redirect("/");
             }
         }
-
+              
         [HttpPost]
-        public ActionResult Update(user user, borrower borrower)
+        public ActionResult GetAcountInfo(user user, borrower borrower)
         {
-            BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
-            borrowerWithUser.User = user;
-            borrowerWithUser.Borrower = borrower;
-            borrowerWithUser.Borrower.PersonId = user.PersonId;
-            UserService.update(borrowerWithUser);
-            Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+            if (Session["Permission"] as string != null)
+            {
 
-            // + user.Borrower.PersonId
-            return Redirect("/User/GetAcountInfo/");
+                //if (ModelState.IsValid)
+
+                if (!Services.Service.UserService.IsEmail(user.Email))
+                    return Redirect("/User/GetAcountInfo/");
+
+                BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
+                borrowerWithUser.User = user;
+                borrowerWithUser.Borrower = borrower;
+                borrowerWithUser.Borrower.PersonId = user.PersonId;
+                UserService.update(borrowerWithUser);
+                Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+
+                // + user.Borrower.PersonId
+                return Redirect("/User/GetAcountInfo/");
+
+
+            }
+            else
+            {
+                return Redirect("/");
+            }
+                
                         
         }
 	}

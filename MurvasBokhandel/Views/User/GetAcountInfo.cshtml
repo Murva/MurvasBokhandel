@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-4">
         <h4>Dina kontouppgifter</h4>
-        @using (Html.BeginForm("Update", "User"))
+        @using (Html.BeginForm())
         {
             @Html.HiddenFor(m => m.User.PersonId)
             <div class="form-group">
