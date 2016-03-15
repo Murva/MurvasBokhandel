@@ -9,17 +9,16 @@ namespace Repository.EntityModel
 {
     public class borrower
     {
-        [Required(ErrorMessage = "Du måste fylla i Personnummer")]
+        [Required(ErrorMessage = "Du måste fylla i personid")]
         public string PersonId { get; set; }
-        [Required(ErrorMessage = "Du måste fylla i Kategori")]
+        [Required(ErrorMessage = "Du måste fylla i Category mellan 1 och 4")]
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "Du måste fylla i Förnamn")]
         public string FirstName { get; set; }
-        [Required(ErrorMessage = "Du måste fylla i Efternamn")]
+        [Required(ErrorMessage = "Du måste fylla i Efernamn")]
         public string LastName { get; set; }
-        [Required(ErrorMessage = "Du måste fylla i Address")]
         public string Address { get; set; }
-        [Required(ErrorMessage = "Du måste fylla i Tel.nr")]
+        [Phone(ErrorMessage = "Du måste fylla i det på korrekt sätt")]
         public string Telno { get; set; }
     }
 }
