@@ -23,28 +23,33 @@
 <div class="row">
     <div class="col-md-4">
         <h4>Låntagarinformation</h4>
-        @using (Html.BeginForm("Update", "BorrowerAdmin"))
+        @using (Html.BeginForm("Update", "BorrowerAdmin", new { @id = "borrower_form" }))
         {
             @Html.HiddenFor(m => m.BorrowerWithUser.Borrower.PersonId)
             <div class="form-group">
                 <label>Personnummer</label>
                 @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
+                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.PersonId, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Förnamn</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.FirstName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.FirstName, new { @class = "form-control", data_parsley_required = "true" })
+                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.FirstName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Efternamn</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.LastName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.LastName, new { @class = "form-control", data_parsley_required = "true" })
+                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.LastName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Adress</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Address, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Address, new { @class = "form-control", data_parsley_required = "true" })
+                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.Address, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Telefonnummer</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Telno, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Telno, new { @class = "form-control", data_parsley_required = "true" })
+                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.Telno, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Kategori</label>
@@ -52,8 +57,14 @@
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Uppdatera" />
-                <button type="submit" class="btn btn-danger pull-right" form="form-remove-borrower">Ta bort</button>
+                <button id="btnRemove" type="button" class="btn btn-danger pull-right" onclick="checkSure()" @*form="form-remove-borrower"*@>Ta bort</button>
             </div>
+            <div class="form-group" style="float:right">
+                <label id="lblSure" style="display: none; margin: 10px">Säker?</label>
+                <button id="btnNo" type="submit" class="btn btn-danger pull-right" onclick="hide()" style="display: none; margin: 10px">Nej</button>
+                <button id="btnYes" type="submit" class="btn btn-danger pull-right" form="form-remove-borrower" style="display: none; margin: 10px">Ja</button>
+            </div>
+
         }
 
         @using (Html.BeginForm("Remove", "BorrowerAdmin", FormMethod.Post, new { @id = "form-remove-borrower" }))
@@ -101,15 +112,22 @@
                         @*@Html.HiddenFor(m => m.BorrowerWithUser.User.PersonId, Model.BorrowerWithUser.Borrower.PersonId);*@
                         <input type="hidden" name="PersonId" value="@Model.BorrowerWithUser.Borrower.PersonId" />
                         <div class="form-group">
-                                <label>Personnummer</label>
-                                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
-                                <label>E-mail</label>
-                                @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control" }) 
-                                <label>Password</label>
-                                @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
-                                <label>Role</label>
-                                @Html.DropDownListFor(m => m.BorrowerWithUser.User.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
-                           
+                            <label>Personnummer</label>
+                            @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.PersonId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.BorrowerWithUser.User.Email, "", new { @class = "text-danger" })
+                        </div>
+                        <label>Password</label>
+                        @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.BorrowerWithUser.User.Password, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label>Role</label>
+                            @Html.DropDownListFor(m => m.BorrowerWithUser.User.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.BorrowerWithUser.User.RoleId, "", new { @class = "text-danger" })
                         </div>
                     }
                 </div>
@@ -122,3 +140,31 @@
     </div>
 
 </div>
+@section Scripts {
+    <script type="text/javascript">
+        function checkSure() {
+            document.getElementById('btnRemove').disabled = 'true'
+            document.getElementById('lblSure').style.display = 'block'
+            document.getElementById('btnYes').style.display = 'block'
+            document.getElementById('btnNo').style.display = 'block'
+        }
+        function hide() {
+            document.getElementById('btnRemove').disabled = 'false'
+            document.getElementById('lblSure').style.display = 'none'
+            document.getElementById('btnYes').style.display = 'none'
+            document.getElementById('btnNo').style.display = 'none'
+        }
+    </script>
+    <script type="text/javascript">
+        $("#borrower_form").parsley({
+            trigger: 'change',
+            successClass: "has-success",
+            errorClass: "has-error",
+            classHandler: function (el) {
+                return el.$element.closest('.form-group');
+            },
+            errorsWrapper: '<div class="invalid-message"></div>',
+            errorTemplate: '<span></span>',
+        });
+    </script>
+}
