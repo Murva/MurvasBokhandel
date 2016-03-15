@@ -7,6 +7,7 @@ using MurvasBokhandel.Controllers;
 using Services.Service;
 using Repository.EntityModel;
 using Common.Model;
+using MurvasBokhandel.Models;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -56,6 +57,7 @@ namespace MurvasBokhandel.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             if (Session["Permission"] as string == "Admin")
@@ -68,18 +70,17 @@ namespace MurvasBokhandel.Controllers
             }
         }
 
-        public ActionResult Store(author a)
+        [HttpPost]
+        public ActionResult Create(author a)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
             {
-                AuthorService.StoreAuthor(a);
+                //AuthorService.StoreAuthor(a);
 
                 return RedirectToAction("Start");
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return View(a);
         }
 
         public ActionResult Remove(AuthorWithBooks a)
