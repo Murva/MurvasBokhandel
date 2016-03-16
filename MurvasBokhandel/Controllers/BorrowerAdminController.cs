@@ -33,7 +33,8 @@ namespace MurvasBokhandel.Controllers
         public ActionResult AddUser(BorrowerWithBorrows b, String PersonId){
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid)
+                if (b.BorrowerWithUser.User.Email != null && b.BorrowerWithUser.User.Password != null && 
+                    ModelState.IsValidField(b.BorrowerWithUser.User.Email) && ModelState.IsValidField(b.BorrowerWithUser.User.Password))
                 {
                     b.BorrowerWithUser.User.PersonId = PersonId;
                     AuthService.CreateUser(b.BorrowerWithUser.User);
