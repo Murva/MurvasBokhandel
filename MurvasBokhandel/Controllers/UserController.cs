@@ -81,28 +81,42 @@ namespace MurvasBokhandel.Controllers.User
         {
             if (Session["Permission"] as string != null)
             {
-                Repository.EntityModel.user activeUser = (Repository.EntityModel.user)Session["User"];
-                
-                if (!Services.Service.UserService.IsEmail(user.Email))
+                if (ModelState.IsValid) 
+                {
+
+                    Repository.EntityModel.user activeUser = (Repository.EntityModel.user)Session["User"];
+
+                    if (Services.Service.UserService.emailExists(user.Email) && (!(activeUser.Email == user.Email)))
+                    {
+                        ViewBag.Error = "Epostadressen finns redan registrerad.";
+                        return Redirect("/User/GetAcountInfo/");     //Skicka tillbaka att det är en upptagen adress           
+                    }
+
+                    BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
+                    borrowerWithUser.User = user;
+                    borrowerWithUser.Borrower = borrower;
+                    borrowerWithUser.Borrower.PersonId = user.PersonId;
+                    UserService.update(borrowerWithUser);
+                    Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+
+                    // + user.Borrower.PersonId
                     return Redirect("/User/GetAcountInfo/");
-                else if(Services.Service.UserService.emailExists(user.Email)&& (!(activeUser.Email==user.Email)))
-                    return Redirect("/User/GetAcountInfo/");                
+                }
+                else
+                {
+                    Repository.EntityModel.user original = (Repository.EntityModel.user)Session["User"];
+                    BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(original.PersonId);
 
-                BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
-                borrowerWithUser.User = user;
-                borrowerWithUser.Borrower = borrower;
-                borrowerWithUser.Borrower.PersonId = user.PersonId;
-                UserService.update(borrowerWithUser);
-                Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
-
-                // + user.Borrower.PersonId
-                return Redirect("/User/GetAcountInfo/");
+                    return View(activeUser);
+                }
+                    
+                
 
 
             }
             else
             {
-                return Redirect("/");
+                return View();
             }
                 
                         
