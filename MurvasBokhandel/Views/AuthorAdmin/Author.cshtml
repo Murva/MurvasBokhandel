@@ -11,39 +11,53 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <h4>Redigera författare</h4>
-        @using (Html.BeginForm("Update", "AuthorAdmin", FormMethod.Post))
+        @using (Html.BeginForm())
         {
-            @Html.HiddenFor(m => m.Author.Aid)
-            <div class="form-group">
-                <label>Förnamn</label>
-                @Html.TextBoxFor(m => m.Author.FirstName, new { @class = "form-control" })
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Author.Aid)
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.Label("Förnamn", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Author.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Author.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Efternamn", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Author.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Author.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Födelseår", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Author.BirthYear, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.Author.BirthYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Uppdatera" class="btn btn-warning" />
+                        <button type="submit" form="form-remove-author" class="btn btn-danger pull-right">Ta bort</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Efternamn</label>
-                @Html.TextBoxFor(m => m.Author.LastName, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label>Fördelseår</label>
-                @Html.TextBoxFor(m => m.Author.BirthYear, new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-warning" value="Updatera" />
-                <button class="btn btn-danger pull-right" form="form-remove-author" >Ta bort</button>
-            </div>
-            
-            if (ViewBag.Alert != null)
-            {
-                <div class="alert alert-@ViewBag.Status" role="alert">@ViewBag.Alert</div>
-            }
         }
         @using (Html.BeginForm("Remove", "AuthorAdmin", FormMethod.Post, new { @id = "form-remove-author" }))
         {
             @Html.HiddenFor(m => m.Author.Aid)
         }
     </div>
-    <div class="col-md-8">
+    <div class="col-md-6">
         <h4>Böcker av @Model.Author.FirstName @Model.Author.LastName
             <button type="button" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#add-book">
                 <i class="fa fa-plus"></i> Lägg till bok på författare

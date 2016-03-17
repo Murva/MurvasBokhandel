@@ -62,34 +62,33 @@ namespace MurvasBokhandel.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
-            if (Session["Permission"] as string == "Admin")
-            {
+           
                 return View(new BookWithClassifications()
                 {
                     Book = new Repository.EntityModel.book(),
                     Classifications = ClassificationService.GetClassifications()
                 });
-            }
-            else
-            {
-                return Redirect("/");
-            }
+
         }
 
-        public ActionResult Store(BookWithClassifications bwc)
+        [HttpPost]
+        public ActionResult Create(BookWithClassifications bwc)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (ModelState.IsValid)
             {
                 BookService.StoreBook(bwc.Book);
 
                 return Redirect("/BookAdmin/");
             }
-            else
+
+            return View(new BookWithClassifications()
             {
-                return Redirect("/");
-            }
+                Book = new Repository.EntityModel.book(),
+                Classifications = ClassificationService.GetClassifications()
+            });
         }
 
         public ActionResult AddAuthorToBook(int Aid, string isbn)
