@@ -81,11 +81,12 @@ namespace MurvasBokhandel.Controllers.User
         {
             if (Session["Permission"] as string != null)
             {
-
-                //if (ModelState.IsValid)
-
+                Repository.EntityModel.user activeUser = (Repository.EntityModel.user)Session["User"];
+                
                 if (!Services.Service.UserService.IsEmail(user.Email))
                     return Redirect("/User/GetAcountInfo/");
+                else if(Services.Service.UserService.emailExists(user.Email)&& (!(activeUser.Email==user.Email)))
+                    return Redirect("/User/GetAcountInfo/");                
 
                 BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
                 borrowerWithUser.User = user;
