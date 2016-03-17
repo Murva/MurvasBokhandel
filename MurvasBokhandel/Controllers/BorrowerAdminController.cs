@@ -129,7 +129,7 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && !BorrowerService.checkIfBorrowerExists(baci.borrower.PersonId))
                 {
                     string pIdReg = "[1-2][0-9]{3}[0-1][1-9][0-3][1-9][-][0-9]{4}";
                     Regex re = new Regex(pIdReg);

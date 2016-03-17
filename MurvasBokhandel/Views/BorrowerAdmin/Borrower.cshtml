@@ -79,20 +79,53 @@
                     <th></th>
                 </tr>
             </thead>
+            <h3>Aktuella</h3>
             <tbody>
                 @foreach (var borrowed in Model.Borrows)
                 {
-                    <tr>
+
+                    if (borrowed.ReturnDate == new DateTime()) { 
+                        <tr>
                         <td>@borrowed.Barcode</td>
                         <td>@borrowed.BorrowDate.ToShortDateString()</td>
                         <td>@borrowed.ToBeReturnedDate.ToShortDateString()</td>
                         <td><span class="label label-warning">Lånas under tid</span></td>
                         <td><a href="/BorrowerAdmin/RenewLoan/?barcode=@borrowed.Barcode&personid=@borrowed.PersonId" class="btn btn-default btn-xs">Låna om</a></td>
                     </tr>
+                    }
                 }
             </tbody>
         </table>
     </div>
+
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Barcode</th>
+                    <th>Lånad den</th>
+                    <th>Tillbaka lämnad</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <h3>Historik</h3>
+            <tbody>
+                @foreach (var borrowed in Model.Borrows)
+                {
+
+                    if (borrowed.ReturnDate != new DateTime())
+                    {
+                        <tr>
+                            <td>@borrowed.Barcode</td>
+                            <td>@borrowed.BorrowDate.ToShortDateString()</td>
+                            <td>@borrowed.ReturnDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
     <!-- Modal -->
     <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="AddUser">
         <div class="modal-dialog" role="document">
