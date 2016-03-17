@@ -22,6 +22,7 @@ namespace MurvasBokhandel.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Book(string id)
         {
             if (Session["Permission"] as string == "Admin")
@@ -34,18 +35,22 @@ namespace MurvasBokhandel.Controllers
             }
         }
 
-        public ActionResult Update(book Book)
+        [HttpPost]
+        public ActionResult Book(book Book)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BookService.UpdateBook(Book);
+                if (ModelState.IsValid)
+                {
+                    BookService.UpdateBook(Book);
 
-                return Redirect("/BookAdmin/Book/" + Book.ISBN);
+                    return View(BookService.GetBookWithAuthorsAndAuthors(Book.ISBN));
+                }
+
+                return View(BookService.GetBookWithAuthorsAndAuthors(Book.ISBN));
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/");
         }
 
         public ActionResult Remove(string isbn)
@@ -65,30 +70,39 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-           
+            if (Session["Permission"] as string == "Admin")
+            {
                 return View(new BookWithClassifications()
                 {
                     Book = new Repository.EntityModel.book(),
                     Classifications = ClassificationService.GetClassifications()
                 });
+            }
+
+            return Redirect("/");
 
         }
 
         [HttpPost]
         public ActionResult Create(BookWithClassifications bwc)
         {
-            if (ModelState.IsValid)
+            if (Session["Permission"] as string == "Admin")
             {
-                BookService.StoreBook(bwc.Book);
+                if (ModelState.IsValid)
+                {
+                    BookService.StoreBook(bwc.Book);
 
-                return Redirect("/BookAdmin/");
+                    return Redirect("/BookAdmin/");
+                }
+
+                return View(new BookWithClassifications()
+                {
+                    Book = new Repository.EntityModel.book(),
+                    Classifications = ClassificationService.GetClassifications()
+                });
             }
 
-            return View(new BookWithClassifications()
-            {
-                Book = new Repository.EntityModel.book(),
-                Classifications = ClassificationService.GetClassifications()
-            });
+            return Redirect("/");
         }
 
         public ActionResult AddAuthorToBook(int Aid, string isbn)

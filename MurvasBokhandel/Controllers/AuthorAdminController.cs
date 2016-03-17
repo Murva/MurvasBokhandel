@@ -44,14 +44,19 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Author(AuthorWithBooksAndBooks a)
         {
-            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
+            if (Session["Permission"] as string == "Admin")
             {
-                AuthorService.UpdateAuthor(a.Author);
+                if (ModelState.IsValid)
+                {
+                    AuthorService.UpdateAuthor(a.Author);
 
-                return Redirect("Author/" + a.Author.Aid);
+                    return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
+                }
+
+                return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
             }
-            
-            return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
+
+            return Redirect("/");
         }
 
         [HttpGet]
@@ -70,14 +75,20 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Create(author a)
         {
-            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
+            if (Session["Permission"] as string == "Admin") 
             {
-                //AuthorService.StoreAuthor(a);
+                if (ModelState.IsValid)
+                {
+                    AuthorService.StoreAuthor(a);
 
-                return RedirectToAction("Start");
+                    return RedirectToAction("Start");
+                }
+
+                return View(a);
             }
+            
 
-            return View(a);
+            return Redirect("/");
         }
 
         public ActionResult Remove(AuthorWithBooks a)

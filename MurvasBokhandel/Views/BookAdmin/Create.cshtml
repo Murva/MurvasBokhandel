@@ -27,7 +27,8 @@
     
     <div class="form-group">
         <label>Publikationsår</label>
-        @Html.TextBoxFor(m => m.Book.PublicationYear, new { @class = "form-control", @type = "number", data_parsley_required = "Required", data_parsley_type="integer", data_parsley_minlength="4" })
+        @Html.EditorFor(m => m.Book.PublicationYear, new { htmlattributes = new { @class = "form-control", @type="number" } })
+        @Html.ValidationMessageFor(model => model.Book.PublicationYear, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">
@@ -37,7 +38,8 @@
     
     <div class="form-group">
         <label>Antal sidor</label>
-        @Html.TextBoxFor(m => m.Book.pages, new { @class = "form-control", @type = "number", data_parsley_required = "Required" })
+        @Html.EditorFor(m => m.Book.pages, new { htmlattributes = new { @class = "form-control", @type = "number" } })
+        @Html.ValidationMessageFor(model => model.Book.pages, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">

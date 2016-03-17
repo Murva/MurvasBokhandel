@@ -12,14 +12,15 @@ namespace Repository.EntityModel
     {
         [IsbnValidation(ErrorMessage = "ISBN måste vara mindre än 10 tecken och sluta på X eller en siffra.")]
         public string ISBN { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Sign krävs.")]
         public int SignId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Publikationsår krävs.")]
         public string PublicationYear { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Titel krävs.")]
         public string Title { get; set; }
         public string publicationinfo { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Sidor krävs")]
+        [Range(1, int.MaxValue, ErrorMessage = "Måste vara ett tal mellan 1 - 4294967296.")]
         public int pages { get; set; }
     }
 }
