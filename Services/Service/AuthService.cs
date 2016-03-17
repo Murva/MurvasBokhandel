@@ -36,6 +36,7 @@ namespace Services.Service
         {
             return UserRepository.dbGetUserRole(email);
         }
+
         public static void CreateUser(user u) {
             u.Password = PasswordService.CreateHash(u.Password);
             UserRepository.dbCreateUser(u);

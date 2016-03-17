@@ -27,34 +27,31 @@ namespace MurvasBokhandel.Controllers
             
         }
 
+        [HttpGet]
         public ActionResult Author(int id)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
             {
                 if (id <= 0)
                     return RedirectToAction("Start");
 
                 return View(AuthorService.GetAuthorWithBooksAndBooks(id));
             }
-            else 
-            {
-                return Redirect("/");
-            }
-                
+
+            return Redirect("/");
         }
 
-        public ActionResult Update(AuthorWithBooks a)
+        [HttpPost]
+        public ActionResult Author(AuthorWithBooksAndBooks a)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
             {
                 AuthorService.UpdateAuthor(a.Author);
 
                 return Redirect("Author/" + a.Author.Aid);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            
+            return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
         }
 
         [HttpGet]
