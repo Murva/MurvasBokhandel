@@ -15,11 +15,7 @@ namespace MurvasBokhandel.Controllers
             {
                 return View(BookService.GetBooks());
             }
-            else
-            {
-                return Redirect("/");
-                
-            }
+            return Redirect("/Error/Code/403");
         }
 
         [HttpGet]
@@ -29,10 +25,7 @@ namespace MurvasBokhandel.Controllers
             {
                 return View(BookService.GetBookWithAuthorsAndAuthors(id));
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
@@ -50,7 +43,7 @@ namespace MurvasBokhandel.Controllers
                 return View(BookService.GetBookWithAuthorsAndAuthors(Book.ISBN));
             }
 
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult Remove(string isbn)
@@ -61,10 +54,7 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("/BookAdmin/");
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         [HttpGet]
@@ -79,8 +69,7 @@ namespace MurvasBokhandel.Controllers
                 });
             }
 
-            return Redirect("/");
-
+            return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
@@ -102,7 +91,7 @@ namespace MurvasBokhandel.Controllers
                 });
             }
 
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult AddAuthorToBook(int Aid, string isbn)
@@ -114,10 +103,7 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("/BookAdmin/Book/" + isbn);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult RemoveAuthorFromBook(string ISBN, int Aid)
@@ -128,10 +114,7 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("/BookAdmin/Book/" + ISBN);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
     }
 }

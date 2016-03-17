@@ -60,6 +60,12 @@ namespace MurvasBokhandel
                 url: "Api/{controller}/{action}/{id}",
                 namespaces: new[] { "MurvasBokhandel.Controllers.Api" }
             );
+
+            routes.MapRoute(
+                name: "Error",
+                url: "{controller}/{action}/{id}",
+                namespaces: new[] { "MurvasBokhandel.Controllers" }
+            );
         }
     }
 }

@@ -38,7 +38,7 @@ namespace MurvasBokhandel.Controllers
                 return View(AuthorService.GetAuthorWithBooksAndBooks(id));
             }
 
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
@@ -56,7 +56,7 @@ namespace MurvasBokhandel.Controllers
                 return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
             }
 
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
 
         [HttpGet]
@@ -66,10 +66,8 @@ namespace MurvasBokhandel.Controllers
             {
                 return View();
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
@@ -86,9 +84,9 @@ namespace MurvasBokhandel.Controllers
 
                 return View(a);
             }
-            
 
-            return Redirect("/");
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult Remove(AuthorWithBooks a)
@@ -99,10 +97,8 @@ namespace MurvasBokhandel.Controllers
 
                 return RedirectToAction("Start");
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult AddBookToAuthor(int Aid, string ISBN)
@@ -118,10 +114,8 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("Author/" + Aid);
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult RemoveBookFromAuthor(int Aid, string ISBN)
@@ -132,10 +126,8 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("Author/" + Aid);
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
     }
 }
