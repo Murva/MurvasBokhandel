@@ -58,7 +58,7 @@ namespace Repository.Repository
 
         public static user dbGetUserByPersonId(string personId)
         {
-            user _userObj = null;
+            user _userObj = new user();
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".PersonId = '" + personId + "'", connection);
@@ -72,6 +72,7 @@ namespace Repository.Repository
                 {
                     _userObj = MapUser(dar);
                 }
+                _userObj.PersonId = personId;
             }
             catch (Exception eObj)
             {
