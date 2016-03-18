@@ -77,8 +77,9 @@ namespace MurvasBokhandel.Controllers.User
         }
               
         [HttpPost]
-        public ActionResult GetAcountInfo(user user, borrower borrower)
+        public ActionResult GetAcountInfo(user user, borrower borrower)//user user, borrower borrower
         {
+            //borrower.PersonId = user.PersonId;
             if (Session["Permission"] as string != null)
             {
                 if (ModelState.IsValid) 
@@ -88,8 +89,13 @@ namespace MurvasBokhandel.Controllers.User
 
                     if (Services.Service.UserService.emailExists(user.Email) && (!(activeUser.Email == user.Email)))
                     {
-                        ViewBag.Error = "Epostadressen finns redan registrerad.";
-                        return Redirect("/User/GetAcountInfo/");     //Skicka tillbaka att det är en upptagen adress           
+                        ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
+                        BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.PersonId);
+                        return View(someOneElseEmail);
+
+
+                        //return View(activeUser);     //Skicka tillbaka att det är en upptagen adress           
+                        
                     }
 
                     BorrowerWithUser borrowerWithUser = new BorrowerWithUser();

@@ -8,18 +8,14 @@ using System.Text.RegularExpressions;
 
 namespace Repository.Validation
 {
-    public class PersonIdValidation : ValidationAttribute
+    public class PasswordValidator : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            //string pIdReg = "[1-2][0-9]{3}[0-1][1-9][0-3][1-9][-][0-9]{4}";
-            string _personId = Convert.ToString(value);            
-            if (!(Regex.IsMatch(_personId, "^[1-2][0-9]{3}[0-1][1-9][0-3][1-9][-][0-9]{4}$")))
+            string _password = Convert.ToString(value);
+            if (!(Regex.IsMatch(_password, "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{5,15}$")))
                 return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName));
-            else
-            {
-                return null;
-            }
-        }
+            return null;            
+        }    
     }
 }
