@@ -15,45 +15,43 @@ namespace MurvasBokhandel.Controllers
     {
         static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
         
-        // GET: BorrowerAdmin
-        
         public ActionResult Start()
         {
             if (Session["Permission"] as string == "Admin")
             {
                 return View(BorrowerService.getBorrowers());
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
 
         public ActionResult AddUser(user u)
         {
-                //if (b.BorrowerWithUser.User.Email != null && b.BorrowerWithUser.User.Password != null &&
-                    //ModelState.IsValidField(b.BorrowerWithUser.User.Email) && ModelState.IsValidField(b.BorrowerWithUser.User.Password))
-                if(ModelState.IsValid)
+            if (Session["Permission"] as string == "Admin") {
+                if (ModelState.IsValid && (u.RoleId == 1 || u.RoleId == 2))
                 {
-                    //u.PersonId = PersonId;
-                    //AuthService.CreateUser(u);
-                    //ViewBag.UserInput("");
-                    return Redirect("/BorrowerAdmin/Borrower/"+u.PersonId);
+                    AuthService.CreateUser(u);
+                    return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
                 }
-                else {
-                    //ViewBag.UserInput("FEL INMATNING ROFFELMJAOU");
-                    return Redirect("/BorrowerAdmin/Borrower/"+u.PersonId);
-                }   
-            
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        ViewBag.error += ", " + error.ErrorMessage;
+                    }
+                }
+                return View("Borrower", BorrowerService.GetBorrower(u.PersonId));
+            }
+            return Redirect("/Error/Code/403");
         }
 
         [HttpGet]
         public ActionResult Borrower(string id)
         {
-            
+            if (Session["Permission"] as string == "Admin") {
                 return View(BorrowerService.GetBorrower(id));
-            
+            }
+            return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
@@ -61,20 +59,17 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid &&  ( BorrowerWithUser.Borrower.CategoryId == 1 ||
+                                             BorrowerWithUser.Borrower.CategoryId == 2 ||
+                                             BorrowerWithUser.Borrower.CategoryId == 3 ||
+                                             BorrowerWithUser.Borrower.CategoryId == 4))
                 {
                     BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
                     return RedirectToAction("/Borrower/" + BorrowerWithUser.Borrower.PersonId);
                 }
-                else
-                {
-                    return View(BorrowerService.GetBorrower(BorrowerWithUser.Borrower.PersonId));
-                }
+                return View(BorrowerService.GetBorrower(BorrowerWithUser.Borrower.PersonId));
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
      
         public ActionResult Remove(BorrowerWithBorrows bwb)
@@ -84,10 +79,7 @@ namespace MurvasBokhandel.Controllers
                 BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower);
                 return Redirect("Start");
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult RenewLoan(string barcode, string personid)
@@ -105,13 +97,9 @@ namespace MurvasBokhandel.Controllers
                         BorrowService.updateToBeReturnedDate(borrow, BBC[0].category.Period);
                     }
                 }
-
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult Create()
@@ -123,20 +111,18 @@ namespace MurvasBokhandel.Controllers
                 bac.categories = CategoryService.getCategories();
                 return View(bac);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult Store(BorrowerAndCategories baci)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid && !BorrowerService.checkIfBorrowerExists(baci.borrower.PersonId))
+                if (ModelState.IsValid && !BorrowerService.checkIfBorrowerExists(baci.borrower.PersonId) && (baci.CatergoryId == 1 ||
+                                             baci.CatergoryId == 2 ||
+                                             baci.CatergoryId == 3 ||
+                                             baci.CatergoryId == 4))
                 {
-                    //string pIdReg = "[1-2][0-9]{3}[0-1][1-9][0-3][1-9][-][0-9]{4}";
-                    //Regex re = new Regex(pIdReg);
                     List<borrower> borrowers = BorrowerService.getBorrowers();
                     foreach (borrower borr in borrowers)
                     {
@@ -155,12 +141,8 @@ namespace MurvasBokhandel.Controllers
                     bac.categories = CategoryService.getCategories();
                     return View("Create", bac);
                 } 
-                //return Redirect("Start");
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
     }
 }
