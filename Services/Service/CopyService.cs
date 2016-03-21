@@ -28,5 +28,10 @@ namespace Services.Service
         {
             CopyRepository.dbRemoveCopy(Barcode);
         }
+
+        public static void CreateCopy(string isbn, string library)
+        {
+            CopyRepository.dbCreateCopy(isbn, library);
+        }
     }
 }

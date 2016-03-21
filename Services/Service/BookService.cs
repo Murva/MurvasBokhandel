@@ -58,6 +58,15 @@ namespace Services.Service
             return (BookRepository.dbGetBook(ISBN) != null ? true : false);
         }
 
+        public static BookWithClassifications NewBookWithClassifications()
+        {
+            return new BookWithClassifications()
+                {
+                    Book = new Repository.EntityModel.book(),
+                    Classifications = ClassificationService.GetClassifications()
+                };
+        }
+
         //public static AuthorWithBooks GetAuthorWithBooks(int aid)
         //{
         //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
@@ -82,9 +91,11 @@ namespace Services.Service
             return BookRepository.dbGetBooksBySearch(input);
         }       
 
-        public static void StoreBook(book b)
+        public static void StoreBook(book b, int copies, string library)
         {
             BookRepository.dbStoreBook(b);
+            for (int i = 0; i < copies; i++)
+                CopyService.CreateCopy(b.ISBN, library);
         }
 
         public static void RemoveBook(book b)
