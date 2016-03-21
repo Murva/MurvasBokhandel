@@ -21,7 +21,8 @@ namespace Repository.Repository
             return _borrow;
         }
 
-        static public borrow dbGetBorrow(string id){
+        static public borrow dbGetBorrow(string id) 
+        {
             borrow _borrow = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
@@ -47,14 +48,15 @@ namespace Repository.Repository
             }
             return _borrow;
         }
+
         static public List<borrow> dbGetBorrowList(string id)
         {
             List<borrow> _borrowList = new List<borrow>();
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
-            //SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "' AND ReturnDate IS NULL;", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
+            //SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "' AND ReturnDate IS NULL;", con);
             try
             {
                 con.Open();
@@ -77,35 +79,14 @@ namespace Repository.Repository
             }
             return _borrowList;
         }
-        public static void updateDate(borrow b){
-            dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
-        }
-
-        private static void dbPostData(string query)
+        public static void updateDate(borrow b)
         {
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            try
-            {
-                con.Open();
-                cmd.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
+            //dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
         }
 
         public static void dbRemoveBorrowsByPersonId(string PersonId)
         {
-            dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
+            //dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
         }
     }
 }

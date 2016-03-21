@@ -5,6 +5,7 @@ using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -29,44 +30,53 @@ namespace MurvasBokhandel.Controllers
         }
 
 
-        public ActionResult AddUser(BorrowerWithBorrows b, String PersonId){
-            if (Session["Permission"] as string == "Admin")
-            {
-                b.BorrowerWithUser.User.PersonId = PersonId;
-                AuthService.CreateUser(b.BorrowerWithUser.User);
-                return Redirect("/BorrowerAdmin/");
-            }
-            else
-            {
-                return Redirect("/");
-            }
+        public ActionResult AddUser(user u)
+        {
+                //if (b.BorrowerWithUser.User.Email != null && b.BorrowerWithUser.User.Password != null &&
+                    //ModelState.IsValidField(b.BorrowerWithUser.User.Email) && ModelState.IsValidField(b.BorrowerWithUser.User.Password))
+                if(ModelState.IsValid)
+                {
+                    //u.PersonId = PersonId;
+                    //AuthService.CreateUser(u);
+                    //ViewBag.UserInput("");
+                    return Redirect("/BorrowerAdmin/Borrower/"+u.PersonId);
+                }
+                else {
+                    //ViewBag.UserInput("FEL INMATNING ROFFELMJAOU");
+                    return Redirect("/BorrowerAdmin/Borrower/"+u.PersonId);
+                }   
+            
         }
 
+        [HttpGet]
         public ActionResult Borrower(string id)
         {
-            if (Session["Permission"] as string == "Admin")
-            {
+            
                 return View(BorrowerService.GetBorrower(id));
-            }
-            else
-            {
-                return Redirect("/");
-            }
+            
         }
 
-        public ActionResult Update(BorrowerWithUser BorrowerWithUser)
+        [HttpPost]
+        public ActionResult Borrower(BorrowerWithUser BorrowerWithUser)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
-                return Redirect("/BorrowerAdmin/Borrower/" + BorrowerWithUser.Borrower.PersonId);
+                if (ModelState.IsValid)
+                {
+                    BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
+                    return RedirectToAction("/Borrower/" + BorrowerWithUser.Borrower.PersonId);
+                }
+                else
+                {
+                    return View(BorrowerService.GetBorrower(BorrowerWithUser.Borrower.PersonId));
+                }
             }
             else
             {
                 return Redirect("/");
             }
         }
-
+     
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
             if (Session["Permission"] as string == "Admin")
@@ -123,11 +133,29 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                borrower b = new borrower();
-                b = baci.borrower;
-                b.CategoryId = baci.CatergoryId;
-                BorrowerService.StoreBorrower(b);
-                return Redirect("Start");
+                if (ModelState.IsValid && !BorrowerService.checkIfBorrowerExists(baci.borrower.PersonId))
+                {
+                    //string pIdReg = "[1-2][0-9]{3}[0-1][1-9][0-3][1-9][-][0-9]{4}";
+                    //Regex re = new Regex(pIdReg);
+                    List<borrower> borrowers = BorrowerService.getBorrowers();
+                    foreach (borrower borr in borrowers)
+                    {
+                        if (borr.PersonId == baci.borrower.PersonId)
+                            return Redirect("Start");
+                    }
+                    borrower b = new borrower();
+                    b = baci.borrower;
+                    b.CategoryId = baci.CatergoryId;
+                    BorrowerService.StoreBorrower(b);
+                    return Redirect("Start");
+                }
+                else {
+                    BorrowerAndCategories bac = new BorrowerAndCategories();
+                    bac.borrower = new borrower();
+                    bac.categories = CategoryService.getCategories();
+                    return View("Create", bac);
+                } 
+                //return Redirect("Start");
             }
             else
             {

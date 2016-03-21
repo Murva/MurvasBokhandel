@@ -70,6 +70,12 @@
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\StatusRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Validation\AdressValidation.cs" />
+    <Compile Include="Validation\EmailValidation.cs" />
+    <Compile Include="Validation\IsbnValidation.cs" />
+    <Compile Include="Validation\NameValidation.cs" />
+    <Compile Include="Validation\PasswordValidator.cs" />
+    <Compile Include="Validation\PersonIdValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interface\" />

@@ -14,7 +14,7 @@ namespace MurvasBokhandel.Controllers.User
     {
         // GET: /Borrower/        
         static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
-
+        
         public ActionResult Start() {
             if (Session["Permission"] as string != null)
             {
@@ -60,6 +60,7 @@ namespace MurvasBokhandel.Controllers.User
                 return Redirect("/");
             }
         }
+        [HttpGet]
         public ActionResult GetAcountInfo()
         {
             if (Session["Permission"] as string != null) {
@@ -74,19 +75,56 @@ namespace MurvasBokhandel.Controllers.User
                 return Redirect("/");
             }
         }
-
+              
         [HttpPost]
-        public ActionResult Update(user user, borrower borrower)
+        public ActionResult GetAcountInfo(user user, borrower borrower)//user user, borrower borrower
         {
-            BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
-            borrowerWithUser.User = user;
-            borrowerWithUser.Borrower = borrower;
-            borrowerWithUser.Borrower.PersonId = user.PersonId;
-            UserService.update(borrowerWithUser);
-            Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+            //borrower.PersonId = user.PersonId;
+            if (Session["Permission"] as string != null)
+            {
+                if (ModelState.IsValid) 
+                {
 
-            // + user.Borrower.PersonId
-            return Redirect("/User/GetAcountInfo/");
+                    Repository.EntityModel.user activeUser = (Repository.EntityModel.user)Session["User"];
+
+                    if (Services.Service.UserService.emailExists(user.Email) && (!(activeUser.Email == user.Email)))
+                    {
+                        ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
+                        BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.PersonId);
+                        return View(someOneElseEmail);
+
+
+                        //return View(activeUser);     //Skicka tillbaka att det är en upptagen adress           
+                        
+                    }
+
+                    BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
+                    borrowerWithUser.User = user;
+                    borrowerWithUser.Borrower = borrower;
+                    borrowerWithUser.Borrower.PersonId = user.PersonId;
+                    UserService.update(borrowerWithUser);
+                    Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+
+                    // + user.Borrower.PersonId
+                    return Redirect("/User/GetAcountInfo/");
+                }
+                else
+                {
+                    Repository.EntityModel.user original = (Repository.EntityModel.user)Session["User"];
+                    BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(original.PersonId);
+
+                    return View(activeUser);
+                }
+                    
+                
+
+
+            }
+            else
+            {
+                return View();
+            }
+                
                         
         }
 	}

@@ -26,7 +26,9 @@ namespace Repository.Repository
             borrower _borrowerObj = new borrower();
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROWER WHERE PersonId = '" + PersonId + "';", connection);
+            
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROWER WHERE PersonId = @PERSONID;", connection);
+            cmd.Parameters.AddWithValue("@PERSONID", PersonId);
 
             try
             {
@@ -51,12 +53,16 @@ namespace Repository.Repository
             return _borrowerObj;
         }
 
-        public static List<borrower> dbGetBorrowerList(string query)
+        public static List<borrower> dbGetBorrowerList(string query, SqlParameter[] sp)
         {
             List<borrower> _borrowerList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(query, con);
+
+            if (sp != null && sp.Length > 1)
+                cmd.Parameters.AddRange(sp);
+
             try
             {
                 con.Open();
@@ -83,46 +89,24 @@ namespace Repository.Repository
             return _borrowerList;
         }
 
-        public static List<borrower> dbGetBorrowers(int aid, string orderby = "Title")
+        public static List<borrower> dbGetBorrowers()
         {
-            return dbGetBorrowerList("SELECT * FROM BORROWER;");
-        }
-
-        private static void dbPostData(string query)
-        {
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            try
-            {
-                con.Open();
-                cmd.ExecuteReader();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
+            return dbGetBorrowerList("SELECT * FROM BORROWER;", null);
         }
 
         public static void dbRemoveBorrower(borrower b)
         {
-            dbPostData("DELETE FROM BORROWER WHERE PersonId = '" + b.PersonId + "';");
+            //dbPostData("DELETE FROM BORROWER WHERE PersonId = '" + b.PersonId + "';");
         }
 
         public static void dbUpdateBorrower(borrower b)
         {
-            dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "' WHERE PersonId = '" + b.PersonId + "'");
+            //dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "' WHERE PersonId = '" + b.PersonId + "'");
         }
 
         public static void dbStoreBorrower(borrower b)
         {
-            dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.FirstName+"','"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"', '"+b.CategoryId+"');");
+            //dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.FirstName+"','"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"', '"+b.CategoryId+"');");
         }
     }
 }

@@ -5,25 +5,30 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm("Store", "BookAdmin", FormMethod.Post, new { @id = "create_book_form" }))
+@using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         <label>Klassifikation</label>
         @Html.DropDownListFor(m => m.Book.SignId, new SelectList(Model.Classifications, "SignId", "Signum"), new { @class = "form-control", data_parsley_required = "Required" })
     </div>
     <div class="form-group">
         <label>ISBN</label>
-        @Html.TextBoxFor(m => m.Book.ISBN, new { @class = "form-control", @type = "number", data_parsley_required = "Required" })
+        @Html.EditorFor(m => m.Book.ISBN, new { htmlattributes = new { @class = "form-control", @type = "number" }})
+        @Html.ValidationMessageFor(model => model.Book.ISBN, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">
         <label>Titel</label>
-        @Html.TextBoxFor(m => m.Book.Title, new { @class = "form-control", data_parsley_required = "Required" })
+        @Html.EditorFor(m => m.Book.Title, new { htmlattributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Book.Title, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">
         <label>Publikationsår</label>
-        @Html.TextBoxFor(m => m.Book.PublicationYear, new { @class = "form-control", @type = "number", data_parsley_required = "Required", data_parsley_type="integer", data_parsley_minlength="4" })
+        @Html.EditorFor(m => m.Book.PublicationYear, new { htmlattributes = new { @class = "form-control", @type="number" } })
+        @Html.ValidationMessageFor(model => model.Book.PublicationYear, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">
@@ -33,25 +38,11 @@
     
     <div class="form-group">
         <label>Antal sidor</label>
-        @Html.TextBoxFor(m => m.Book.pages, new { @class = "form-control", @type = "number", data_parsley_required = "Required" })
+        @Html.EditorFor(m => m.Book.pages, new { htmlattributes = new { @class = "form-control", @type = "number" } })
+        @Html.ValidationMessageFor(model => model.Book.pages, "", new { @class = "text-danger" })
     </div>
     
     <div class="form-group">
         <input type="submit" value="Spara" class="btn btn-default" />
     </div>
-}
-
-@section Scripts {
-    <script type="text/javascript">
-        $("#create_book_form").parsley({
-            trigger: 'change',
-            successClass: "has-success",
-            errorClass: "has-error",
-            classHandler: function (el) {
-                return el.$element.closest('.form-group');
-            },
-            errorsWrapper: '<div class="invalid-message"></div>',
-            errorTemplate: '<span></span>',
-        });
-    </script>
 }

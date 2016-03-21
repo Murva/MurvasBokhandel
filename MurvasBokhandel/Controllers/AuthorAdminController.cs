@@ -27,34 +27,36 @@ namespace MurvasBokhandel.Controllers
             
         }
 
+        [HttpGet]
         public ActionResult Author(int id)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
             {
                 if (id <= 0)
                     return RedirectToAction("Start");
 
                 return View(AuthorService.GetAuthorWithBooksAndBooks(id));
             }
-            else 
-            {
-                return Redirect("/");
-            }
-                
+
+            return Redirect("/Error/Code/403");
         }
 
-        public ActionResult Update(AuthorWithBooks a)
+        [HttpPost]
+        public ActionResult Author(AuthorWithBooksAndBooks a)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                AuthorService.UpdateAuthor(a.Author);
+                if (ModelState.IsValid)
+                {
+                    AuthorService.UpdateAuthor(a.Author);
 
-                return Redirect("Author/" + a.Author.Aid);
+                    return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
+                }
+
+                return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         [HttpGet]
@@ -64,23 +66,27 @@ namespace MurvasBokhandel.Controllers
             {
                 return View();
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
         public ActionResult Create(author a)
         {
-            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
+            if (Session["Permission"] as string == "Admin") 
             {
-                //AuthorService.StoreAuthor(a);
+                if (ModelState.IsValid)
+                {
+                    AuthorService.StoreAuthor(a);
 
-                return RedirectToAction("Start");
+                    return RedirectToAction("Start");
+                }
+
+                return View(a);
             }
 
-            return View(a);
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult Remove(AuthorWithBooks a)
@@ -91,10 +97,8 @@ namespace MurvasBokhandel.Controllers
 
                 return RedirectToAction("Start");
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult AddBookToAuthor(int Aid, string ISBN)
@@ -110,10 +114,8 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("Author/" + Aid);
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult RemoveBookFromAuthor(int Aid, string ISBN)
@@ -124,10 +126,8 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("Author/" + Aid);
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
     }
 }

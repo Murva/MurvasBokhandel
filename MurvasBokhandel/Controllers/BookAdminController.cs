@@ -15,37 +15,35 @@ namespace MurvasBokhandel.Controllers
             {
                 return View(BookService.GetBooks());
             }
-            else
-            {
-                return Redirect("/");
-                
-            }
+            return Redirect("/Error/Code/403");
         }
 
+        [HttpGet]
         public ActionResult Book(string id)
         {
             if (Session["Permission"] as string == "Admin")
             {
                 return View(BookService.GetBookWithAuthorsAndAuthors(id));
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
-        public ActionResult Update(book Book)
+        [HttpPost]
+        public ActionResult Book(book Book)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BookService.UpdateBook(Book);
+                if (ModelState.IsValid)
+                {
+                    BookService.UpdateBook(Book);
 
-                return Redirect("/BookAdmin/Book/" + Book.ISBN);
+                    return View(BookService.GetBookWithAuthorsAndAuthors(Book.ISBN));
+                }
+
+                return View(BookService.GetBookWithAuthorsAndAuthors(Book.ISBN));
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult Remove(string isbn)
@@ -56,12 +54,10 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("/BookAdmin/");
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             if (Session["Permission"] as string == "Admin")
@@ -72,24 +68,30 @@ namespace MurvasBokhandel.Controllers
                     Classifications = ClassificationService.GetClassifications()
                 });
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
-        public ActionResult Store(BookWithClassifications bwc)
+        [HttpPost]
+        public ActionResult Create(BookWithClassifications bwc)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BookService.StoreBook(bwc.Book);
+                if (ModelState.IsValid)
+                {
+                    BookService.StoreBook(bwc.Book);
 
-                return Redirect("/BookAdmin/");
+                    return Redirect("/BookAdmin/");
+                }
+
+                return View(new BookWithClassifications()
+                {
+                    Book = new Repository.EntityModel.book(),
+                    Classifications = ClassificationService.GetClassifications()
+                });
             }
-            else
-            {
-                return Redirect("/");
-            }
+
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult AddAuthorToBook(int Aid, string isbn)
@@ -99,12 +101,9 @@ namespace MurvasBokhandel.Controllers
                 if (!BookAuthorService.BookAuthorExists(Aid, isbn))
                     BookAuthorService.StoreBookAuthor(new bookAuthor() { Aid = Aid, ISBN = isbn });
 
-                return Redirect("/BookAdmin/Book/" + isbn);
+                return RedirectToAction("Book", new { id = isbn });
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
 
         public ActionResult RemoveAuthorFromBook(string ISBN, int Aid)
@@ -115,10 +114,7 @@ namespace MurvasBokhandel.Controllers
 
                 return Redirect("/BookAdmin/Book/" + ISBN);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/Error/Code/403");
         }
     }
 }

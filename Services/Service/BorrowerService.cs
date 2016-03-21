@@ -7,8 +7,14 @@ namespace Services.Service
 {
     public class BorrowerService
     {
+        public static bool checkIfBorrowerExists(string PersonId) {
+            borrower b = BorrowerRepository.dbGetBorrower(PersonId);
+            if (b.PersonId == null)
+                return false;
+            else return true;
+        }
         public static List<borrower> getBorrowers() {
-            return BorrowerRepository.dbGetBorrowerList("SELECT * FROM borrower");
+            return BorrowerRepository.dbGetBorrowers();
         }
 
         public static BorrowerWithBorrows GetBorrower(string PersonId)

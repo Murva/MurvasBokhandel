@@ -17,7 +17,9 @@ namespace Repository.Repository
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
-            SqlCommand cmd = new SqlCommand("SELECT * FROM STATUS WHERE statusId = '" + statusId + "';", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM STATUS WHERE statusId = @STATUSID;", con);
+            cmd.Parameters.AddWithValue("@STATUSID", statusId);
+
             try
             {
                 con.Open();
