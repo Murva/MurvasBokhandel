@@ -5,6 +5,7 @@ using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,9 +33,14 @@ namespace MurvasBokhandel.Controllers
         public ActionResult AddUser(BorrowerWithBorrows b, String PersonId){
             if (Session["Permission"] as string == "Admin")
             {
-                b.BorrowerWithUser.User.PersonId = PersonId;
-                AuthService.CreateUser(b.BorrowerWithUser.User);
-                return Redirect("/BorrowerAdmin/");
+                if (b.BorrowerWithUser.User.Email != null && b.BorrowerWithUser.User.Password != null && 
+                    ModelState.IsValidField(b.BorrowerWithUser.User.Email) && ModelState.IsValidField(b.BorrowerWithUser.User.Password))
+                {
+                    b.BorrowerWithUser.User.PersonId = PersonId;
+                    AuthService.CreateUser(b.BorrowerWithUser.User);
+                    return Redirect("/BorrowerAdmin/");
+                }
+                else return Redirect("Start");   
             }
             else
             {
@@ -56,7 +62,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Update(BorrowerWithUser BorrowerWithUser)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
             {
                 BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
                 return Redirect("/BorrowerAdmin/Borrower/" + BorrowerWithUser.Borrower.PersonId);
@@ -123,10 +129,24 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                borrower b = new borrower();
-                b = baci.borrower;
-                b.CategoryId = baci.CatergoryId;
-                BorrowerService.StoreBorrower(b);
+                if (ModelState.IsValid && !BorrowerService.checkIfBorrowerExists(baci.borrower.PersonId))
+                {
+                    string pIdReg = "[1-2][0-9]{3}[0-1][1-9][0-3][1-9][-][0-9]{4}";
+                    Regex re = new Regex(pIdReg);
+
+                    if (re.IsMatch(baci.borrower.PersonId))
+                    {
+                        List<borrower> borrowers = BorrowerService.getBorrowers();
+                        foreach (borrower borr in borrowers) {
+                            if (borr.PersonId == baci.borrower.PersonId)
+                                return Redirect("Start");
+                        }
+                        borrower b = new borrower();
+                        b = baci.borrower;
+                        b.CategoryId = baci.CatergoryId;
+                        BorrowerService.StoreBorrower(b);
+                    }
+                }
                 return Redirect("Start");
             }
             else

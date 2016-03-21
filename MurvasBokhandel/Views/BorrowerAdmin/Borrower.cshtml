@@ -29,27 +29,22 @@
             <div class="form-group">
                 <label>Personnummer</label>
                 @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
-                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.PersonId, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Förnamn</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.FirstName, new { @class = "form-control", data_parsley_required = "true" })
-                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.FirstName, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.FirstName, new { @class = "form-control", placeholder = "Förnamn", data_parsley_required = "true" })
             </div>
             <div class="form-group">
                 <label>Efternamn</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.LastName, new { @class = "form-control", data_parsley_required = "true" })
-                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.LastName, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.LastName, new { @class = "form-control", placeholder = "Efternamn", data_parsley_required = "true" })
             </div>
             <div class="form-group">
                 <label>Adress</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Address, new { @class = "form-control", data_parsley_required = "true" })
-                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.Address, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Address, new { @class = "form-control", placeholder = "Adress", data_parsley_required = "true" })
             </div>
             <div class="form-group">
                 <label>Telefonnummer</label>
-                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Telno, new { @class = "form-control", data_parsley_required = "true" })
-                @Html.ValidationMessageFor(m => m.BorrowerWithUser.Borrower.Telno, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.Telno, new { @class = "form-control", placeholder = "0000-000000", data_parsley_required = "true" })
             </div>
             <div class="form-group">
                 <label>Kategori</label>
@@ -57,7 +52,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Uppdatera" />
-                <button id="btnRemove" type="button" class="btn btn-danger pull-right" onclick="checkSure()" @*form="form-remove-borrower"*@>Ta bort</button>
+                <button id="btnRemove" type="button" class="btn btn-danger pull-right" onclick="checkSure()">Ta bort</button>
             </div>
             <div class="form-group" style="float:right">
                 <label id="lblSure" style="display: none; margin: 10px">Säker?</label>
@@ -84,20 +79,53 @@
                     <th></th>
                 </tr>
             </thead>
+            <h3>Aktuella</h3>
             <tbody>
                 @foreach (var borrowed in Model.Borrows)
                 {
-                    <tr>
+
+                    if (borrowed.ReturnDate == new DateTime()) { 
+                        <tr>
                         <td>@borrowed.Barcode</td>
                         <td>@borrowed.BorrowDate.ToShortDateString()</td>
                         <td>@borrowed.ToBeReturnedDate.ToShortDateString()</td>
                         <td><span class="label label-warning">Lånas under tid</span></td>
                         <td><a href="/BorrowerAdmin/RenewLoan/?barcode=@borrowed.Barcode&personid=@borrowed.PersonId" class="btn btn-default btn-xs">Låna om</a></td>
                     </tr>
+                    }
                 }
             </tbody>
         </table>
     </div>
+
+    <div class="col-md-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Barcode</th>
+                    <th>Lånad den</th>
+                    <th>Tillbaka lämnad</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <h3>Historik</h3>
+            <tbody>
+                @foreach (var borrowed in Model.Borrows)
+                {
+
+                    if (borrowed.ReturnDate != new DateTime())
+                    {
+                        <tr>
+                            <td>@borrowed.Barcode</td>
+                            <td>@borrowed.BorrowDate.ToShortDateString()</td>
+                            <td>@borrowed.ReturnDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
     <!-- Modal -->
     <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="AddUser">
         <div class="modal-dialog" role="document">
@@ -109,7 +137,6 @@
                 <div class="modal-body">
                     @using (Html.BeginForm("AddUser", "BorrowerAdmin", FormMethod.Post, new { @id = "form-addusertoborrower" }))
                     {
-                        @*@Html.HiddenFor(m => m.BorrowerWithUser.User.PersonId, Model.BorrowerWithUser.Borrower.PersonId);*@
                         <input type="hidden" name="PersonId" value="@Model.BorrowerWithUser.Borrower.PersonId" />
                         <div class="form-group">
                             <label>Personnummer</label>
@@ -118,16 +145,13 @@
                         </div>
                         <div class="form-group">
                             <label>E-mail</label>
-                            @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.BorrowerWithUser.User.Email, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control", placeholder = "exempel@murva.se" })
                         </div>
                         <label>Password</label>
-                        @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.BorrowerWithUser.User.Password, "", new { @class = "text-danger" })
+                            @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
                         <div class="form-group">
                             <label>Role</label>
                             @Html.DropDownListFor(m => m.BorrowerWithUser.User.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.BorrowerWithUser.User.RoleId, "", new { @class = "text-danger" })
                         </div>
                     }
                 </div>
@@ -154,17 +178,5 @@
             document.getElementById('btnYes').style.display = 'none'
             document.getElementById('btnNo').style.display = 'none'
         }
-    </script>
-    <script type="text/javascript">
-        $("#borrower_form").parsley({
-            trigger: 'change',
-            successClass: "has-success",
-            errorClass: "has-error",
-            classHandler: function (el) {
-                return el.$element.closest('.form-group');
-            },
-            errorsWrapper: '<div class="invalid-message"></div>',
-            errorTemplate: '<span></span>',
-        });
     </script>
 }
