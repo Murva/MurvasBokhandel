@@ -112,17 +112,17 @@ namespace Repository.Repository
 
         public static void dbRemoveBorrower(borrower b)
         {
-            dbPostData("DELETE FROM BORROWER WHERE PersonId = '" + b.PersonId + "';");
+            //dbPostData("DELETE FROM BORROWER WHERE PersonId = '" + b.PersonId + "';");
         }
 
         public static void dbUpdateBorrower(borrower b)
         {
-            dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "' WHERE PersonId = '" + b.PersonId + "'");
+            //dbPostData("UPDATE BORROWER SET FirstName = '" + b.FirstName + "', LastName = '" + b.LastName + "', Telno = '" + b.Telno + "', Address = '" + b.Address + "' WHERE PersonId = '" + b.PersonId + "'");
         }
 
         public static void dbStoreBorrower(borrower b)
         {
-            dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.FirstName+"','"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"', '"+b.CategoryId+"');");
+            //dbPostData("INSERT INTO BORROWER VALUES ('"+b.PersonId+"','"+b.FirstName+"','"+b.LastName+"', '"+b.Address+"', '"+b.Telno+"', '"+b.CategoryId+"');");
         }
     }
 }

@@ -26,13 +26,13 @@ namespace Repository.Repository
             };
         }
 
-        private static string dbGetStringField(string query, string field)
+        private static string dbGetStringField(string query, string field, SqlParameter sp)
         {
             string _str = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(query, connection);
-
+            cmd.Parameters.Add(sp);
             try
             {
                 connection.Open();
@@ -61,7 +61,8 @@ namespace Repository.Repository
             user _userObj = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".PersonId = '" + personId + "'", connection);
+            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".PersonId = @PERSONID", connection);
+            cmd.Parameters.AddWithValue("@PERSONID", personId);
 
             try
             {
@@ -91,7 +92,8 @@ namespace Repository.Repository
             user _userObj = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".Email = '"+email+"'", connection);
+            SqlCommand cmd = new SqlCommand("SELECT \"USER\".\"PersonId\", \"Email\", \"FirstName\", \"LastName\", \"Address\", \"Telno\", \"RoleId\" FROM \"USER\" INNER JOIN BORROWER ON \"USER\".PersonId = \"BORROWER\".PersonId WHERE \"USER\".Email = @EMAIL", connection);
+            cmd.Parameters.AddWithValue("@EMAIL", email);
 
             try
             {
@@ -124,7 +126,8 @@ namespace Repository.Repository
             {
                 string _connectionString = DataSource.getConnectionString("projectmanager");
                 SqlConnection connection = new SqlConnection(_connectionString);
-                SqlCommand cmd = new SqlCommand("SELECT name FROM \"ROLE\" AS R INNER JOIN \"USER\" AS U ON R.Id = U.RoleId WHERE U.Email = '"+email+"'", connection);
+                SqlCommand cmd = new SqlCommand("SELECT name FROM \"ROLE\" AS R INNER JOIN \"USER\" AS U ON R.Id = U.RoleId WHERE U.Email = @EMAIL", connection);
+                cmd.Parameters.AddWithValue("@EMAIL", email);
 
                 try
                 {
@@ -153,21 +156,33 @@ namespace Repository.Repository
 
         public static bool dbUserExists(string email)
         {
-            return (dbGetStringField("SELECT Email FROM \"USER\" WHERE Email = '" + email + "'", "email") != null ? true : false);
+            return (dbGetStringField("SELECT Email FROM \"USER\" WHERE Email = @EMAIL", "email", new SqlParameter("@EMAIL", email)) != null ? true : false);
         }
 
         public static string dbGetPassword(string email)
         {
-            return dbGetStringField("SELECT Password FROM \"USER\" WHERE Email = '" + email + "'", "Password");
+            return dbGetStringField("SELECT Password FROM \"USER\" WHERE Email = @EMAIL", "Password", new SqlParameter("@EMAIL", email));
+        }
+
+        private static SqlParameter[] _mapUserParameters(user u)
+        {
+            return new SqlParameter[] { 
+                new SqlParameter("@PERSONID", u.PersonId),
+                new SqlParameter("@EMAIL", u.Email),
+                new SqlParameter("@PASSWORD", u.Password),
+                new SqlParameter("@ROLEID", u.RoleId)
+            };
         }
 
         public static void dbCreateUser(user u)
         {
-            dbPostData("INSERT INTO \"USER\" VALUES ('" + u.PersonId + "','" + u.Email + "','" + u.Password + "', '" + u.RoleId + "');");
+            dbPostData("INSERT INTO \"USER\" VALUES (@PERSONID, @EMAIL, @PASSWORD, @ROLEID);", _mapUserParameters(u));
         }
         
         public static void dbRemoveUser(string PersonId){
-            dbPostData("DELETE FROM \"USER\" WHERE PersonId = '" + PersonId + "';");
+            dbPostData("DELETE FROM \"USER\" WHERE PersonId = @PERSONID;", new SqlParameter[] {
+                new SqlParameter("@PERSONID", PersonId)
+            });
         }
         public static void dbChangePassword(string Password) 
         {
@@ -178,9 +193,7 @@ namespace Repository.Repository
             //här ska det in ett anrop till databasen som ändrar emailen i databasen.
             //förs vill vi bara se om den fungerar eller inte så vi kör utan string
             
-            
-            dbPostData("UPDATE \"USER\" SET Email = '" + u.Email + "', Password = '" + u.Password + "' WHERE PersonId='" +u.PersonId + "' ;");
-
+            dbPostData("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD WHERE PersonId=@PERSONID;", _mapUserParameters(u));
         }
     }
 }

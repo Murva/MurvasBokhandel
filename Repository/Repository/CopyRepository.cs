@@ -50,12 +50,16 @@ namespace Repository.Repository
             return _copy;
         }
 
-        private static List<copy> dbGetCopiesList(string query)
+        private static List<copy> dbGetCopiesList(string query, SqlParameter[] sp)
         {
             List<copy> _copyList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(query, con);
+
+            if (sp != null && sp.Length > 0)
+                cmd.Parameters.AddRange(sp);
+
             try
             {
                 con.Open();
@@ -85,12 +89,16 @@ namespace Repository.Repository
 
         public static List<copy> dbGetCopiesByISBN(string ISBN)
         {
-            return dbGetCopiesList("SELECT * FROM COPY WHERE ISBN = '"+ISBN+"'");
+            return dbGetCopiesList("SELECT * FROM COPY WHERE ISBN = @ISBN", new SqlParameter[] {
+                new SqlParameter("@ISBN", ISBN)
+            });
         }
 
         public static void dbRemoveCopy(string Barcode)
         {
-            dbPostData("DELETE FROM COPY WHERE Barcode ='" + Barcode + "'");
+            dbPostData("DELETE FROM COPY WHERE Barcode = @BARCODE", new SqlParameter[] {
+                new SqlParameter("@BARCODE", Barcode)
+            });
         }
     }
 }

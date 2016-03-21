@@ -16,7 +16,9 @@ namespace Repository.Repository
             SqlConnection con = new SqlConnection(_connectionString);
             // ' ' behövdes för att id skulle ses som string
             //SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK WHERE ISBN = '" + isbn + "';", con);
-            SqlCommand cmd = new SqlCommand("SELECT SUM(Penaltyperday * (DATEDIFF(DAY, ToBeReturnedDate,GETDATE()))) AS 'Avgift' FROM BORROWER, CATEGORY, BORROW, COPY WHERE BORROWER.CategoryId = CATEGORY.CatergoryId AND COPY.Barcode ='" + barcode + "' AND BORROWER.PersonId='" + personId + "' AND BORROW.Barcode = COPY.Barcode AND BORROW.PersonId = '" + personId + "';", con);
+            SqlCommand cmd = new SqlCommand("SELECT SUM(Penaltyperday * (DATEDIFF(DAY, ToBeReturnedDate,GETDATE()))) AS 'Avgift' FROM BORROWER, CATEGORY, BORROW, COPY WHERE BORROWER.CategoryId = CATEGORY.CatergoryId AND COPY.Barcode = @BARCODE AND BORROWER.PersonId= @PERSONID AND BORROW.Barcode = COPY.Barcode AND BORROW.PersonId = @PERSONID;", con);
+            cmd.Parameters.AddWithValue("@BARCODE", barcode);
+            cmd.Parameters.AddWithValue("@PERSONID", personId);
             try
             {
                 con.Open();

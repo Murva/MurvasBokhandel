@@ -81,12 +81,12 @@ namespace Repository.Repository
         }
         public static void updateDate(borrow b)
         {
-            dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
+            //dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
         }
 
         public static void dbRemoveBorrowsByPersonId(string PersonId)
         {
-            dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
+            //dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
         }
     }
 }

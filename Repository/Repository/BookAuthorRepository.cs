@@ -15,7 +15,13 @@ namespace Repository.Repository
             List<author> _authorList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = '"+isbn+"';", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = @ISBN;", con);
+            SqlParameter[] spc = { 
+                new SqlParameter("@ISBN", isbn)
+            };
+
+            cmd.Parameters.AddRange(spc);
+
             try
             {
                 con.Open();
@@ -56,8 +62,15 @@ namespace Repository.Repository
             bookAuthor _bookAuthorObj = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR WHERE Aid = " + Convert.ToString(Aid) + " AND ISBN = '"+ISBN+"';", connection);
 
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK_AUTHOR WHERE Aid = @Aid AND ISBN = '@ISBN';", connection);
+            SqlParameter[] spc = { 
+                new SqlParameter("@Aid", Aid),
+                new SqlParameter("@ISBN", ISBN)
+            };
+
+            cmd.Parameters.AddRange(spc);
+            
             try
             {
                 connection.Open();
@@ -83,17 +96,25 @@ namespace Repository.Repository
 
         public static void dbStoreBookAuthor(bookAuthor ba)
         {
-            dbPostData("INSERT INTO BOOK_AUTHOR VALUES ('" + ba.ISBN + "', " + ba.Aid.ToString() + ")");
+            dbPostData("INSERT INTO BOOK_AUTHOR VALUES (@ISBN, @Aid)", new SqlParameter[] {
+                new SqlParameter("@ISBN", ba.ISBN),
+                new SqlParameter("@Aid", ba.Aid)
+            });
         }
 
         public static void dbRemoveBookAuthorByISBN(string isbn)
         {
-            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = '"+isbn+"'");
+            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = @ISBN", new SqlParameter[] {
+                new SqlParameter("@ISBN", isbn)
+            });
         }
 
         public static void dbRemoveBookAuthor(int Aid, string ISBN)
         {
-            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = '"+ISBN+"' AND Aid = "+Aid.ToString());
+            dbPostData("DELETE FROM BOOK_AUTHOR WHERE ISBN = @ISBN AND Aid = @Aid", new SqlParameter[] {
+                new SqlParameter("@ISBN", ISBN),
+                new SqlParameter("@Aid", Aid)
+            });
         }
     }
 }

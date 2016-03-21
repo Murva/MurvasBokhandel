@@ -101,7 +101,7 @@ namespace MurvasBokhandel.Controllers
                 if (!BookAuthorService.BookAuthorExists(Aid, isbn))
                     BookAuthorService.StoreBookAuthor(new bookAuthor() { Aid = Aid, ISBN = isbn });
 
-                return Redirect("/BookAdmin/Book/" + isbn);
+                return RedirectToAction("Book", new { id = isbn });
             }
             return Redirect("/Error/Code/403");
         }

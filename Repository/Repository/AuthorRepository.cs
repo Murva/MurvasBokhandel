@@ -21,12 +21,16 @@ namespace Repository.Repository
             return authObj;
         }
 
-        private static List<author> dbGetAuthorList(string query)
+        private static List<author> dbGetAuthorList(string query, SqlParameter[] sp)
         {
             List<author> _authList = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(query, con);
+
+            if (sp != null && sp.Length > 0)
+                cmd.Parameters.AddRange(sp);
+
             try
             {
                 con.Open();
@@ -56,14 +60,15 @@ namespace Repository.Repository
 
         public static List<author> dbGetAuthors(string orderBy)
         {
-
-            return dbGetAuthorList("SELECT * FROM Author ORDER BY " + orderBy + ";");
+            return dbGetAuthorList("SELECT * FROM Author ORDER BY "+orderBy+";", null);
         }
 
         public static List<author> dbGetAuthorsBySearch(string search)
         {
-            return dbGetAuthorList("SELECT * FROM Author WHERE FirstName LIKE '%" + search + "%' OR LastName LIKE '%" + search + "%';");
-
+            return dbGetAuthorList("SELECT * FROM Author WHERE FirstName LIKE '%'+@SEARCH+'%' OR LastName LIKE '%'+@SEARCH+'%';",
+                 new SqlParameter[] {
+                    new SqlParameter("@SEARCH", search)
+                 });
         }
 
         public static author dbGetAuthor(int aid)
@@ -71,7 +76,9 @@ namespace Repository.Repository
             author _authorObj = null;
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM author WHERE Aid = " + Convert.ToString(aid) + ";", connection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM author WHERE Aid = @AID;", connection);
+
+            cmd.Parameters.Add(new SqlParameter("@AID", aid));
 
             try
             {
@@ -96,20 +103,54 @@ namespace Repository.Repository
             return _authorObj;
         }
 
+        private static SqlParameter[] _mapAuthorParameters(author a) 
+        {
+            return new SqlParameter[] {
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    SqlValue = 50,
+                    ParameterName = "@FIRSTNAME",
+                    IsNullable = true,
+                    Value = a.FirstName
+                },
+                new SqlParameter("@LASTNAME", a.LastName){
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    SqlValue = 50,
+                    ParameterName = "@LASTNAME",
+                    IsNullable = true,
+                    Value = a.LastName
+                },
+                new SqlParameter("@BIRTHYEAR", a.BirthYear){
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    SqlValue = 10,
+                    ParameterName = "@BIRTHYEAR",
+                    IsNullable = true,
+                    Value = a.BirthYear == null ? DBNull.Value.ToString() : a.BirthYear
+                },
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.Int,
+                    ParameterName = "@AID",
+                    IsNullable = false,
+                    Value = a.Aid
+                }
+            };
+        }
 
         public static void UpdateAuthor(author a)
         {
-            dbPostData("UPDATE AUTHOR SET FirstName = '"+a.FirstName+"', LastName='"+a.LastName+"', BirthYear='"+a.BirthYear+"' WHERE Aid = "+a.Aid.ToString());
+            dbPostData("UPDATE AUTHOR SET FirstName = @FIRSTNAME, LastName = @LASTNAME, BirthYear = @BIRTHYEAR WHERE Aid = @AID", _mapAuthorParameters(a));
         }
 
         public static void StoreAuthor(author a)
         {
-            dbPostData("INSERT INTO AUTHOR VALUES ('" + a.FirstName + "','" + a.LastName + "','" + a.BirthYear + "')");
+            dbPostData("INSERT INTO AUTHOR VALUES (@FIRSTNAME, @LASTNAME, @BIRTHYEAR)", _mapAuthorParameters(a));
         }
 
         public static void DeleteAuthor(author a)
         {
-            dbPostData("DELETE FROM AUTHOR WHERE Aid = "+a.Aid.ToString());
+            dbPostData("DELETE FROM AUTHOR WHERE Aid = @AID", new SqlParameter[] { 
+                new SqlParameter("@AID", a.Aid)
+            });
         }
 
     }

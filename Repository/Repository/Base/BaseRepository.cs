@@ -6,11 +6,12 @@ namespace Repository.Repository.Base
 {
     public class BaseRepository
     {
-        protected static void dbPostData(string query)
+        protected static void dbPostData(string query, SqlParameter[] sp)
         {
             string _connectionString = DataSource.getConnectionString("projectmanager");
             SqlConnection con = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddRange(sp);
 
             try
             {
