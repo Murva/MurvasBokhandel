@@ -14,42 +14,58 @@
 <div class="row">
     <div class="col-md-4">
         <h4>Dina kontouppgifter</h4>
-        @using (Html.BeginForm("Update", "User"))
+        @using (Html.BeginForm())
         {
+            @Html.AntiForgeryToken()
+            
             @Html.HiddenFor(m => m.User.PersonId)
+            @Html.HiddenFor(m => m.Borrower.PersonId)
             <div class="form-group">
                 <label>Personnummer</label>
-                @Html.TextBoxFor(m => m.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
+                @Html.EditorFor(m => m.Borrower.PersonId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled"} })
+                @Html.ValidationMessageFor(m => m.Borrower.PersonId, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Förnamn</label>
-                @Html.TextBoxFor(m => m.Borrower.FirstName, new { @class = "form-control" })
+                @Html.EditorFor(m => m.Borrower.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Borrower.FirstName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Efternamn</label>
-                @Html.TextBoxFor(m => m.Borrower.LastName, new { @class = "form-control" })
+                @Html.EditorFor(m => m.Borrower.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Borrower.LastName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Adress</label>
-                @Html.TextBoxFor(m => m.Borrower.Address, new { @class = "form-control" })
+                @Html.EditorFor(m => m.Borrower.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Borrower.Address, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Telefonnummer</label>
-                @Html.TextBoxFor(m => m.Borrower.Telno, new { @class = "form-control" })
+                @Html.EditorFor(m => m.Borrower.Telno, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Borrower.Telno, "", new { @class = "text-danger" })
             </div>           
             <div class="form-group">
                 <label>Email</label>
-                @Html.TextBoxFor(m => m.User.Email, new { @class = "form-control" })
+                @Html.EditorFor(m => m.User.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.User.Email, "", new { @class = "text-danger" })
             </div>   
             <div class="form-group">
                 <label>Lösenord</label>
                 @Html.PasswordFor(m => m.User.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
             </div>   
             <div class="form-group">
                 <input type="submit" class="btn btn-warning" value="Uppdatera" />                
             </div>
         }
 
+        @if (ViewBag.Error != null)
+        {//Denna visas alltid! måste gå att ta bort!
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
        
     
     <!-- Modal -->

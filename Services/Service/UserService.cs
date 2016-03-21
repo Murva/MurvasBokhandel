@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Services.Service
 {
@@ -28,7 +29,14 @@ namespace Services.Service
             BorrowerService.UpdateBorrower(user.Borrower);
 
         }
-
-
+        
+        public static bool emailExists(string inputEmail)
+        {
+            if (Repository.Repository.UserRepository.dbUserExists(inputEmail))
+                return (true);
+            else
+                return (false);
+        }
+        
     }
 }
