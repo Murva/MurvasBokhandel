@@ -30,40 +30,30 @@ namespace MurvasBokhandel.Controllers
         }
 
 
-        public ActionResult AddUser(user u, String PersonId){
-            if (Session["Permission"] as string == "Admin")
-            {
+        public ActionResult AddUser(user u)
+        {
                 //if (b.BorrowerWithUser.User.Email != null && b.BorrowerWithUser.User.Password != null &&
                     //ModelState.IsValidField(b.BorrowerWithUser.User.Email) && ModelState.IsValidField(b.BorrowerWithUser.User.Password))
                 if(ModelState.IsValid)
                 {
                     //u.PersonId = PersonId;
-                    AuthService.CreateUser(u);
+                    //AuthService.CreateUser(u);
                     //ViewBag.UserInput("");
-                    return RedirectToAction("/Borrower/" + PersonId);
+                    return Redirect("/BorrowerAdmin/Borrower/"+u.PersonId);
                 }
                 else {
                     //ViewBag.UserInput("FEL INMATNING ROFFELMJAOU");
-                    return RedirectToAction("/Borrower/" + PersonId);
+                    return Redirect("/BorrowerAdmin/Borrower/"+u.PersonId);
                 }   
-            }
-            else
-            {
-                return Redirect("/");
-            }
+            
         }
 
         [HttpGet]
         public ActionResult Borrower(string id)
         {
-            if (Session["Permission"] as string == "Admin")
-            {
+            
                 return View(BorrowerService.GetBorrower(id));
-            }
-            else
-            {
-                return Redirect("/");
-            }
+            
         }
 
         [HttpPost]
