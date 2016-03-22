@@ -61,7 +61,7 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid &&  ( BorrowerWithUser.Borrower.CategoryId == 1 ||
+                if (ModelState.IsValid && (BorrowerWithUser.Borrower.CategoryId == 1 ||
                                              BorrowerWithUser.Borrower.CategoryId == 2 ||
                                              BorrowerWithUser.Borrower.CategoryId == 3 ||
                                              BorrowerWithUser.Borrower.CategoryId == 4))
@@ -127,12 +127,6 @@ namespace MurvasBokhandel.Controllers
                                              baci.CatergoryId == 3 ||
                                              baci.CatergoryId == 4))
                 {
-                    List<borrower> borrowers = BorrowerService.getBorrowers();
-                    foreach (borrower borr in borrowers)
-                    {
-                        if (borr.PersonId == baci.borrower.PersonId)
-                            return Redirect("Start");
-                    }
                     borrower b = new borrower();
                     b = baci.borrower;
                     b.CategoryId = baci.CatergoryId;
@@ -140,6 +134,7 @@ namespace MurvasBokhandel.Controllers
                     return Redirect("Start");
                 }
                 else {
+                    ViewBag.idExists = "Detta personnumret är redan registrerat hos oss";
                     BorrowerAndCategories bac = new BorrowerAndCategories();
                     bac.borrower = new borrower();
                     bac.categories = CategoryService.getCategories();

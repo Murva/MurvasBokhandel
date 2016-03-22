@@ -9,7 +9,7 @@ namespace Services.Service
     {
         public static bool checkIfBorrowerExists(string PersonId) {
             borrower b = BorrowerRepository.dbGetBorrower(PersonId);
-            if (b.PersonId == null)
+            if (b == null)
                 return false;
             else return true;
         }
@@ -46,6 +46,8 @@ namespace Services.Service
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowListByPersonId(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
+            if (borrowerwithborrows.BorrowerWithUser.User == null)
+                borrowerwithborrows.BorrowerWithUser.User = new user();
             borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
             return borrowerwithborrows;
         }
