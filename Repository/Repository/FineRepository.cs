@@ -1,13 +1,10 @@
-﻿using Repository.EntityModel;
-using Repository.Repositories;
-using Repository.Repository.Base;
+﻿using Repository.Repositories;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace Repository.Repository
 {
-    public class FineRepository : BaseRepository
+    public class FineRepository
     {
         public static int dbGetFine(string barcode, string personId)
         {

@@ -61,34 +61,24 @@ namespace MurvasBokhandel.Controllers
         public ActionResult Create()
         {
             if (Session["Permission"] as string == "Admin")
-            {
-                return View(new BookWithClassifications()
-                {
-                    Book = new Repository.EntityModel.book(),
-                    Classifications = ClassificationService.GetClassifications()
-                });
-            }
+                return View(BookService.NewBookWithClassifications());
 
             return Redirect("/Error/Code/403");
         }
 
         [HttpPost]
-        public ActionResult Create(BookWithClassifications bwc)
+        public ActionResult Create(BookWithClassifications bwc, int copies, string library)
         {
             if (Session["Permission"] as string == "Admin")
             {
                 if (ModelState.IsValid)
                 {
-                    BookService.StoreBook(bwc.Book);
+                    BookService.StoreBook(bwc.Book, copies, library);
 
-                    return Redirect("/BookAdmin/");
+                    return Redirect("/BookAdmin/Book/" + bwc.Book.ISBN);
                 }
 
-                return View(new BookWithClassifications()
-                {
-                    Book = new Repository.EntityModel.book(),
-                    Classifications = ClassificationService.GetClassifications()
-                });
+                return View(BookService.NewBookWithClassifications());
             }
 
             return Redirect("/Error/Code/403");

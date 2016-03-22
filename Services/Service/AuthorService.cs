@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Common.Model;
 using Repository.Repository;
 using Repository.EntityModel;
@@ -46,7 +42,7 @@ namespace Services.Service
         }
         public static List<author> GetAuthersByBook(string isbn)
         {
-            return BookAuthorRepository.dbGetAuthorsByBook(isbn);
+            return AuthorRepository.dbGetAuthorsByBookISBN(isbn);
         }
 
         public static bool AuthorExists(int Aid)
