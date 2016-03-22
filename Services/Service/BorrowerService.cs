@@ -46,6 +46,8 @@ namespace Services.Service
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowListByPersonId(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
+            if (borrowerwithborrows.BorrowerWithUser.User == null)
+                borrowerwithborrows.BorrowerWithUser.User = new user();
             borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
             return borrowerwithborrows;
         }
