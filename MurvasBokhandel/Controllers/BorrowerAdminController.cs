@@ -1,5 +1,6 @@
 ﻿//using MurvasBokhandel.Models;
 using Common.Model;
+using Common.Share;
 using Repository.EntityModel;
 using Services.Service;
 using System;
@@ -15,11 +16,11 @@ namespace MurvasBokhandel.Controllers
     {
         static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
         
-        public ActionResult Start()
+        public ActionResult Start(string letter = "A")
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter))
             {
-                return View(BorrowerService.getBorrowers());
+                return View(new LettersAndBorrowers(LetterLists.LetterList, BorrowerService.GetBorrowersByLetter(letter))) ;
             }
             return Redirect("/Error/Code/403");
         }

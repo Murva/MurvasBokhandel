@@ -8,23 +8,19 @@ using Services.Service;
 using Repository.EntityModel;
 using Common.Model;
 using MurvasBokhandel.Models;
+using Common.Share;
 
 namespace MurvasBokhandel.Controllers
 {
     public class AuthorAdminController : Controller
     {
         // GET: AuthorAdmin
-        public ActionResult Start(string orderBy = "Aid")
+        public ActionResult Start(string letter = "A")
         {
-            if (Session["Permission"] as string == "Admin") 
-            {
-                return View(AuthorService.GetAuthors(orderBy));
-            }
-            else
-            {
-                return Redirect("/");
-            }
+            if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter)) 
+                return View(new LettersAndAuthors(LetterLists.LetterList, AuthorService.GetAuthorsByLetter(letter)));
             
+            return Redirect("/Error/Code/403");            
         }
 
         [HttpGet]

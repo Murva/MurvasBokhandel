@@ -1,4 +1,4 @@
-﻿@model IList<Repository.EntityModel.book>
+﻿@model Common.Model.LettersAndBooks
 @{
     ViewBag.Title = "Start";
 }
@@ -13,28 +13,6 @@
 </div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="text-center">ISBN</th>
-                    <th class="text-center">Titel</th>
-                    <th class="text-center">Publikationsår</th>
-                    <th class="text-center">Information</th>
-                    <th class="text-center">Antal sidor</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var book in Model)
-                {
-                    <tr>
-                        <td><a href="/BookAdmin/Book/@book.ISBN">@book.ISBN</a></td>
-                        <td>@book.Title</td>
-                        <td>@book.PublicationYear</td>
-                        <td>@book.publicationinfo</td>
-                        <td>@book.pages</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @Html.Raw(Model.Render("/BookAdmin/?letter=", "/BookAdmin/Book/", "ISBN", new string[] {"Title"}))
     </div>
 </div>

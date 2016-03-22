@@ -1,4 +1,4 @@
-﻿@model IList<Repository.EntityModel.author>
+﻿@model Common.Model.LettersAndAuthors
 @{
     ViewBag.Title = "Författare";
 }
@@ -11,26 +11,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-8 col-md-offset-2 text-center">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=Aid">#</a></th>
-                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=FirstName">Författarnamn</a></th>
-                    <th class="text-center"><a href="/AuthorAdmin/Start?orderBy=BirthYear">Födelseår</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var Author in Model)
-                {
-                    <tr>
-                        <td>@Author.Aid</td>
-                        <td><a href="/AuthorAdmin/Author/@Author.Aid">@Author.FirstName @Author.LastName</a></td>
-                        <td>@Author.BirthYear</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="col-md-8 col-md-offset-2">
+        @Html.Raw(Model.Render("/AuthorAdmin/?letter=", "/AuthorAdmin/Author/", "Aid", new string[] {"LastName", "FirstName"} ))
     </div>
 </div>
 

@@ -1,23 +1,9 @@
 ﻿@model Common.Model.LettersAndAuthors
-
 @{
-    ViewBag.Title = "BrowseAuthor";
+    ViewBag.Title = "Bläddra";
 }
 
-<h2>Browse all Author</h2>
-<ul class="list-inline">
-    @foreach (var letter in Model.Letters)
-    {
-        <li><a href="/Public/BrowseAuthor/?letter=@letter">@letter</a></li>
-    }
-</ul>
-<div>
-    <ul>
-        @foreach (var author in Model.Authors)
-        {
-            <li>
-                <a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName @author.FirstName</a>
-            </li>
-        }
-    </ul>
+<h2>Bläddra bland alla författare</h2>
+<div class="col-md-8 col-md-offset-2">
+    @Html.Raw(Model.Render("/Public/BrowseAuthor/?letter=", "/Public/Author/", "Aid", new string[] { "LastName", "FirstName" }))
 </div>

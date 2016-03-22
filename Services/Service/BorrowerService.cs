@@ -67,5 +67,10 @@ namespace Services.Service
         {
             throw new NotImplementedException();
         }
+
+        public static List<borrower> GetBorrowersByLetter(string letter)
+        {
+            return BorrowerRepository.dbGetBorrowersByLetter(letter);
+        }
     }
 }
