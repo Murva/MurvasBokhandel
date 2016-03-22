@@ -23,7 +23,7 @@ namespace Repository.EntityModel
         public int RoleId { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i Lösenord")]
-        [PasswordValidator(ErrorMessage="Läsenordet måste vara mellan 5 och 15 tecken samt innehålla en Versal och Siffra")]        
+        [PasswordValidator(ErrorMessage="Läsenordet måste vara mellan 5 och 15 tecken samt innehålla en Versal och Siffra")] 
         public string Password { get; set; }
     }
 }

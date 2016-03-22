@@ -1,16 +1,22 @@
-﻿@model IList<Repository.EntityModel.book>
+﻿@model Common.Model.LettersAndBooks
     @{
         ViewBag.Title = "BrowseBook";
     }
-    
 
-    <h2>Browse all Books</h2>
+
+    <h2>Browse books</h2>
+    <ul class="list-inline">
+        @foreach (var letter in Model.Letters)
+        {
+            <li><a href="/Public/BrowseBook/?letter=@letter">@letter</a></li>
+            }       
+    </ul>
     <div>
         <ul>
-            @foreach (var bok in Model)
+            @foreach (var bok in Model.Books)
             {
                 <li>
-                    <a href ="/Book/GetBook/?ISBN=@bok.ISBN">@bok.Title</a>
+                    <a href="/Book/GetBook/?ISBN=@bok.ISBN">@bok.Title</a>
                 </li>
             }
         </ul>

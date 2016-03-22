@@ -10,6 +10,7 @@ namespace Repository.Repository
     public class AuthorRepository : BaseRepository<author>
     {
         private static SqlParameter[] mapAuthorParameters(author a)
+
         {
             return new SqlParameter[] {
                 new SqlParameter() {
@@ -60,6 +61,14 @@ namespace Repository.Repository
             return dbGetList("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = @ISBN", new SqlParameter[] {
                 new SqlParameter("@ISBN", isbn)
             });
+        }
+
+        public static List<author> dbGetAuthorsByLetter(string letter)
+        {
+            return dbGetList("SELECT * FROM Author WHERE LastName LIKE @LETTER+'%';",
+                 new SqlParameter[] {
+                   new SqlParameter("@LETTER", letter)
+                });
         }
 
         public static author dbGetAuthor(int aid)
