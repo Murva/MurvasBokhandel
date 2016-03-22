@@ -1,23 +1,23 @@
-﻿@model IList<Repository.EntityModel.author>
+﻿@model Common.Model.LettersAndAuthors
 
-    @{
-        ViewBag.Title = "BrowseAuthor";
+@{
+    ViewBag.Title = "BrowseAuthor";
+}
+
+<h2>Browse all Author</h2>
+<ul class="list-inline">
+    @foreach (var letter in Model.Letters)
+    {
+        <li><a href="/Public/BrowseAuthor/?letter=@letter">@letter</a></li>
     }
-
-    <h2>Browse all Author</h2>
-
-    <div>
-        <ul>
-
-            @foreach (var author in Model)
-            {
-
-
-                <li>
-                    <a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName @author.FirstName</a>
-                </li>
-
-            }
-        </ul>
-    </div>
-
+</ul>
+<div>
+    <ul>
+        @foreach (var author in Model.Authors)
+        {
+            <li>
+                <a href="/Author/GetAuthor/?Aid=@author.Aid">@author.LastName @author.FirstName</a>
+            </li>
+        }
+    </ul>
+</div>

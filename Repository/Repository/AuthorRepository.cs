@@ -63,6 +63,16 @@ namespace Repository.Repository
             return dbGetAuthorList("SELECT * FROM Author ORDER BY "+orderBy+";", null);
         }
 
+
+        public static List<author> dbGetAuthorsByLetter(string letter)
+        {
+            return dbGetAuthorList("SELECT * FROM Author WHERE LastName LIKE @LETTER+'%';",
+                 new SqlParameter[] {
+                    new SqlParameter("@LETTER", letter)
+                 });
+        }
+
+
         public static List<author> dbGetAuthorsBySearch(string search)
         {
             return dbGetAuthorList("SELECT * FROM Author WHERE FirstName LIKE '%'+@SEARCH+'%' OR LastName LIKE '%'+@SEARCH+'%';",

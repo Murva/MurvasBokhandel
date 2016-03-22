@@ -50,6 +50,8 @@
     <Compile Include="Model\BorrowerAndCategories.cs" />
     <Compile Include="Model\BorrowerWithBorrows.cs" />
     <Compile Include="Model\BorrowerWithUser.cs" />
+    <Compile Include="Model\LettersAndAuthors.cs" />
+    <Compile Include="Model\LettersAndBooks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
