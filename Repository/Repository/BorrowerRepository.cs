@@ -30,7 +30,7 @@ namespace Repository.Repository
 
         public static void dbUpdateBorrower(borrower b)
         {
-            dbPost("UPDATE BORROWER SET FirstName = @FIRTNAME, LastName = @LASTNAME, Telno = @TELNO, Address = @ADDRESS WHERE PersonId = @PERSONID", new SqlParameter[] {
+            dbPost("UPDATE BORROWER SET FirstName = @FIRSTNAME, LastName = @LASTNAME, Telno = @TELNO, Address = @ADDRESS WHERE PersonId = @PERSONID", new SqlParameter[] {
                 new SqlParameter("@FIRSTNAME", b.FirstName),
                 new SqlParameter("@LASTNAME", b.LastName),
                 new SqlParameter("@TELNO", b.Telno),

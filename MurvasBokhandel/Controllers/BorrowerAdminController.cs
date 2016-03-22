@@ -60,7 +60,7 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid &&  ( BorrowerWithUser.Borrower.CategoryId == 1 ||
+                if (ModelState.IsValid && (BorrowerWithUser.Borrower.CategoryId == 1 ||
                                              BorrowerWithUser.Borrower.CategoryId == 2 ||
                                              BorrowerWithUser.Borrower.CategoryId == 3 ||
                                              BorrowerWithUser.Borrower.CategoryId == 4))
@@ -139,6 +139,7 @@ namespace MurvasBokhandel.Controllers
                     return Redirect("Start");
                 }
                 else {
+                    ViewBag.idExists = "Detta personnumret är redan registrerat hos oss";
                     BorrowerAndCategories bac = new BorrowerAndCategories();
                     bac.borrower = new borrower();
                     bac.categories = CategoryService.getCategories();

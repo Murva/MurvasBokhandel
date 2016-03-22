@@ -9,7 +9,7 @@ namespace Services.Service
     {
         public static bool checkIfBorrowerExists(string PersonId) {
             borrower b = BorrowerRepository.dbGetBorrower(PersonId);
-            if (b.PersonId == null)
+            if (b == null)
                 return false;
             else return true;
         }
