@@ -24,7 +24,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-
+        // Lägger till användarkonto till en borrower
         public ActionResult AddUser(user u)
         {
             if (Session["Permission"] as string == "Admin") {
@@ -54,6 +54,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        // Används för att uppdatera en borrower
         [HttpPost]
         public ActionResult Borrower(BorrowerWithUser BorrowerWithUser)
         {
@@ -72,6 +73,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
      
+        // Tar bort en borrower och konto om det finns
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
             if (Session["Permission"] as string == "Admin")
@@ -114,6 +116,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        // Sparar en ny borrower till databasen
         public ActionResult Store(BorrowerAndCategories baci)
         {
             if (Session["Permission"] as string == "Admin")

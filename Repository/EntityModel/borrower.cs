@@ -21,17 +21,17 @@ namespace Repository.EntityModel
     
 
         [Required(ErrorMessage = "Du måste fylla i Förnamn")]
-        [NameValidation(ErrorMessage="Namn får bra innehålla bokstäver")]
+        [NameValidation(ErrorMessage="Namn får bara innehålla bokstäver")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i Efernamn")]
-        [NameValidation(ErrorMessage = "Namn får bra innehålla bokstäver")]
+        [NameValidation(ErrorMessage = "Namn får bara innehålla bokstäver")]
         public string LastName { get; set; }
 
         [AdressValidation(ErrorMessage="Vanliga tecken samt . - ")]
         public string Address { get; set; }
 
-        [Phone(ErrorMessage="Du måste fylla i det på korrekt sätt")]
+        [Phone(ErrorMessage = "Du måste fylla i ett korrekt telefonnummer")]
 
         public string Telno { get; set; }
     }
