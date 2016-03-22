@@ -4,47 +4,20 @@ using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
-    public class RoleRepository : BaseRepository
+    public class RoleRepository : BaseRepository<role>
     {
-        public static List<role> dbGetRoles() { 
-            List<role> roles = new List<role>();
+        public static List<role> dbGetRoles() {
+            return dbGetList("SELECT * FROM \"ROLE\"", null);
+        }
 
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            // ' ' behövdes för att id skulle ses som string
-            SqlCommand cmd = new SqlCommand("SELECT * FROM \"ROLE\"", con);
-            try
-            {
-                con.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null)
-                {
-                    while (dar.Read())
-                    {
-                        role r = new role();
-                        r.Id = Convert.ToInt32(dar["Id"]);
-                        r.Name = dar["Name"] as string;
-                        roles.Add(r);
-                    }
-                }
-            }
-            catch (Exception eObj)
-            {
-                throw eObj;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
-
-            return roles;
+        public static role dbGetRoleByUserEmail(string email)
+        {
+            return dbGet("SELECT Id, Name FROM \"ROLE\" AS R INNER JOIN \"USER\" AS U ON R.Id = U.RoleId WHERE U.Email = @EMAIL", new SqlParameter[] {
+                new SqlParameter("@EMAIL", email)
+            });
         }
     }
 }

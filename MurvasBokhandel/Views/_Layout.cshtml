@@ -1,5 +1,5 @@
 ﻿@{
-    Repository.EntityModel.user user = (Repository.EntityModel.user)Session["User"];
+    Common.Model.BorrowerWithUser bwu = (Common.Model.BorrowerWithUser) Session["User"];
     string Permission = Session["Permission"] as string;
     bool IsLoggedIn = (Session["IsLoggedIn"] != null ? true : false);
 }
@@ -81,7 +81,7 @@
                 @if (IsLoggedIn)
                 {
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@user.FirstName @user.LastName<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@bwu.Borrower.FirstName @bwu.Borrower.LastName<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             @*<li>
                                 <a href="#"><i class="fa fa-fw fa-user"></i> Författare</a>

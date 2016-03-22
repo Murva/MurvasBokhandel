@@ -1,13 +1,6 @@
-﻿using Common.Model;
-using Repository.EntityModel;
+﻿using Repository.EntityModel;
 using Repository.Repository;
 
-using Services.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Service
 {
@@ -34,7 +27,7 @@ namespace Services.Service
 
         public static role GetRole(string email)
         {
-            return UserRepository.dbGetUserRole(email);
+            return RoleRepository.dbGetRoleByUserEmail(email);
         }
 
         public static void CreateUser(user u) {

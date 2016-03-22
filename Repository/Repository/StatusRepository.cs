@@ -1,49 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Repository.EntityModel;
-using Repository.Repositories;
+﻿using Repository.EntityModel;
 using System.Data.SqlClient;
+using Repository.Repository.Base;
+using System;
+using System.Collections.Generic;
+using Repository.Repositories;
 
 namespace Repository.Repository
 {
-    public class StatusRepository
+    public class StatusRepository : BaseRepository<Status>
     {
-        static public Status dbGetStatus(int statusId) {
-            Status _status = null;
+        public static Status dbGetStatusByStatusId(int statusId)
+        {
+            return dbGet("SELECT * FROM STATUS WHERE statusId = @STATUSID;", new SqlParameter[] {
+                new SqlParameter("@STATUSID", statusId)
+            });
+        }
 
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            // ' ' behövdes för att id skulle ses som string
-            SqlCommand cmd = new SqlCommand("SELECT * FROM STATUS WHERE statusId = @STATUSID;", con);
-            cmd.Parameters.AddWithValue("@STATUSID", statusId);
-
-            try
-            {
-                con.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null)
-                {
-                    if (dar.Read()) {
-                        _status = new Status();
-                        _status.statusid = (int)dar["statusId"];
-                        _status.status = dar["status"] as string;
-                    }
-                }
-            }
-            catch (Exception eObj)
-            {
-                throw eObj;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
-
-            return _status;
+        public static Status dbGetStatusByISBN(string isbn)
+        {
+            return dbGet("SELECT * FROM COPY AS C, STATUS AS S WHERE C.StatusId = S.id AND C.ISBN = @ISBN", new SqlParameter[] {
+                new SqlParameter("@ISBN", isbn)
+            });
         }
     }
 }

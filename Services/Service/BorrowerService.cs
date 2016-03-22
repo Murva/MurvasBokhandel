@@ -43,7 +43,7 @@ namespace Services.Service
             BorrowerWithBorrows borrowerwithborrows = new BorrowerWithBorrows();
             borrowerwithborrows.BorrowerWithUser = new BorrowerWithUser();
             borrowerwithborrows.BorrowerWithUser.Borrower = b;
-            borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowList(b.PersonId);
+            borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowListByPersonId(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
             borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
