@@ -16,10 +16,8 @@ namespace Repository.EntityModel
         [PersonIdValidation(ErrorMessage="Du måste fylla i personnummret på \"ÅÅÅÅMMDD-XXXX\"")]
         public string PersonId { get; set; }
 
-        //[Required(ErrorMessage = "Du måste fylla i Förnamn")]
         public string FirstName { get; set; }
 
-        //[Required(ErrorMessage = "Du måste fylla i Efternamn")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Du måste fylla i Epost")]
@@ -28,7 +26,6 @@ namespace Repository.EntityModel
         
         public string Address { get; set; }
 
-        //[Phone(ErrorMessage ="Ditt telefonnummer måste fyllas i på rätt sätt")]
         public string Telno { get; set; }
         [Required(ErrorMessage = "Du måste välja RoleId")]
         public int RoleId { get; set; }

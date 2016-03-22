@@ -22,12 +22,10 @@ namespace MurvasBokhandel.Controllers.User
                 BBC = BorrowService.GetBorrowedBooks(u.PersonId);
                 return View(BBC);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/");
         }
 
+        // Lånar om de böcker som är möjliga att låna om
         public ActionResult ReloanAll() {
             if (Session["Permission"] as string != null)
             {
@@ -41,12 +39,10 @@ namespace MurvasBokhandel.Controllers.User
                 }
                 return RedirectToAction("Start", BBC);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/");
         }
 
+        // Lånar om enskild bok
         public ActionResult Reloan(int index) 
         {
             if (Session["Permission"] as string != null) 
@@ -55,10 +51,7 @@ namespace MurvasBokhandel.Controllers.User
                 BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period);
                 return View("Start", BBC);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/");
         }
         [HttpGet]
         public ActionResult GetAcountInfo()
@@ -70,10 +63,7 @@ namespace MurvasBokhandel.Controllers.User
                 //BorrowerWithUser activeUser = new BorrowerWithUser();
                 return View(activeUser);
             }
-            else
-            {
-                return Redirect("/");
-            }
+            return Redirect("/");
         }
               
         [HttpPost]
@@ -115,17 +105,8 @@ namespace MurvasBokhandel.Controllers.User
 
                     return View(activeUser);
                 }
-                    
-                
-
-
             }
-            else
-            {
-                return View();
-            }
-                
-                        
+            return View();               
         }
 	}
 }
