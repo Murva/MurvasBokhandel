@@ -126,12 +126,6 @@ namespace MurvasBokhandel.Controllers
                                              baci.CatergoryId == 3 ||
                                              baci.CatergoryId == 4))
                 {
-                    List<borrower> borrowers = BorrowerService.getBorrowers();
-                    foreach (borrower borr in borrowers)
-                    {
-                        if (borr.PersonId == baci.borrower.PersonId)
-                            return Redirect("Start");
-                    }
                     borrower b = new borrower();
                     b = baci.borrower;
                     b.CategoryId = baci.CatergoryId;
