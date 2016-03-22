@@ -7,78 +7,36 @@ using System.Data.SqlClient;
 
 namespace Repository.Repository
 {
-    public class BorrowRepository : BaseRepository
+    public class BorrowRepository : BaseRepository<borrow>
     {
-        static public borrow MapBorrow(SqlDataReader dar)
+        static public borrow dbGetBorrowByPersonId(string id) 
         {
-            borrow _borrow = new borrow();
-            _borrow.PersonId = dar["PersonId"] as string;
-            try { _borrow.ReturnDate = (DateTime)dar["ReturnDate"]; }
-            catch (Exception ex) {}
-            _borrow.ToBeReturnedDate = (DateTime)dar["ToBeReturnedDate"];
-            _borrow.BorrowDate = (DateTime)dar["BorrowDate"];
-            _borrow.Barcode = dar["Barcode"] as string;
-            return _borrow;
+            return dbGet("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
+                new SqlParameter("@PERSONID", id)
+            });
         }
 
-        static public borrow dbGetBorrow(string id) 
+        static public List<borrow> dbGetBorrowListByPersonId(string id)
         {
-            borrow _borrow = null;
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            // ' ' behövdes för att id skulle ses som string
-            //SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "' AND ReturnDate = NULL;", con);
-            try
-            {
-                con.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null) {
-                    _borrow = MapBorrow(dar);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
-            return _borrow;
+            return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID;", new SqlParameter[] {
+                new SqlParameter("@PERSONID", id)
+            });
         }
 
-        static public List<borrow> dbGetBorrowList(string id)
+        public static List<borrow> dbGetBorrowListByISBN(string isbn)
         {
-            List<borrow> _borrowList = new List<borrow>();
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            // ' ' behövdes för att id skulle ses som string
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "';", con);
-            //SqlCommand cmd = new SqlCommand("SELECT * FROM BORROW WHERE PersonId = '" + id + "' AND ReturnDate IS NULL;", con);
-            try
-            {
-                con.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null) {                
-                    while (dar.Read())
-                    {
-                        _borrowList.Add(MapBorrow(dar));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
-            return _borrowList;
+            return dbGetList("SELECT * FROM BORROW AS B, COPY AS C WHERE B.Barcode = C.Barcode AND C.ISBN = @ISBN", new SqlParameter[] {
+                new SqlParameter("@ISBN", isbn)
+            });
         }
+
+        public static List<borrow> dbGetBorrowListByBarcode(string Barcode)
+        {
+            return dbGetList("SELECT * FROM BORROW WHERE Barcode = @BARCODE", new SqlParameter[] {
+                new SqlParameter("@BARCODE", Barcode)
+            });
+        }
+
         public static void updateDate(borrow b)
         {
             //dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");

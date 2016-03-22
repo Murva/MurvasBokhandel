@@ -1,10 +1,6 @@
 ﻿using Repository.EntityModel;
 using Repository.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Service
 {
@@ -27,6 +23,19 @@ namespace Services.Service
         public static void RemoveCopy(string Barcode)
         {
             CopyRepository.dbRemoveCopy(Barcode);
+        }
+
+        public static void CreateCopy(string isbn, string library)
+        {
+            CopyRepository.dbCreateCopy(isbn, library);
+        }
+
+        public static bool IsBorrowed(copy c)
+        {
+            if (StatusRepository.dbGetStatusByISBN(c.ISBN).statusid != 2)
+                return true;
+
+            return false;
         }
     }
 }

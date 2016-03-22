@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Common.Model;
 using Repository.Repository;
 using Repository.EntityModel;
@@ -66,6 +62,15 @@ namespace Services.Service
             return (BookRepository.dbGetBook(ISBN) != null ? true : false);
         }
 
+        public static BookWithClassifications NewBookWithClassifications()
+        {
+            return new BookWithClassifications()
+                {
+                    Book = new Repository.EntityModel.book(),
+                    Classifications = ClassificationService.GetClassifications()
+                };
+        }
+
         //public static AuthorWithBooks GetAuthorWithBooks(int aid)
         //{
         //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
@@ -90,16 +95,33 @@ namespace Services.Service
             return BookRepository.dbGetBooksBySearch(input);
         }       
 
-        public static void StoreBook(book b)
+        public static bool StoreBook(book b, int copies, string library)
         {
             BookRepository.dbStoreBook(b);
+            for (int i = 0; i < copies; i++)
+                CopyService.CreateCopy(b.ISBN, library);
+
+            return true;
         }
 
-        public static void RemoveBook(book b)
+        public static bool RemoveBook(book b)
         {
+            if (HasBorrows(b))
+                return false;
+
             CopyService.RemoveCopyByISBN(b.ISBN);
             BookAuthorService.RemoveBookAuthorByISBN(b.ISBN);
             BookRepository.dbRemoveBook(b.ISBN);
+
+            return true;
+        }
+
+        public static bool HasBorrows(book b)
+        {
+            foreach (copy c in CopyRepository.dbGetCopiesByISBN(b.ISBN))
+                if (CopyService.IsBorrowed(c))
+                    return false;
+            return true;
         }
     }
 }

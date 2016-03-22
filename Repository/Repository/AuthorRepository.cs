@@ -7,8 +7,9 @@ using System.Data.SqlClient;
 
 namespace Repository.Repository
 {
-    public class AuthorRepository : BaseRepository
+    public class AuthorRepository : BaseRepository<author>
     {
+
 
         public static author MapAuthor(SqlDataReader dar)
         {
@@ -113,7 +114,9 @@ namespace Repository.Repository
             return _authorObj;
         }
 
-        private static SqlParameter[] _mapAuthorParameters(author a) 
+        
+        private static SqlParameter[] mapAuthorParameters(author a)
+
         {
             return new SqlParameter[] {
                 new SqlParameter() {
@@ -146,22 +149,48 @@ namespace Repository.Repository
             };
         }
 
+        public static List<author> dbGetAuthors(string orderBy)
+        {
+            return dbGetList("SELECT * FROM Author ORDER BY "+orderBy+";", null);
+        }
+
+        public static List<author> dbGetAuthorsBySearch(string search)
+        {
+            return dbGetList("SELECT * FROM Author WHERE FirstName LIKE '%'+@SEARCH+'%' OR LastName LIKE '%'+@SEARCH+'%';",
+                 new SqlParameter[] {
+                    new SqlParameter("@SEARCH", search)
+                 });
+        }
+
+        public static List<author> dbGetAuthorsByBookISBN(string isbn)
+        {
+            return dbGetList("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = @ISBN", new SqlParameter[] {
+                new SqlParameter("@ISBN", isbn)
+            });
+        }
+
+        public static author dbGetAuthor(int aid)
+        {
+            return dbGet("SELECT * FROM author WHERE Aid = @AID;", new SqlParameter[] {
+                new SqlParameter("@AID", aid)
+            });
+        }
+
         public static void UpdateAuthor(author a)
         {
-            dbPostData("UPDATE AUTHOR SET FirstName = @FIRSTNAME, LastName = @LASTNAME, BirthYear = @BIRTHYEAR WHERE Aid = @AID", _mapAuthorParameters(a));
+            dbPost("UPDATE AUTHOR SET FirstName = @FIRSTNAME, LastName = @LASTNAME, BirthYear = @BIRTHYEAR WHERE Aid = @AID", mapAuthorParameters(a));
         }
 
         public static void StoreAuthor(author a)
         {
-            dbPostData("INSERT INTO AUTHOR VALUES (@FIRSTNAME, @LASTNAME, @BIRTHYEAR)", _mapAuthorParameters(a));
+            dbPost("INSERT INTO AUTHOR VALUES (@FIRSTNAME, @LASTNAME, @BIRTHYEAR)", mapAuthorParameters(a));
         }
 
         public static void DeleteAuthor(author a)
         {
-            dbPostData("DELETE FROM AUTHOR WHERE Aid = @AID", new SqlParameter[] { 
+            dbPost("DELETE FROM AUTHOR WHERE Aid = @AID", new SqlParameter[] { 
                 new SqlParameter("@AID", a.Aid)
             });
         }
-
     }
 }
