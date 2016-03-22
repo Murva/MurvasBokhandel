@@ -11,6 +11,7 @@ namespace Services.Service
         {
             return AuthorRepository.dbGetAuthors(orderBy);
         }
+        
         public static List<author> GetAuthorsByLetter(string letter)
         {
             return AuthorRepository.dbGetAuthorsByLetter(letter);
@@ -44,6 +45,7 @@ namespace Services.Service
 
             return authorwithbooks;
         }
+        
         public static List<author> GetAuthersByBook(string isbn)
         {
             return AuthorRepository.dbGetAuthorsByBookISBN(isbn);

@@ -9,112 +9,6 @@ namespace Repository.Repository
 {
     public class AuthorRepository : BaseRepository<author>
     {
-
-
-        public static author MapAuthor(SqlDataReader dar)
-        {
-            author authObj = new author();
-            authObj.Aid = Convert.ToInt32(dar["Aid"]);
-            authObj.FirstName = dar["FirstName"] as string;
-            authObj.LastName = dar["LastName"] as string;
-            authObj.BirthYear = dar["BirthYear"] as string;
-
-            return authObj;
-        }
-
-        private static List<author> dbGetAuthorList(string query, SqlParameter[] sp)
-        {
-            List<author> _authList = null;
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand(query, con);
-
-            if (sp != null && sp.Length > 0)
-                cmd.Parameters.AddRange(sp);
-
-            try
-            {
-                con.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
-                if (dar != null)
-                {
-                    _authList = new List<author>();
-                    while (dar.Read())
-                    {
-
-                        _authList.Add(MapAuthor(dar));
-
-                    }
-                }
-            }
-            catch (Exception eObj)
-            {
-                throw eObj;
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
-            }
-            return _authList;
-        }
-
-        public static List<author> dbGetAuthors(string orderBy)
-        {
-            return dbGetAuthorList("SELECT * FROM Author ORDER BY "+orderBy+";", null);
-        }
-
-
-        public static List<author> dbGetAuthorsByLetter(string letter)
-        {
-            return dbGetAuthorList("SELECT * FROM Author WHERE LastName LIKE @LETTER+'%';",
-                 new SqlParameter[] {
-                    new SqlParameter("@LETTER", letter)
-                 });
-        }
-
-
-        public static List<author> dbGetAuthorsBySearch(string search)
-        {
-            return dbGetAuthorList("SELECT * FROM Author WHERE FirstName LIKE '%'+@SEARCH+'%' OR LastName LIKE '%'+@SEARCH+'%';",
-                 new SqlParameter[] {
-                    new SqlParameter("@SEARCH", search)
-                 });
-        }
-
-        public static author dbGetAuthor(int aid)
-        {
-            author _authorObj = null;
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection connection = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM author WHERE Aid = @AID;", connection);
-
-            cmd.Parameters.Add(new SqlParameter("@AID", aid));
-
-            try
-            {
-                connection.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
-
-                if (dar.Read())
-                {
-                    _authorObj = MapAuthor(dar);
-                }
-            }
-            catch (Exception eObj)
-            {
-                throw eObj;
-            }
-            finally
-            {
-                if (connection != null)
-                    connection.Close();
-            }
-
-            return _authorObj;
-        }
-
-        
         private static SqlParameter[] mapAuthorParameters(author a)
 
         {
@@ -167,6 +61,14 @@ namespace Repository.Repository
             return dbGetList("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = @ISBN", new SqlParameter[] {
                 new SqlParameter("@ISBN", isbn)
             });
+        }
+
+        public static List<author> dbGetAuthorsByLetter(string letter)
+        {
+            return dbGetList("SELECT * FROM Author WHERE LastName LIKE @LETTER+'%';",
+                 new SqlParameter[] {
+                   new SqlParameter("@LETTER", letter)
+                });
         }
 
         public static author dbGetAuthor(int aid)

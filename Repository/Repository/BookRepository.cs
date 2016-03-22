@@ -63,15 +63,17 @@ namespace Repository.Repository
                 new SqlParameter("@SEARCH", search)
             });
         }
+        
         public static List<book> dbGetBooksByLetter(string letter)
         {
-            return dbGetBookList("SELECT * FROM Book WHERE Title LIKE @LETTER+'%';", new SqlParameter[] { 
+            return dbGetList("SELECT * FROM Book WHERE Title LIKE @LETTER+'%';", new SqlParameter[] { 
                 new SqlParameter("@LETTER", letter)
             });
         }
+        
         public static List<book> dbGetBooksByNumber(List<string> number)
         {
-            return dbGetBookList("SELECT * FROM Book WHERE Title LIKE @NUMBER0+'%' OR Title LIKE @NUMBER1+'%' OR Title LIKE @NUMBER2+'%' OR Title LIKE @NUMBER3+'%' OR Title LIKE @NUMBER4+'%' OR Title LIKE @NUMBER5+'%' OR Title LIKE @NUMBER6+'%' OR Title LIKE @NUMBER7+'%' OR Title LIKE @NUMBER8+'%' OR Title LIKE @NUMBER9+'%';", new SqlParameter[] { 
+            return dbGetList("SELECT * FROM Book WHERE Title LIKE @NUMBER0+'%' OR Title LIKE @NUMBER1+'%' OR Title LIKE @NUMBER2+'%' OR Title LIKE @NUMBER3+'%' OR Title LIKE @NUMBER4+'%' OR Title LIKE @NUMBER5+'%' OR Title LIKE @NUMBER6+'%' OR Title LIKE @NUMBER7+'%' OR Title LIKE @NUMBER8+'%' OR Title LIKE @NUMBER9+'%';", new SqlParameter[] { 
                 new SqlParameter("@NUMBER0", number[0]),
                 new SqlParameter("@NUMBER1", number[1]),
                 new SqlParameter("@NUMBER2", number[2]),
