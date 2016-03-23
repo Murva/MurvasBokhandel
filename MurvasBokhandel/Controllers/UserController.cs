@@ -14,7 +14,8 @@ namespace MurvasBokhandel.Controllers.User
     {
         // GET: /Borrower/        
         
-        public ActionResult Start() {
+        public ActionResult Start() 
+        {
             if (Session["Permission"] as string != null)
             {
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
@@ -27,7 +28,8 @@ namespace MurvasBokhandel.Controllers.User
         }
 
         // Lånar om de böcker som är möjliga att låna om
-        public ActionResult ReloanAll() {
+        public ActionResult ReloanAll() 
+        {
             if (Session["Permission"] as string != null)
             {
                 //OBS! Hämta lån innan
