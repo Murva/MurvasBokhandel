@@ -64,5 +64,13 @@ namespace Repository.Repository
                 new SqlParameter("@CATEGORYID", b.CategoryId)
             });
         }
+
+        public static List<borrower> dbGetBorrowersByLetter(string letter)
+        {
+            return dbGetList("SELECT * FROM Borrower WHERE LastName LIKE @LETTER+'%';",
+                new SqlParameter[] {
+                    new SqlParameter("@LETTER", letter)
+            });
+        }
     }
 }

@@ -9,9 +9,9 @@ namespace Repository.Repository
 {
     public class BorrowRepository : BaseRepository<borrow>
     {
-        static public borrow dbGetBorrowByPersonId(string id) 
+        static public List<borrow> dbGetActiveBorrowsByPersonId(string id) 
         {
-            return dbGet("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
+            return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", id)
             });
         }

@@ -13,7 +13,7 @@ namespace Repository.Validation
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string _adress = Convert.ToString(value);
-            if (!(Regex.IsMatch(_adress, "^[\\wåäöÅÄÖ\\s-]+$")))
+            if (!(Regex.IsMatch(_adress, "^[\\wåäöÅÄÖ\\s-\\.;:]+$")))
                 return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName));
             return null;            
         }    

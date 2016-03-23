@@ -42,6 +42,7 @@ namespace Services.Service
         {
             BorrowerWithBorrows borrowerwithborrows = new BorrowerWithBorrows();
             borrowerwithborrows.BorrowerWithUser = new BorrowerWithUser();
+            
             borrowerwithborrows.BorrowerWithUser.Borrower = b;
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowListByPersonId(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
@@ -68,6 +69,11 @@ namespace Services.Service
         public static BorrowerWithUser GetBorrowerWithUser()
         {
             throw new NotImplementedException();
+        }
+
+        public static List<borrower> GetBorrowersByLetter(string letter)
+        {
+            return BorrowerRepository.dbGetBorrowersByLetter(letter);
         }
     }
 }

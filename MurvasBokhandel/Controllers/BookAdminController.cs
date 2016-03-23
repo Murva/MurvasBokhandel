@@ -3,18 +3,23 @@ using System.Linq;
 using System.Web.Mvc;
 using Common.Model;
 using Repository.EntityModel;
+using Common.Share;
 
 namespace MurvasBokhandel.Controllers
 {
     public class BookAdminController : Controller
     {
         // GET: BookAdmin
-        public ActionResult Start()
+        public ActionResult Start(string letter = "A")
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Session["Permission"] as string == "Admin" && LetterLists.LetterListWithNum.Contains(letter))
             {
-                return View(BookService.GetBooks());
+                if (letter != "123")
+                    return View(new LettersAndBooks(LetterLists.LetterListWithNum, BookService.GetBooksByLetter(letter)));
+                else
+                    return View(new LettersAndBooks(LetterLists.LetterListWithNum, BookService.GetBooksByNumber(LetterLists.NumbList)));
             }
+            
             return Redirect("/Error/Code/403");
         }
 

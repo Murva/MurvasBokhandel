@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Common.Model
 {
-    public class LettersAndAuthors : Base.LettersAndModel<author>
+    public class LettersAndBorrowers : Base.LettersAndModel<borrower>
     {
-        public LettersAndAuthors(List<string> letters, List<author> authors) : base(letters, authors)
+        public LettersAndBorrowers(List<string> letters, List<borrower> borrowers) : base(letters, borrowers)
         {}
     }
 }

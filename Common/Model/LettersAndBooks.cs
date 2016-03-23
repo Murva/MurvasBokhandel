@@ -7,10 +7,9 @@ using Repository.EntityModel;
 
 namespace Common.Model
 {
-    public class LettersAndBooks
+    public class LettersAndBooks : Base.LettersAndModel<book>
     {
-        public List<string> Letters { get; set; }
-        public List<book> Books { get; set; }
-
+        public LettersAndBooks(List<string> letters, List<book> books) : base(letters, books) 
+        {}
     }
 }

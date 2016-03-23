@@ -1,4 +1,4 @@
-﻿@model IList<Repository.EntityModel.borrower>
+﻿@model Common.Model.LettersAndBorrowers
 @{
     ViewBag.Title = "Start";
 }
@@ -13,26 +13,8 @@
 </div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="text-center">Personnr</th>
-                    <th class="text-center">Namn</th>
-                    <th class="text-center">Adress</th>
-                    <th class="text-center">Telnr</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var borrower in Model)
-                {
-                    <tr>
-                        <td><a href="/BorrowerAdmin/Borrower/@borrower.PersonId">@borrower.PersonId</a></td>
-                        <td>@borrower.FirstName @borrower.LastName</td>
-                        <td>@borrower.Address</td>
-                        <td>@borrower.Telno</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @Html.Raw(Model.Render("/BorrowerAdmin/?letter=", "/BorrowerAdmin/Borrower/", "PersonId", new string[] {
+            "LastName", "FirstName"
+        }))
     </div>
 </div>

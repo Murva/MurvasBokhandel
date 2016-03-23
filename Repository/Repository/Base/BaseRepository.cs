@@ -34,7 +34,10 @@ namespace Repository.Repository.Base
             Type t = typeof(T);
 
             foreach (PropertyInfo property in t.GetProperties())
-                property.SetValue(_obj, Convert.ChangeType(dar[property.Name], property.PropertyType));
+                if (!Convert.IsDBNull(dar[property.Name]))
+                    property.SetValue(_obj, Convert.ChangeType(dar[property.Name], property.PropertyType));
+                else
+                    property.SetValue(_obj, null);
 
             return (T)Convert.ChangeType(_obj, typeof(T));
         }

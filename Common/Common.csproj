@@ -42,6 +42,7 @@
     <Compile Include="Model\AuthorsAndBooks.cs" />
     <Compile Include="Model\AuthorWithBooks.cs" />
     <Compile Include="Model\AuthorWithBooksAndBooks.cs" />
+    <Compile Include="Model\Base\LettersAndModel.cs" />
     <Compile Include="Model\BookWithAuthorS.cs" />
     <Compile Include="Model\BookWithAuthor.cs" />
     <Compile Include="Model\BookWithAuthorsAndAuthors.cs" />
@@ -52,7 +53,9 @@
     <Compile Include="Model\BorrowerWithUser.cs" />
     <Compile Include="Model\LettersAndAuthors.cs" />
     <Compile Include="Model\LettersAndBooks.cs" />
+    <Compile Include="Model\LettersAndBorrowers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Share\LetterLists.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.csproj">
