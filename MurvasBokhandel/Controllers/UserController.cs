@@ -47,8 +47,12 @@ namespace MurvasBokhandel.Controllers.User
         {
             if (Session["Permission"] as string != null) 
             {
-                BorrowService.updateBorrowDate(BBC[index].borrow);
-                BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period);
+                BorrowerWithUser bwu = (BorrowerWithUser) Session["User"];
+                BorrowerService.Reloan(bwu.Borrower, BBC[index].borrow);
+
+
+                //BorrowService.updateBorrowDate(BBC[index].borrow);
+                //BorrowService.updateToBeReturnedDate(BBC[index].borrow, bwu.Borrower);
                 return View("Start", BBC);
             }
             return Redirect("/");
@@ -81,10 +85,7 @@ namespace MurvasBokhandel.Controllers.User
                     {
                         ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
                         BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.PersonId);
-                        return View(someOneElseEmail);
-
-
-                        //return View(activeUser);     //Skicka tillbaka att det är en upptagen adress           
+                        return View(someOneElseEmail);        
                         
                     }
 

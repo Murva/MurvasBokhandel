@@ -14,11 +14,12 @@ namespace Repository.Repository
             return dbGetList("SELECT * FROM CATEGORY", null);
         }
 
-        public static category dbGetCategory(int categoryId)
+        public static category dbGetCategoryById(int categoryId)
         {
             return dbGet("SELECT * FROM CATEGORY WHERE CatergoryId = @CATEGORYID;", new SqlParameter[] {
                 new SqlParameter("@CATEGORYID", categoryId)
             });
         }
+ 
     }
 }
