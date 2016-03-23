@@ -100,10 +100,9 @@ namespace MurvasBokhandel.Controllers.User
                 }
                 else
                 {
-                    Repository.EntityModel.user original = (Repository.EntityModel.user)Session["User"];
-                    BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(original.PersonId);
+                    BorrowerWithUser original = (BorrowerWithUser)Session["User"];
 
-                    return View(activeUser);
+                    return View(BorrowerService.GetBorrowerWithUserByPersonId(original.User.PersonId));
                 }
             }
             return View();               

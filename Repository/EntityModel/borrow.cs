@@ -12,6 +12,6 @@ namespace Repository.EntityModel
         public string PersonId { get; set; }
         public DateTime BorrowDate { get; set; }
         public DateTime ToBeReturnedDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
+        public string ReturnDate { get; set; }
     }
 }

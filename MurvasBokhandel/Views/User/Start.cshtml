@@ -34,7 +34,7 @@
             <!--TODO: Ändra om till foreach och rätta till kopplingar-->
             @for (int i = 0; i < Model.Count; i++)
             {
-                if (Model[i].borrow.ReturnDate == new DateTime()) { 
+                if (Model[i].borrow.ReturnDate == null) { 
                     <form action="/User/Reloan" method="post">
                     <input type="hidden" value="@i" name="index" />
                     <tr>
@@ -96,7 +96,7 @@
         <tr><h2>Historik</h2></tr>
     @for (int i = 0; i < Model.Count; i++)
     {
-        if (Model[i].borrow.ReturnDate != new DateTime())
+        if (Model[i].borrow.ReturnDate != null)
         {
                 <tr>
                     <td>
