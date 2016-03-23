@@ -19,7 +19,9 @@
             @Html.AntiForgeryToken()
             
             @Html.HiddenFor(m => m.User.PersonId)
+            @Html.HiddenFor(m => m.User.RoleId)
             @Html.HiddenFor(m => m.Borrower.PersonId)
+            @Html.HiddenFor(m => m.Borrower.CategoryId)
             <div class="form-group">
                 <label>Personnummer</label>
                 @Html.EditorFor(m => m.Borrower.PersonId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled"} })
@@ -52,7 +54,8 @@
             </div>   
             <div class="form-group">
                 <label>Nuvarande lösenord</label>
-                <input type="password" name="currentPassword" class="form-control" />
+                @Html.PasswordFor(m => m.User.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label>Nytt lösenord</label>

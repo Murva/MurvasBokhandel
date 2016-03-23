@@ -107,9 +107,17 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    @if (IsLoggedIn) { 
+                    @if (IsLoggedIn)
+                    {
                         if (Permission == "Admin")
                         {
+                            <li>
+                                <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Mitt Konto</a>
+                            </li>
+                            <li>
+                                <a href="/User/"><i class="fa fa-book"></i> Mina Lån</a>
+                            </li>
+                            <hr/>
                             <li class="dropdown active">
                                 <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
                                 <ul id="author" class="collapse">

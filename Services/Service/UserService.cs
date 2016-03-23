@@ -13,10 +13,10 @@ namespace Services.Service
             //UserRepository.dbCreateUser(u);
         }
         
-        public static void update(BorrowerWithUser user)
+        public static void update(BorrowerWithUser user, string newpassword)
         {
             //string newpassword = PasswordService.CreateHash(user.User.Password);
-            user.User.Password = PasswordService.CreateHash(user.User.Password);
+            user.User.Password = PasswordService.CreateHash(newpassword);
             UserRepository.dbUpdateUser(user.User);
             BorrowerService.UpdateBorrower(user.Borrower);
 

@@ -70,38 +70,40 @@ namespace MurvasBokhandel.Controllers.User
         }
               
         [HttpPost]
-        public ActionResult GetAcountInfo(user user, borrower borrower, string currentPassword, string newpassword = null)
+        public ActionResult GetAcountInfo(user user, borrower borrower, string newpassword = null)
         {
             if (Session["Permission"] as string != null)
             {
-                if (PasswordService.VerifyPassword(currentPassword, Auth.LoggedInUser.User.Password))
-                    if (ModelState.IsValid) 
+                if (ModelState.IsValid)
+                {
+                    if (PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
                     {
-                        BorrowerWithUser activeUser = (BorrowerWithUser)Session["User"];
-
-                        if (UserService.emailExists(user.Email) && (!(activeUser.User.Email == user.Email)))
+                        if (UserService.emailExists(user.Email) && (!(Auth.LoggedInUser.User.Email == user.Email)))
                         {
-                            ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
-                            BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.User.PersonId);
+                            ViewBag.Error = "Epostadressen finns redan registrerad.";
 
-                            return View(someOneElseEmail);   
+                            return View(Auth.LoggedInUser);
                         }
 
                         BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
                         borrowerWithUser.User = user;
                         borrowerWithUser.Borrower = borrower;
                         borrowerWithUser.Borrower.PersonId = user.PersonId;
-                        UserService.update(borrowerWithUser);
-                        Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+
+                        if (newpassword == "")
+                            UserService.update(borrowerWithUser, user.Password);
+                        else
+                            UserService.update(borrowerWithUser, newpassword);
+
+                        Session["User"] = Auth.LoggedInUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
 
                         return Redirect("/User/GetAcountInfo/");
                     }
-                    else
-                    {
-                        BorrowerWithUser original = (BorrowerWithUser)Session["User"];
 
-                        return View(BorrowerService.GetBorrowerWithUserByPersonId(original.User.PersonId));
-                    }
+                    ViewBag.Error = "Du måste ange ditt lösenord.";
+                    return View(Auth.LoggedInUser);
+                }
+                return View(Auth.LoggedInUser);
             }
             return Redirect("/Error/Code/403");               
         }

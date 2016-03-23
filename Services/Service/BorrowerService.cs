@@ -74,11 +74,6 @@ namespace Services.Service
             BorrowerRepository.dbStoreBorrower(b);
         }
 
-        public static BorrowerWithUser GetBorrowerWithUser()
-        {
-            throw new NotImplementedException();
-        }
-
         public static List<borrower> GetBorrowersByLetter(string letter)
         {
             return BorrowerRepository.dbGetBorrowersByLetter(letter);
