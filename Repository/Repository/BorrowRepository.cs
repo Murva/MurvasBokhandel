@@ -58,7 +58,6 @@ namespace Repository.Repository
             //dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
         }
 
-<<<<<<< HEAD
         public static void dbUpdateBorrowDates(string PersonId, string Barcode, DateTime ToBeReturnedDate )
         {
             dbPost("UPDATE BORROW SET BorrowDate = GetDate(), ToBeReturnedDate = @TOBERETURNEDDATE WHERE Barcode = @BARCODE AND PersonId = @PERSONID;", new SqlParameter[] {
@@ -67,7 +66,5 @@ namespace Repository.Repository
                 new SqlParameter("@PERSONID", PersonId)
             });
         }
-=======
->>>>>>> refs/remotes/origin/BorrowerValidering
     }
 }
