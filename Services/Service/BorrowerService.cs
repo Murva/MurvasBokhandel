@@ -42,6 +42,7 @@ namespace Services.Service
         {
             BorrowerWithBorrows borrowerwithborrows = new BorrowerWithBorrows();
             borrowerwithborrows.BorrowerWithUser = new BorrowerWithUser();
+            
             borrowerwithborrows.BorrowerWithUser.Borrower = b;
             borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowListByPersonId(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
