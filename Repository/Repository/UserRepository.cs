@@ -27,7 +27,7 @@ namespace Repository.Repository
 
         public static bool dbUserExists(string email)
         {
-            return (dbGetProperty("SELECT * FROM \"USER\" WHERE Email = @EMAIL", "Email", new SqlParameter[] {
+            return (dbGetProperty("SELECT Email FROM \"USER\" WHERE Email = @EMAIL", "Email", new SqlParameter[] {
                 new SqlParameter("@EMAIL", email)
             }) != null ? true : false);
         }

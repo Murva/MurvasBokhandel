@@ -1,4 +1,6 @@
-﻿using Repository.EntityModel;
+﻿using Common.Model;
+using Common.Share;
+using Repository.EntityModel;
 using Services.Service;
 using System;
 using System.Collections.Generic;
@@ -22,8 +24,10 @@ namespace MurvasBokhandel.Controllers
             if (AuthService.Login(email, password))
             {
                 Session["IsLoggedIn"] = PasswordService.CreateHash(Guid.NewGuid().ToString());
-                Session["User"] = BorrowerService.GetBorrowerWithUserByEmail(email); 
                 Session["Permission"] = AuthService.GetRole(email).Name;
+                BorrowerWithUser b = BorrowerService.GetBorrowerWithUserByEmail(email);
+                Session["User"] = b;
+                Auth.LoggedInUser = b;
 
                 return Redirect("/");
             }

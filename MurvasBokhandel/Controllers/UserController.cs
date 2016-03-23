@@ -7,13 +7,12 @@ using Services.Service;
 using Common.Model;
 using Repository.Repository;
 using Repository.EntityModel;
+using Common.Share;
 
 namespace MurvasBokhandel.Controllers.User
 {
     public class UserController : Controller
-    {
-        // GET: /Borrower/        
-        
+    {   
         public ActionResult Start() 
         {
             if (Session["Permission"] as string != null)
@@ -66,40 +65,40 @@ namespace MurvasBokhandel.Controllers.User
         }
               
         [HttpPost]
-        public ActionResult GetAcountInfo(user user, borrower borrower)
+        public ActionResult GetAcountInfo(user user, borrower borrower, string currentPassword, string newpassword = null)
         {
             if (Session["Permission"] as string != null)
             {
-                if (ModelState.IsValid) 
-                {
-
-                    Repository.EntityModel.user activeUser = (Repository.EntityModel.user)Session["User"];
-
-                    if (Services.Service.UserService.emailExists(user.Email) && (!(activeUser.Email == user.Email)))
+                if (PasswordService.VerifyPassword(currentPassword, Auth.LoggedInUser.User.Password))
+                    if (ModelState.IsValid) 
                     {
-                        ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
-                        BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.PersonId);
+                        BorrowerWithUser activeUser = (BorrowerWithUser)Session["User"];
 
-                        return View(someOneElseEmail);   
+                        if (UserService.emailExists(user.Email) && (!(activeUser.User.Email == user.Email)))
+                        {
+                            ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
+                            BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.User.PersonId);
+
+                            return View(someOneElseEmail);   
+                        }
+
+                        BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
+                        borrowerWithUser.User = user;
+                        borrowerWithUser.Borrower = borrower;
+                        borrowerWithUser.Borrower.PersonId = user.PersonId;
+                        UserService.update(borrowerWithUser);
+                        Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
+
+                        return Redirect("/User/GetAcountInfo/");
                     }
+                    else
+                    {
+                        BorrowerWithUser original = (BorrowerWithUser)Session["User"];
 
-                    BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
-                    borrowerWithUser.User = user;
-                    borrowerWithUser.Borrower = borrower;
-                    borrowerWithUser.Borrower.PersonId = user.PersonId;
-                    UserService.update(borrowerWithUser);
-                    Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
-
-                    return Redirect("/User/GetAcountInfo/");
-                }
-                else
-                {
-                    BorrowerWithUser original = (BorrowerWithUser)Session["User"];
-
-                    return View(BorrowerService.GetBorrowerWithUserByPersonId(original.User.PersonId));
-                }
+                        return View(BorrowerService.GetBorrowerWithUserByPersonId(original.User.PersonId));
+                    }
             }
-            return View();               
+            return Redirect("/Error/Code/403");               
         }
 	}
 }

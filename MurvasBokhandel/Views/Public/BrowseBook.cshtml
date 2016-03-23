@@ -5,5 +5,5 @@
 
 <h2>Bläddra bland alla böcker</h2>
 <div class="col-md-8 col-md-offset-2">
-    @Html.Raw(Model.Render("/Public/BrowseBook/?letter=", "/Public/Book/", "ISBN", new string[] { "Title" }))
+    @Html.Raw(Model.Render("/Public/BrowseBook/?letter=", "/Book/GetBook/?isbn=", "ISBN", new string[] { "Title" }))
 </div>
