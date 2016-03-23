@@ -9,8 +9,6 @@ namespace Common.Model
     public class BorrowedBookCopy
     {
         public book book { get; set; }
-        public copy copy { get; set; }
-        public Status status { get; set; }
         public List<author> authors { get; set; }
         public borrow borrow { get; set; }
         public category category { get; set; }

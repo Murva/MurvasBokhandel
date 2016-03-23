@@ -14,8 +14,6 @@ namespace MurvasBokhandel.Controllers
 {
     public class BorrowerAdminController : Controller
     {
-        static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
-        
         public ActionResult Start(string letter = "A")
         {
             if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter))

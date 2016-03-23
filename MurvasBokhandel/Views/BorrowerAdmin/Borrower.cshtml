@@ -113,27 +113,55 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Titel</th>
+                    <th>Författare</th>
+                    <th>ISBN</th>
+                    <th>Publicerad</th>
                     <th>Barcode</th>
                     <th>Lånad den</th>
-                    <th>Lämnas tillbaka</th>
-                    <th>Status</th>
+                    <th>Förseningsavgift</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
             <h3>Aktuella</h3>
             <tbody>
-                @foreach (var borrowed in Model.Borrows)
+                @*@foreach (var borrowed in Model.Borrows.active)
                 {
-
-                    if (borrowed.ReturnDate == new DateTime()) { 
                         <tr>
-                        <td>@borrowed.Barcode</td>
-                        <td>@borrowed.BorrowDate<<</td>
-                        <td>@borrowed.ToBeReturnedDate</td>
+                        <td>@borrowed.book.Title</td>
+                        <td></td>
+                        <td>@borrowed.book.ISBN</td>
+                        <td>@borrowed.book.PublicationYear</td>
+                        <td>@borrowed.borrow.Barcode</td>
+                        <td>@borrowed.borrow.BorrowDate</td>
+                        <td>@borrowed.borrow.ToBeReturnedDate</td>
                         <td><span class="label label-warning">Lånas under tid</span></td>
-                        <td><a href="/BorrowerAdmin/RenewLoan/?barcode=@borrowed.Barcode&personid=@borrowed.PersonId" class="btn btn-default btn-xs">Låna om</a></td>
+                        <td><a href="/BorrowerAdmin/RenewLoan/?barcode=@borrowed.borrow.Barcode&personid=@borrowed.borrow.PersonId" class="btn btn-default btn-xs">Låna om</a></td>
                     </tr>
-                    }
+                }*@
+                @for (int i = 0; i < Model.Borrows.active.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.Borrows.active[i].book.Title</td>
+                        <td>@for (int j = 0; j < Model.Borrows.active[i].authors.Count; j++)
+                            {
+                                <a href="/Author/GetAuthor/?aid=@Model.Borrows.active[i].authors[j].Aid">@Model.Borrows.active[i].authors[j].FirstName @Model.Borrows.active[i].authors[j].LastName,</a>
+                            }
+                        </td>
+                        <td>@Model.Borrows.active[i].book.ISBN</td>
+                        <td>@Model.Borrows.active[i].book.PublicationYear</td>
+                        <td>@Model.Borrows.active[i].borrow.Barcode</td>
+                        <td>@Model.Borrows.active[i].borrow.BorrowDate</td>
+                        <td>@Model.Borrows.active[i].fine:-
+                            <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />  
+                            @if (Model.Borrows.active[i].borrow.ToBeReturnedDate < DateTime.Today)
+                            {
+                                <font color="red" style="float:right">Försenad</font>
+                            }
+                            
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -143,25 +171,44 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Titel</th>
+                    <th>Författare</th>
+                    <th>ISBN</th>
+                    <th>Publicerad</th>
                     <th>Barcode</th>
-                    <th>Lånad den</th>
+                    <th>Lånad</th>
                     <th>Tillbaka lämnad</th>
                     <th></th>
                 </tr>
             </thead>
             <h3>Historik</h3>
             <tbody>
-                @foreach (var borrowed in Model.Borrows)
+                @*@foreach (var borrowed in Model.Borrows.history)
                 {
 
-                    if (borrowed.ReturnDate != new DateTime())
-                    {
                         <tr>
-                            <td>@borrowed.Barcode</td>
-                            <td>@borrowed.BorrowDate</td>
-                            <td>@borrowed.ReturnDate</td>
+                            <td>@borrowed.borrow.Barcode</td>
+                            <td>@borrowed.borrow.BorrowDate</td>
+                            <td>@borrowed.borrow.ReturnDate</td>
                         </tr>
-                    }
+                    
+                }*@
+                @for (int i = 0; i < Model.Borrows.history.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.Borrows.history[i].book.Title</td>
+                        <td>
+                            @for (int j = 0; j < Model.Borrows.history[i].authors.Count; j++)
+                            {
+                                <a href="/Author/GetAuthor/?aid=@Model.Borrows.history[i].authors[j].Aid">@Model.Borrows.history[i].authors[j].FirstName @Model.Borrows.history[i].authors[j].LastName,</a>
+                            }
+                    </td>
+                    <td>@Model.Borrows.history[i].book.ISBN</td>
+                    <td>@Model.Borrows.history[i].book.PublicationYear</td>
+                    <td>@Model.Borrows.history[i].borrow.Barcode</td>
+                    <td>@Model.Borrows.history[i].borrow.BorrowDate</td>
+                    <td>@Model.Borrows.history[i].borrow.ReturnDate</td>
+                </tr>
                 }
             </tbody>
         </table>

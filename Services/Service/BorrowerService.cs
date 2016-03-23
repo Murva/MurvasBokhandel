@@ -49,7 +49,9 @@ namespace Services.Service
             borrowerwithborrows.BorrowerWithUser = new BorrowerWithUser();
             
             borrowerwithborrows.BorrowerWithUser.Borrower = b;
-            borrowerwithborrows.Borrows = BorrowRepository.dbGetBorrowListByPersonId(b.PersonId);
+            borrowerwithborrows.Borrows = new ActiveAndHistoryBorrows();
+            borrowerwithborrows.Borrows.active = BorrowService.GetActiveBorrowedBooks(b.PersonId);
+            borrowerwithborrows.Borrows.history = BorrowService.GetHistoryBorrowedBooks(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.getCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
             if (borrowerwithborrows.BorrowerWithUser.User == null)
