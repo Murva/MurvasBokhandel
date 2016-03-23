@@ -55,7 +55,10 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BookService.RemoveBook(BookService.GetBook(isbn));
+                if (!BookService.RemoveBook(isbn)) {
+                    TempData["Error"] = "Det gick inte att ta bort bok. Kontrollera att det inte finns knutna lån eller författare.";
+                    return Redirect("/BookAdmin/Book/"+isbn);
+                }
 
                 return Redirect("/BookAdmin/");
             }

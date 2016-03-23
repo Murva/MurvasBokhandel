@@ -40,7 +40,16 @@
                 <input type="submit" value="Uppdate" class="btn btn-warning" />
                 <button type="submit" class="btn btn-danger pull-right" form="form-remove-book">Ta bort</button>
             </div>
+            
+            
         }
+
+       @if (TempData["Error"] != null)
+       {
+            <div class="alert alert-danger">
+                @TempData["Error"]
+            </div>
+       }
 
         <form action="/BookAdmin/Remove" method="post" id="form-remove-book">
             <input type="hidden" name="isbn" value="@Model.Book.ISBN" />
