@@ -83,11 +83,13 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        public ActionResult RenewLoan(string barcode, string personid)
+        public ActionResult RenewLoan(string barcode, string personid, int index)
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), barcode);
+                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
+                borrows.active = BorrowService.GetActiveBorrowedBooks(personid);
+                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.active[index].borrow.Barcode);
            
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);
             }
