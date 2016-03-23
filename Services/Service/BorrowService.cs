@@ -23,7 +23,7 @@ namespace Services.Service
                     borrow = borrow,
                     authors = AuthorRepository.dbGetAuthorsByBookISBN(c.ISBN),
                     book = BookRepository.dbGetBook(c.ISBN),
-                    category = CategoryRepository.dbGetCategory(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
+                    category = CategoryRepository.dbGetCategoryById(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
                     fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
                 });
             }
