@@ -33,8 +33,10 @@ namespace MurvasBokhandel.Controllers.User
             {
                 //OBS! Hämta lån innan
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
+                
                 BorrowerWithUser b = (BorrowerWithUser) Session["User"];
-
+                borrows.active = BorrowService.GetActiveBorrowedBooks(b.User.PersonId);
+                borrows.history = BorrowService.GetHistoryBorrowedBooks(b.User.PersonId);
                 BorrowService.RenewAllLoans(b.Borrower, borrows.active);
 
                 return RedirectToAction("Start", borrows);
@@ -49,7 +51,10 @@ namespace MurvasBokhandel.Controllers.User
             {
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
                 BorrowerWithUser bwu = (BorrowerWithUser) Session["User"];
+                borrows.active = BorrowService.GetActiveBorrowedBooks(bwu.User.PersonId);
+                borrows.history = BorrowService.GetHistoryBorrowedBooks(bwu.User.PersonId);
                 BorrowService.RenewLoad(bwu.Borrower, borrows.active[index].borrow.Barcode);
+                return View("Start", borrows);
             }
             return Redirect("/");
         }
