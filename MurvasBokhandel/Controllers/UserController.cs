@@ -18,8 +18,8 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult Start() {
             if (Session["Permission"] as string != null)
             {
-                user u = (user)Session["User"];
-                BBC = BorrowService.GetBorrowedBooks(u.PersonId);
+                BorrowerWithUser u = (BorrowerWithUser)Session["User"];
+                BBC = BorrowService.GetBorrowedBooks(u.User.PersonId);
                 return View(BBC);
             }
             return Redirect("/");
@@ -57,8 +57,8 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult GetAcountInfo()
         {
             if (Session["Permission"] as string != null) {
-                Repository.EntityModel.user user = (Repository.EntityModel.user)Session["User"];        
-                BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
+                BorrowerWithUser user = (BorrowerWithUser)Session["User"];        
+                BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.User.PersonId);
             
                 //BorrowerWithUser activeUser = new BorrowerWithUser();
                 return View(activeUser);
