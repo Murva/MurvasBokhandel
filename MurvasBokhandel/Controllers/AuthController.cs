@@ -22,7 +22,7 @@ namespace MurvasBokhandel.Controllers
             if (AuthService.Login(email, password))
             {
                 Session["IsLoggedIn"] = PasswordService.CreateHash(Guid.NewGuid().ToString());
-                Session["User"] = BorrowerService.GetBorrowerWithUser(email); 
+                Session["User"] = BorrowerService.GetBorrowerWithUserByEmail(email); 
                 Session["Permission"] = AuthService.GetRole(email).Name;
 
                 return Redirect("/");

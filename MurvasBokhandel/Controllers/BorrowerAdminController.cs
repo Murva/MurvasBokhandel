@@ -14,8 +14,6 @@ namespace MurvasBokhandel.Controllers
 {
     public class BorrowerAdminController : Controller
     {
-        static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
-        
         public ActionResult Start(string letter = "A")
         {
             if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter))
@@ -41,7 +39,7 @@ namespace MurvasBokhandel.Controllers
                         ViewBag.error += ", " + error.ErrorMessage;
                     }
                 }
-                return View("Borrower", BorrowerService.GetBorrower(u.PersonId));
+                return View("Borrower", BorrowerService.GetBorrowerWithBorrows(u.PersonId));
             }
             return Redirect("/Error/Code/403");
         }
@@ -50,7 +48,7 @@ namespace MurvasBokhandel.Controllers
         public ActionResult Borrower(string id)
         {
             if (Session["Permission"] as string == "Admin") {
-                return View(BorrowerService.GetBorrower(id));
+                return View(BorrowerService.GetBorrowerWithBorrows(id));
             }
             return Redirect("/Error/Code/403");
         }
@@ -69,7 +67,7 @@ namespace MurvasBokhandel.Controllers
                     BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
                     return RedirectToAction("/Borrower/" + BorrowerWithUser.Borrower.PersonId);
                 }
-                return View(BorrowerService.GetBorrower(BorrowerWithUser.Borrower.PersonId));
+                return View(BorrowerService.GetBorrowerWithBorrows(BorrowerWithUser.Borrower.PersonId));
             }
             return Redirect("/Error/Code/403");
         }
@@ -89,17 +87,8 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BorrowerWithBorrows b = BorrowerService.GetBorrower(personid);
-                
-                BBC = BorrowService.GetBorrowedBooks(personid);
-                foreach (borrow borrow in b.Borrows)
-                {
-                    if (borrow.Barcode == barcode)
-                    {
-                        BorrowService.updateBorrowDate(borrow);
-                        BorrowService.updateToBeReturnedDate(borrow, BBC[0].category.Period);
-                    }
-                }
+                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), barcode);
+           
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);
             }
             return Redirect("/Error/Code/403");
@@ -109,10 +98,11 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                BorrowerAndCategories bac = new BorrowerAndCategories();
-                bac.borrower = new borrower();
-                bac.categories = CategoryService.getCategories();
-                return View(bac);
+                return View(new BorrowerAndCategories()
+                {
+                    borrower = new borrower(),
+                    categories = CategoryService.getCategories()
+                });
             }
             return Redirect("/Error/Code/403");
         }
@@ -122,7 +112,7 @@ namespace MurvasBokhandel.Controllers
         {
             if (Session["Permission"] as string == "Admin")
             {
-                if (ModelState.IsValid && !BorrowerService.checkIfBorrowerExists(baci.borrower.PersonId) && (baci.CatergoryId == 1 ||
+                if (ModelState.IsValid && !BorrowerService.CheckIfBorrowerExists(baci.borrower.PersonId) && (baci.CatergoryId == 1 ||
                                              baci.CatergoryId == 2 ||
                                              baci.CatergoryId == 3 ||
                                              baci.CatergoryId == 4))

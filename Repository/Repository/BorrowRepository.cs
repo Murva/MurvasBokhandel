@@ -9,16 +9,27 @@ namespace Repository.Repository
 {
     public class BorrowRepository : BaseRepository<borrow>
     {
-        static public List<borrow> dbGetActiveBorrowsByPersonId(string id) 
+        //static public List<borrow> dbGetActiveBorrowsByPersonId(string id) 
+        //{
+        //    return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
+        //        new SqlParameter("@PERSONID", id)
+        //    });
+        //}
+        //static public List<borrow> dbGetHistoryBorrowsByPersonId(string id) {
+        //    return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NOT NULL;", new SqlParameter[]{
+        //        new SqlParameter("@PERSONID", id)
+        //    });
+        //}
+
+        static public List<borrow> dbGetActiveBorrowListByPersonId(string id)
         {
             return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", id)
             });
         }
-
-        static public List<borrow> dbGetBorrowListByPersonId(string id)
+        static public List<borrow> dbGetHistoryBorrowListByPersonId(string id)
         {
-            return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID;", new SqlParameter[] {
+            return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NOT NULL;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", id)
             });
         }
@@ -37,14 +48,23 @@ namespace Repository.Repository
             });
         }
 
-        public static void updateDate(borrow b)
-        {
-            //dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
-        }
+        //public static void updateDate(borrow b)
+        //{
+        //    //dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
+        //}
 
         public static void dbRemoveBorrowsByPersonId(string PersonId)
         {
             //dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
+        }
+
+        public static void dbUpdateBorrowDates(string PersonId, string Barcode, DateTime ToBeReturnedDate )
+        {
+            dbPost("UPDATE BORROW SET BorrowDate = GetDate(), ToBeReturnedDate = @TOBERETURNEDDATE WHERE Barcode = @BARCODE AND PersonId = @PERSONID;", new SqlParameter[] {
+                new SqlParameter("@TOBERETURNEDDATE", ToBeReturnedDate.ToString()),
+                new SqlParameter("@BARCODE", Barcode),
+                new SqlParameter("@PERSONID", PersonId)
+            });
         }
     }
 }

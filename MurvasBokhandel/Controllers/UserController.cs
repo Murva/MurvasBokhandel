@@ -13,14 +13,15 @@ namespace MurvasBokhandel.Controllers.User
     public class UserController : Controller
     {
         // GET: /Borrower/        
-        static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
         
         public ActionResult Start() {
             if (Session["Permission"] as string != null)
             {
+                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
                 BorrowerWithUser u = (BorrowerWithUser)Session["User"];
-                BBC = BorrowService.GetBorrowedBooks(u.User.PersonId);
-                return View(BBC);
+                borrows.active = BorrowService.GetActiveBorrowedBooks(u.User.PersonId);
+                borrows.history = BorrowService.GetHistoryBorrowedBooks(u.User.PersonId);
+                return View(borrows);
             }
             return Redirect("/");
         }
@@ -29,15 +30,13 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult ReloanAll() {
             if (Session["Permission"] as string != null)
             {
-                foreach (BorrowedBookCopy b in BBC)
-                {
-                    if (b.fine == 0)
-                    {
-                        BorrowService.updateBorrowDate(b.borrow);
-                        BorrowService.updateToBeReturnedDate(b.borrow, b.category.Period);
-                    }
-                }
-                return RedirectToAction("Start", BBC);
+                //OBS! Hämta lån innan
+                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
+                BorrowerWithUser b = (BorrowerWithUser) Session["User"];
+
+                BorrowService.RenewAllLoans(b.Borrower, borrows.active);
+
+                return RedirectToAction("Start", borrows);
             }
             return Redirect("/");
         }
@@ -47,9 +46,9 @@ namespace MurvasBokhandel.Controllers.User
         {
             if (Session["Permission"] as string != null) 
             {
-                BorrowService.updateBorrowDate(BBC[index].borrow);
-                BorrowService.updateToBeReturnedDate(BBC[index].borrow, BBC[index].category.Period);
-                return View("Start", BBC);
+                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
+                BorrowerWithUser bwu = (BorrowerWithUser) Session["User"];
+                BorrowService.RenewLoad(bwu.Borrower, borrows.active[index].borrow.Barcode);
             }
             return Redirect("/");
         }
@@ -59,17 +58,14 @@ namespace MurvasBokhandel.Controllers.User
             if (Session["Permission"] as string != null) {
                 BorrowerWithUser user = (BorrowerWithUser)Session["User"];        
                 BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.User.PersonId);
-            
-                //BorrowerWithUser activeUser = new BorrowerWithUser();
                 return View(activeUser);
             }
             return Redirect("/");
         }
               
         [HttpPost]
-        public ActionResult GetAcountInfo(user user, borrower borrower)//user user, borrower borrower
+        public ActionResult GetAcountInfo(user user, borrower borrower)
         {
-            //borrower.PersonId = user.PersonId;
             if (Session["Permission"] as string != null)
             {
                 if (ModelState.IsValid) 
@@ -81,11 +77,8 @@ namespace MurvasBokhandel.Controllers.User
                     {
                         ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
                         BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.PersonId);
-                        return View(someOneElseEmail);
 
-
-                        //return View(activeUser);     //Skicka tillbaka att det är en upptagen adress           
-                        
+                        return View(someOneElseEmail);   
                     }
 
                     BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
@@ -95,7 +88,6 @@ namespace MurvasBokhandel.Controllers.User
                     UserService.update(borrowerWithUser);
                     Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
 
-                    // + user.Borrower.PersonId
                     return Redirect("/User/GetAcountInfo/");
                 }
                 else
