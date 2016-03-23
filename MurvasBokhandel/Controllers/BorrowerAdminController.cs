@@ -14,8 +14,6 @@ namespace MurvasBokhandel.Controllers
 {
     public class BorrowerAdminController : Controller
     {
-        static private List<BorrowedBookCopy> BBC = new List<BorrowedBookCopy>();
-        
         public ActionResult Start(string letter = "A")
         {
             if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter))
@@ -90,14 +88,12 @@ namespace MurvasBokhandel.Controllers
             if (Session["Permission"] as string == "Admin")
             {
                 BorrowerWithBorrows b = BorrowerService.GetBorrower(personid);
-                
-                BBC = BorrowService.GetBorrowedBooks(personid);
-                foreach (borrow borrow in b.Borrows)
+
+                foreach (BorrowedBookCopy borrow in b.Borrows.active)
                 {
-                    if (borrow.Barcode == barcode)
+                    if (borrow.borrow.Barcode == barcode)
                     {
-                        BorrowService.updateBorrowDate(borrow);
-                        BorrowService.updateToBeReturnedDate(borrow, BBC[0].category.Period);
+                        // TODO:
                     }
                 }
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);

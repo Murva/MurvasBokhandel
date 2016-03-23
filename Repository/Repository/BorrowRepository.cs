@@ -9,16 +9,27 @@ namespace Repository.Repository
 {
     public class BorrowRepository : BaseRepository<borrow>
     {
-        static public List<borrow> dbGetActiveBorrowsByPersonId(string id) 
+        //static public List<borrow> dbGetActiveBorrowsByPersonId(string id) 
+        //{
+        //    return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
+        //        new SqlParameter("@PERSONID", id)
+        //    });
+        //}
+        //static public List<borrow> dbGetHistoryBorrowsByPersonId(string id) {
+        //    return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NOT NULL;", new SqlParameter[]{
+        //        new SqlParameter("@PERSONID", id)
+        //    });
+        //}
+
+        static public List<borrow> dbGetActiveBorrowListByPersonId(string id)
         {
             return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", id)
             });
         }
-
-        static public List<borrow> dbGetBorrowListByPersonId(string id)
+        static public List<borrow> dbGetHistoryBorrowListByPersonId(string id)
         {
-            return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID;", new SqlParameter[] {
+            return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NOT NULL;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", id)
             });
         }
@@ -46,5 +57,6 @@ namespace Repository.Repository
         {
             //dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
         }
+
     }
 }

@@ -8,23 +8,33 @@ namespace Services.Service
 {
     public class BorrowService
     {
-        public static List<BorrowedBookCopy> GetBorrowedBooks(string PersonId) {
-            return MapBorrow(BorrowRepository.dbGetBorrowListByPersonId(PersonId));    
+        public static List<BorrowedBookCopy> GetActiveBorrowedBooks(string PersonId) {
+            return MapBorrow(BorrowRepository.dbGetActiveBorrowListByPersonId(PersonId));    
         }
-
+        public static List<BorrowedBookCopy> GetHistoryBorrowedBooks(string PersonId) {
+            return MapBorrow(BorrowRepository.dbGetHistoryBorrowListByPersonId(PersonId));
+        }
         public static List<BorrowedBookCopy> MapBorrow(List<borrow> b) {
             List<BorrowedBookCopy> borrowedBookCopy = new List<BorrowedBookCopy>();
             foreach (borrow borrow in b)
             {
-                BorrowedBookCopy bcopy = new BorrowedBookCopy();
-                bcopy.borrow = borrow;
-                bcopy.copy = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
-                bcopy.book = BookRepository.dbGetBook(bcopy.copy.ISBN);
-                bcopy.authors = AuthorRepository.dbGetAuthorsByBookISBN(bcopy.copy.ISBN);
-                bcopy.status = StatusRepository.dbGetStatusByStatusId(bcopy.copy.StatusId);
-                bcopy.category = CategoryRepository.dbGetCategory(BorrowerRepository.dbGetBorrower( bcopy.borrow.PersonId).CategoryId);
-                bcopy.fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId);
-                borrowedBookCopy.Add(bcopy);
+                copy c = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
+                borrowedBookCopy.Add(new BorrowedBookCopy() { 
+                    borrow = borrow,
+                    authors = AuthorRepository.dbGetAuthorsByBookISBN(c.ISBN),
+                    book = BookRepository.dbGetBook(c.ISBN),
+                    category = CategoryRepository.dbGetCategory(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
+                    fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
+                });
+                //BorrowedBookCopy bcopy = new BorrowedBookCopy();
+                //bcopy.activeBorrow = borrow;
+                //bcopy.copy = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
+                //bcopy.book = BookRepository.dbGetBook(bcopy.copy.ISBN);
+                //bcopy.authors = AuthorRepository.dbGetAuthorsByBookISBN(bcopy.copy.ISBN);
+                //bcopy.status = StatusRepository.dbGetStatusByStatusId(bcopy.copy.StatusId);
+                //bcopy.category = CategoryRepository.dbGetCategory(BorrowerRepository.dbGetBorrower( bcopy.activeBorrow.PersonId).CategoryId);
+                //bcopy.fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId);
+                //borrowedBookCopy.Add(bcopy);
             }
             return borrowedBookCopy;
         }
