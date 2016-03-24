@@ -1,4 +1,5 @@
 ﻿using Common.Model;
+using Common.Share;
 using Repository.EntityModel;
 using Repository.Repository;
 
@@ -6,6 +7,15 @@ namespace Services.Service
 {
     public class UserService
     {
+        public static ActiveAndHistoryBorrows GetActiveAndHistoryBorrows() 
+        {
+            return new ActiveAndHistoryBorrows()
+            {
+                Active = BorrowService.GetActiveBorrowedBooks(Auth.LoggedInUser.User.PersonId),
+                History = BorrowService.GetHistoryBorrowedBooks(Auth.LoggedInUser.User.PersonId)
+            };
+        }
+
         public static void changePassword()
         {
             //u.Password = PasswordService.CreateHash(u.Password);
@@ -13,13 +23,12 @@ namespace Services.Service
             //UserRepository.dbCreateUser(u);
         }
         
-        public static void update(BorrowerWithUser user, string newpassword)
+        public static void Update(BorrowerWithUser user, string password)
         {
-            //string newpassword = PasswordService.CreateHash(user.User.Password);
-            user.User.Password = PasswordService.CreateHash(newpassword);
-            UserRepository.dbUpdateUser(user.User);
-            BorrowerService.UpdateBorrower(user.Borrower);
+            user.User.Password = PasswordService.CreateHash(password);
 
+            UserRepository.dbUpdateUser(Auth.LoggedInUser.User.PersonId, user.User);
+            BorrowerService.UpdateBorrower(user.Borrower);
         }
         
         public static bool emailExists(string inputEmail)

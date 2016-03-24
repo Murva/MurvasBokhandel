@@ -1,6 +1,7 @@
 ﻿//using MurvasBokhandel.Models;
 using Common.Model;
 using Common.Share;
+using MurvasBokhandel.Controllers.Share;
 using Repository.EntityModel;
 using Services.Service;
 using System;
@@ -16,7 +17,7 @@ namespace MurvasBokhandel.Controllers
     {
         public ActionResult Start(string letter = "A")
         {
-            if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter))
+            if (Auth.HasAdminPermission() && LetterLists.LetterList.Contains(letter))
             {
                 return View(new LettersAndBorrowers(LetterLists.LetterList, BorrowerService.GetBorrowersByLetter(letter))) ;
             }
@@ -26,19 +27,16 @@ namespace MurvasBokhandel.Controllers
         // Lägger till användarkonto till en borrower
         public ActionResult AddUser(user u)
         {
-            if (Session["Permission"] as string == "Admin") {
+            if (Auth.HasAdminPermission())
+            {
                 if (ModelState.IsValid && (u.RoleId == 1 || u.RoleId == 2))
                 {
                     AuthService.CreateUser(u);
                     return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
                 }
-                foreach (ModelState modelState in ViewData.ModelState.Values)
-                {
-                    foreach (ModelError error in modelState.Errors)
-                    {
-                        ViewBag.error += ", " + error.ErrorMessage;
-                    }
-                }
+
+                ViewBag.error = ErrorViewer.Build(ViewData);
+
                 return View("Borrower", BorrowerService.GetBorrowerWithBorrows(u.PersonId));
             }
             return Redirect("/Error/Code/403");
@@ -47,9 +45,9 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Borrower(string id)
         {
-            if (Session["Permission"] as string == "Admin") {
+            if (Auth.HasAdminPermission())
                 return View(BorrowerService.GetBorrowerWithBorrows(id));
-            }
+            
             return Redirect("/Error/Code/403");
         }
 
@@ -57,7 +55,7 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Borrower(BorrowerWithUser BorrowerWithUser)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 if (ModelState.IsValid && (BorrowerWithUser.Borrower.CategoryId == 1 ||
                                              BorrowerWithUser.Borrower.CategoryId == 2 ||
@@ -75,9 +73,14 @@ namespace MurvasBokhandel.Controllers
         // Tar bort en borrower och konto om det finns
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
-                BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower);
+                if (!BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower))
+                {
+                    TempData["Error"] = "Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.";
+                    return Redirect("/BorrowerAdmin/Borrower/"+bwb.BorrowerWithUser.Borrower.PersonId);
+                }
+                
                 return Redirect("Start");
             }
             return Redirect("/Error/Code/403");
@@ -85,11 +88,11 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult RenewLoan(string barcode, string personid, int index)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                borrows.active = BorrowService.GetActiveBorrowedBooks(personid);
-                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.active[index].borrow.Barcode);
+                borrows.Active = BorrowService.GetActiveBorrowedBooks(personid);
+                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.Active[index].borrow.Barcode);
            
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);
             }
@@ -98,7 +101,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Create()
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 return View(new BorrowerAndCategories()
                 {
@@ -112,7 +115,7 @@ namespace MurvasBokhandel.Controllers
         // Sparar en ny borrower till databasen
         public ActionResult Store(BorrowerAndCategories baci)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 if (ModelState.IsValid && !BorrowerService.CheckIfBorrowerExists(baci.borrower.PersonId) && (baci.CatergoryId == 1 ||
                                              baci.CatergoryId == 2 ||

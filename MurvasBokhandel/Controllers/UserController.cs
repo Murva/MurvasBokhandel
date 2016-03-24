@@ -15,64 +15,51 @@ namespace MurvasBokhandel.Controllers.User
     {   
         public ActionResult Start() 
         {
-            if (Session["Permission"] as string != null)
-            {
-                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                BorrowerWithUser u = (BorrowerWithUser)Session["User"];
-                borrows.active = BorrowService.GetActiveBorrowedBooks(u.User.PersonId);
-                borrows.history = BorrowService.GetHistoryBorrowedBooks(u.User.PersonId);
-                return View(borrows);
-            }
-            return Redirect("/");
+            if (Auth.HasUserPermission())
+                return View(UserService.GetActiveAndHistoryBorrows());
+
+            return Redirect("/Error/Code/403");
         }
 
         // Lånar om de böcker som är möjliga att låna om
         public ActionResult ReloanAll() 
         {
-            if (Session["Permission"] as string != null)
+            if (Auth.HasUserPermission())
             {
                 //OBS! Hämta lån innan
-                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                
-                BorrowerWithUser b = (BorrowerWithUser) Session["User"];
-                borrows.active = BorrowService.GetActiveBorrowedBooks(b.User.PersonId);
-                borrows.history = BorrowService.GetHistoryBorrowedBooks(b.User.PersonId);
-                BorrowService.RenewAllLoans(b.Borrower, borrows.active);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows();
+                BorrowService.RenewAllLoans(Auth.LoggedInUser.Borrower, borrows.Active);
 
                 return RedirectToAction("Start", borrows);
             }
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
 
         // Lånar om enskild bok
         public ActionResult Reloan(int index) 
         {
-            if (Session["Permission"] as string != null) 
+            if (Auth.HasUserPermission()) 
             {
-                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                BorrowerWithUser bwu = (BorrowerWithUser) Session["User"];
-                borrows.active = BorrowService.GetActiveBorrowedBooks(bwu.User.PersonId);
-                borrows.history = BorrowService.GetHistoryBorrowedBooks(bwu.User.PersonId);
-                BorrowService.RenewLoad(bwu.Borrower, borrows.active[index].borrow.Barcode);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows();
+                BorrowService.RenewLoad(Auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
+
                 return View("Start", borrows);
             }
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
         [HttpGet]
         public ActionResult GetAcountInfo()
         {
-            if (Session["Permission"] as string != null) {
-                BorrowerWithUser user = (BorrowerWithUser)Session["User"];        
-                BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.User.PersonId);
-                return View(activeUser);
-            }
-            return Redirect("/");
+            if (Auth.HasUserPermission())
+                return View(BorrowerService.GetBorrowerWithUserByPersonId(Auth.LoggedInUser.User.PersonId));
+
+            return Redirect("/Error/Code/403");
         }
               
         [HttpPost]
         public ActionResult GetAcountInfo(user user, borrower borrower, string newpassword = null)
         {
-            if (Session["Permission"] as string != null)
+            if (Auth.HasUserPermission())
             {
                 if (ModelState.IsValid)
                 {
@@ -91,9 +78,9 @@ namespace MurvasBokhandel.Controllers.User
                         borrowerWithUser.Borrower.PersonId = user.PersonId;
 
                         if (newpassword == "")
-                            UserService.update(borrowerWithUser, user.Password);
+                            UserService.Update(borrowerWithUser, user.Password);
                         else
-                            UserService.update(borrowerWithUser, newpassword);
+                            UserService.Update(borrowerWithUser, newpassword);
 
                         Session["User"] = Auth.LoggedInUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
 

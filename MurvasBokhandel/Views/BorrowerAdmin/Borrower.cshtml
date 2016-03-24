@@ -74,7 +74,7 @@
         @if (ViewBag.error != null)
         {
             <div class="alert alert-danger">
-                @ViewBag.error
+                @Html.Raw(ViewBag.error)
             </div>
         }
         <form method="post" action="/BorrowerAdmin/AddUser" id="form-addusertoborrower">
@@ -126,32 +126,32 @@
             </thead>
             <h3>Aktuella</h3>
                 <tbody>
-                    @for (int i = 0; i < Model.Borrows.active.Count; i++)
+                    @for (int i = 0; i < Model.Borrows.Active.Count; i++)
                     {
                         <form method="post" action="/BorrowerAdmin/RenewLoan/">
                             <input type="hidden" value="@i" name="index" />
-                            <input type="hidden" value="@Model.Borrows.active[i].borrow.Barcode" name="barcode" />
-                            <input type="hidden" value="@Model.Borrows.active[i].borrow.PersonId" name="personid" />
+                            <input type="hidden" value="@Model.Borrows.Active[i].borrow.Barcode" name="barcode" />
+                            <input type="hidden" value="@Model.Borrows.Active[i].borrow.PersonId" name="personid" />
                             <tr>
                                 <td>
-                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.active[i].book.ISBN">@Model.Borrows.active[i].book.Title</a>
+                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.Active[i].book.ISBN">@Model.Borrows.Active[i].book.Title</a>
                                 </td>
                                 <td>
-                                    @for (int j = 0; j < Model.Borrows.active[i].authors.Count; j++)
+                                    @for (int j = 0; j < Model.Borrows.Active[i].authors.Count; j++)
                                     {
-                                        <a href="/Author/GetAuthor/?aid=@Model.Borrows.active[i].authors[j].Aid">@Model.Borrows.active[i].authors[j].FirstName @Model.Borrows.active[i].authors[j].LastName,</a>
+                                        <a href="/Author/GetAuthor/?aid=@Model.Borrows.Active[i].authors[j].Aid">@Model.Borrows.Active[i].authors[j].FirstName @Model.Borrows.Active[i].authors[j].LastName,</a>
                                     }
                                 </td>
                                 <td>
-                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.active[i].book.ISBN">@Model.Borrows.active[i].book.ISBN</a>
+                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.Active[i].book.ISBN">@Model.Borrows.Active[i].book.ISBN</a>
                                 </td>
-                                <td>@Model.Borrows.active[i].book.PublicationYear</td>
-                                <td>@Model.Borrows.active[i].borrow.Barcode</td>
-                                <td>@Model.Borrows.active[i].borrow.BorrowDate</td>
+                                <td>@Model.Borrows.Active[i].book.PublicationYear</td>
+                                <td>@Model.Borrows.Active[i].borrow.Barcode</td>
+                                <td>@Model.Borrows.Active[i].borrow.BorrowDate</td>
                                 <td>
-                                    @Model.Borrows.active[i].fine:-
+                                    @Model.Borrows.Active[i].fine:-
                                     <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
-                                    @if (Model.Borrows.active[i].borrow.ToBeReturnedDate < DateTime.Today)
+                                    @if (Model.Borrows.Active[i].borrow.ToBeReturnedDate < DateTime.Today)
                                     {
                                         <font color="red" style="float:right">Försenad</font>
                                     }
@@ -179,25 +179,25 @@
             </thead>
             <h3>Historik</h3>
             <tbody>
-                @for (int i = 0; i < Model.Borrows.history.Count; i++)
+                @for (int i = 0; i < Model.Borrows.History.Count; i++)
                 {
                     <tr>
                         <td>
-                            <a href="/Book/GetBook/?isbn=@Model.Borrows.history[i].book.ISBN">@Model.Borrows.history[i].book.Title</a>
+                            <a href="/Book/GetBook/?isbn=@Model.Borrows.History[i].book.ISBN">@Model.Borrows.History[i].book.Title</a>
                         </td>
                         <td>
-                            @for (int j = 0; j < Model.Borrows.history[i].authors.Count; j++)
+                            @for (int j = 0; j < Model.Borrows.History[i].authors.Count; j++)
                             {
-                                <a href="/Author/GetAuthor/?aid=@Model.Borrows.history[i].authors[j].Aid">@Model.Borrows.history[i].authors[j].FirstName @Model.Borrows.history[i].authors[j].LastName,</a>
+                                <a href="/Author/GetAuthor/?aid=@Model.Borrows.History[i].authors[j].Aid">@Model.Borrows.History[i].authors[j].FirstName @Model.Borrows.History[i].authors[j].LastName,</a>
                             }
                     </td>
                     <td>
-                        <a href="/Book/GetBook/?isbn=@Model.Borrows.history[i].book.ISBN">@Model.Borrows.history[i].book.ISBN</a>
+                        <a href="/Book/GetBook/?isbn=@Model.Borrows.History[i].book.ISBN">@Model.Borrows.History[i].book.ISBN</a>
                     </td>
-                    <td>@Model.Borrows.history[i].book.PublicationYear</td>
-                    <td>@Model.Borrows.history[i].borrow.Barcode</td>
-                    <td>@Model.Borrows.history[i].borrow.BorrowDate</td>
-                    <td>@Model.Borrows.history[i].borrow.ReturnDate</td>
+                    <td>@Model.Borrows.History[i].book.PublicationYear</td>
+                    <td>@Model.Borrows.History[i].borrow.Barcode</td>
+                    <td>@Model.Borrows.History[i].borrow.BorrowDate</td>
+                    <td>@Model.Borrows.History[i].borrow.ReturnDate</td>
                 </tr>
                 }
             </tbody>

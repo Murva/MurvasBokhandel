@@ -36,7 +36,7 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Book(book Book)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 if (ModelState.IsValid)
                 {

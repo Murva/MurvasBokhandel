@@ -10,5 +10,21 @@ namespace Common.Share
     public static class Auth
     {
         public static BorrowerWithUser LoggedInUser {get; set;}
+
+        public static bool HasAdminPermission()
+        {
+            if (HasUserPermission() && LoggedInUser.User.RoleId == 2)
+                return true;
+
+            return false;
+        }
+
+        public static bool HasUserPermission()
+        {
+            if (LoggedInUser != null && LoggedInUser.User.RoleId >= 1)
+                return true;
+
+            return false;
+        }
     }
 }
