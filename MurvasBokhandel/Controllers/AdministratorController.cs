@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,14 +12,10 @@ namespace MurvasBokhandel.Controllers
         // GET: Administrator
         public ActionResult Start()
         {
-            if (Session["Permission"] as string == "Admin"){
+            if (Auth.HasAdminPermission())
                 return View();
-            }
-            else
-            {
-                return Redirect("/");
-            }
-            
+                
+            return Redirect("/");
         }
     }
 }

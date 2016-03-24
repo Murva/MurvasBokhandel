@@ -3,7 +3,7 @@ using Repository.EntityModel;
 using Repository.Repository;
 using Common.Model;
 using System.Collections.Generic;
-using Common.Share;
+using Common;
 namespace Services.Service
 {
     public class BorrowerService

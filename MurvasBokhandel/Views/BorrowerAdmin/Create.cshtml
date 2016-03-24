@@ -12,11 +12,9 @@
 
     <div class="form-horizontal col-md-8">
 
-        @if (ViewBag.idExists != null)
+        @if (Model.IsAlerted())
         {
-            <div class="alert alert-danger">
-                @ViewBag.idExists
-            </div>
+            @Html.Raw(Model.PopAlert())
         }
 
         <h4><a href="/BorrowerAdmin">Låntagare</a></h4>

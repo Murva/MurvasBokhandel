@@ -1,7 +1,6 @@
-﻿//using MurvasBokhandel.Models;
+﻿using Common;
 using Common.Model;
 using Common.Share;
-using MurvasBokhandel.Controllers.Share;
 using Repository.EntityModel;
 using Services.Service;
 using System;
@@ -29,14 +28,25 @@ namespace MurvasBokhandel.Controllers
         {
             if (Auth.HasAdminPermission())
             {
+                BorrowerWithBorrows b = BorrowerService.GetBorrowerWithBorrows(u.PersonId);
+
                 if (ModelState.IsValid)
                 {
-                    AuthService.CreateUser(u);
-                    return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
+                    if (!UserService.EmailExists(u.Email))
+                    {
+                        AuthService.CreateUser(u);
+                        return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
+                    }
+
+                    b.PushAlert(AlertView.Build("Konto med emailen " + u.Email + " existerar. Ange en annan!", AlertType.Danger));
+
+                    return View("Borrower", b);
                 }
 
-                ViewBag.error = AlertView.BuildErrors(ViewData);
-                return View("Borrower", BorrowerService.GetBorrowerWithBorrows(u.PersonId));
+                
+                b.PushAlert(AlertView.BuildErrors(ViewData));
+
+                return View("Borrower", b);
             }
 
             return Redirect("/Error/Code/403");
@@ -77,8 +87,9 @@ namespace MurvasBokhandel.Controllers
             {
                 if (!BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower))
                 {
-                    TempData["Error"] = "Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.";
-                    return Redirect("/BorrowerAdmin/Borrower/"+bwb.BorrowerWithUser.Borrower.PersonId);
+                    bwb.PushAlert(AlertView.Build("Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.", AlertType.Danger));
+                    
+                    return View("Borrower", bwb);
                 }
                 
                 return Redirect("Start");
@@ -129,11 +140,12 @@ namespace MurvasBokhandel.Controllers
                     return Redirect("Start");
                 }
                 else {
-                    ViewBag.idExists = "Detta personnumret är redan registrerat hos oss";
-                    BorrowerAndCategories bac = new BorrowerAndCategories();
-                    bac.borrower = new borrower();
-                    bac.categories = CategoryService.getCategories();
-                    return View("Create", bac);
+                    baci.PushAlert(AlertView.Build("Detta personnumret är redan registrerat hos oss", AlertType.Danger));
+                    //ViewBag.idExists = "Detta personnumret är redan registrerat hos oss";
+                    //BorrowerAndCategories bac = new BorrowerAndCategories();
+                    //bac.borrower = new borrower();
+                    //bac.categories = CategoryService.getCategories();
+                    return View("Create", baci);
                 } 
             }
             return Redirect("/Error/Code/403");

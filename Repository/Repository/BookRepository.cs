@@ -31,12 +31,40 @@ namespace Repository.Repository
         private static SqlParameter[] _mapBookParameter(book b)
         {
             return new SqlParameter[] {
-                new SqlParameter("@ISBN", b.ISBN),
-                new SqlParameter("@TITLE", b.Title),
-                new SqlParameter("@SIGNID", b.SignId),
-                new SqlParameter("@PUBLICATIONYEAR", b.PublicationYear),
-                new SqlParameter("@PUBLICATIONINFO", b.publicationinfo),
-                new SqlParameter("@PAGES", b.pages)
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    ParameterName = "@ISBN",
+                    Value =  b.ISBN
+                },
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    IsNullable = true,
+                    ParameterName = "@TITLE",
+                    Value =  b.Title == null ? DBNull.Value.ToString() : b.Title
+                },
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.Int,
+                    ParameterName = "@SIGNID",
+                    Value = b.SignId
+                },
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    IsNullable = true,
+                    ParameterName = "@PUBLICATIONYEAR",
+                    Value =  b.PublicationYear == null ? DBNull.Value.ToString() : b.PublicationYear
+                },
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                    IsNullable = true,
+                    ParameterName = "@PUBLICATIONINFO",
+                    Value =  b.publicationinfo == null ? DBNull.Value.ToString() : b.publicationinfo
+                },
+                new SqlParameter() {
+                    SqlDbType = System.Data.SqlDbType.SmallInt,
+                    IsNullable = true,
+                    ParameterName = "@PAGES",
+                    Value =  b.pages == null ? 0 : b.pages
+                }
             }; 
         }
 

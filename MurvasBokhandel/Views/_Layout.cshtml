@@ -1,7 +1,4 @@
-﻿@{
-    Common.Model.BorrowerWithUser bwu = Common.Share.Auth.LoggedInUser;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app="MurvasApp">
 <head>
 
@@ -76,10 +73,10 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                @if (Common.Share.Auth.HasUserPermission())
+                @if (Common.Auth.HasUserPermission())
                 {
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@bwu.Borrower.FirstName @bwu.Borrower.LastName<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Common.Auth.LoggedInUser.Borrower.FirstName @Common.Auth.LoggedInUser.Borrower.LastName<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             @*<li>
                                 <a href="#"><i class="fa fa-fw fa-user"></i> Författare</a>
@@ -105,7 +102,7 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    @if (Common.Share.Auth.HasAdminPermission())
+                    @if (Common.Auth.HasAdminPermission())
                     {
                         <li>
                             <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Mitt Konto</a>
@@ -113,7 +110,6 @@
                         <li>
                             <a href="/User/"><i class="fa fa-book"></i> Mina Lån</a>
                         </li>
-                        <hr/>
                         <li class="dropdown active">
                             <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
                             <ul id="author" class="collapse">
@@ -151,7 +147,7 @@
                             <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
                         </li>
                     }
-                    else if (Common.Share.Auth.HasUserPermission())
+                    else if (Common.Auth.HasUserPermission())
                     {
                         <li>
                             <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Konto</a>
@@ -164,9 +160,10 @@
                         </li>
                     }
                     else { 
-                    <li>
-                        <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
-                    </li>}
+                        <li>
+                            <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
+                        </li>
+                    }
                     
                 </ul>
             </div>

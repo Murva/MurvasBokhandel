@@ -60,7 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Share\AlertView.cs" />
     <Compile Include="Share\LetterLists.cs" />
-    <Compile Include="Share\Auth.cs" />
+    <Compile Include="Auth.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.csproj">

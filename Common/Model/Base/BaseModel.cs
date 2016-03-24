@@ -9,21 +9,21 @@ namespace Common.Model.Base
 {
     public class BaseModel
     {
-        private static string _alert = null;
+        private string _alert = null;
 
-        public static void PushAlert(string alertView)
+        public void PushAlert(string alertView)
         {
             _alert = alertView;
         }
 
-        public static string PopAlert()
+        public string PopAlert()
         {
             string temp = _alert;
             _alert = null;
             return temp;
         }
 
-        public static bool IsLoaded()
+        public bool IsAlerted()
         {
             return (_alert != null ? true : false);
         }

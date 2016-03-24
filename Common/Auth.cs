@@ -6,12 +6,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Common.Share
+namespace Common
 {
     public static class Auth
     {
-        public static BorrowerWithUser LoggedInUser {get; set;}
+        private static BorrowerWithUser _loggedInUser = null;
+        public static BorrowerWithUser LoggedInUser {
+            get
+            {
+                return _loggedInUser;
+            } 
+        }
         private static string _alert = null;
+
+        public static void Login(BorrowerWithUser b)
+        {
+            _loggedInUser = b;
+        }
+
+        public static void Logout()
+        {
+            _loggedInUser = null;
+        }
+
+        public static void UpdateUser(BorrowerWithUser b)
+        {
+            _loggedInUser = b;
+        }
 
         public static bool HasAdminPermission()
         {
@@ -41,7 +62,7 @@ namespace Common.Share
             return temp;
         }
 
-        public static bool IsLoaded()
+        public static bool IsAlerted()
         {
             return (_alert != null ? true : false);
         }

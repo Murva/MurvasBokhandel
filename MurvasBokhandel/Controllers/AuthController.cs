@@ -1,7 +1,9 @@
-﻿using Common.Share;
+﻿using Common.Model.Base;
+using Common;
 using Services.Service;
 using System;
 using System.Web.Mvc;
+using Common.Share;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -18,21 +20,19 @@ namespace MurvasBokhandel.Controllers
         {
             if (AuthService.Login(email, password))
             {
-                Session["IsLoggedIn"] = PasswordService.CreateHash(Guid.NewGuid().ToString());
-                Session["Permission"] = AuthService.GetRole(email).Name;
-                Session["User"] = Auth.LoggedInUser = BorrowerService.GetBorrowerWithUserByEmail(email);
+                Auth.Login(BorrowerService.GetBorrowerWithUserByEmail(email));
 
                 return Redirect("/");
             }
 
-            ViewBag.Error = AlertView.Build("Fel email eller lösenord. Försök igen!", "danger");
+            ViewBag.Error = AlertView.Build("Fel email eller lösenord. Försök igen!", AlertType.Danger);
 
             return View();
         }
 
         public ActionResult Logout()
         {
-            Session.Clear();
+            Auth.Logout();
 
             return Redirect("/");
         }

@@ -9,6 +9,7 @@ using Repository.EntityModel;
 using Common.Model;
 using MurvasBokhandel.Models;
 using Common.Share;
+using Common;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -17,7 +18,7 @@ namespace MurvasBokhandel.Controllers
         // GET: AuthorAdmin
         public ActionResult Start(string letter = "A")
         {
-            if (Session["Permission"] as string == "Admin" && LetterLists.LetterList.Contains(letter)) 
+            if (Auth.HasAdminPermission() && LetterLists.LetterList.Contains(letter)) 
                 return View(new LettersAndAuthors(LetterLists.LetterList, AuthorService.GetAuthorsByLetter(letter)));
             
             return Redirect("/Error/Code/403");            
@@ -26,7 +27,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Author(int id)
         {
-            if (Session["Permission"] as string == "Admin" && ModelState.IsValid)
+            if (Auth.HasAdminPermission() && ModelState.IsValid)
             {
                 if (id <= 0)
                     return RedirectToAction("Start");
@@ -40,7 +41,7 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Author(AuthorWithBooksAndBooks a)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 if (ModelState.IsValid)
                 {
@@ -58,7 +59,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 return View();
             }
@@ -69,7 +70,7 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Create(author a)
         {
-            if (Session["Permission"] as string == "Admin") 
+            if (Auth.HasAdminPermission()) 
             {
                 if (ModelState.IsValid)
                 {
@@ -87,7 +88,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Remove(AuthorWithBooks a)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 AuthorService.DeleteAuthor(a.Author);
 
@@ -99,7 +100,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult AddBookToAuthor(int Aid, string ISBN)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 if (!BookAuthorService.BookAuthorExists(Aid, ISBN))
                     BookAuthorService.StoreBookAuthor(new bookAuthor()
@@ -116,7 +117,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult RemoveBookFromAuthor(int Aid, string ISBN)
         {
-            if (Session["Permission"] as string == "Admin")
+            if (Auth.HasAdminPermission())
             {
                 BookAuthorService.RemoveBookAuthor(Aid, ISBN);
 

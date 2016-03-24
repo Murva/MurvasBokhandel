@@ -1,8 +1,10 @@
-﻿using System.Web.Mvc;
-using Services.Service;
-using Common.Model;
-using Repository.EntityModel;
+﻿using Common.Model;
+using Common;
 using Common.Share;
+using Repository.EntityModel;
+using System.Web.Mvc;
+using Services.Service;
+
 
 namespace MurvasBokhandel.Controllers.User
 {
@@ -54,40 +56,41 @@ namespace MurvasBokhandel.Controllers.User
         [HttpPost]
         public ActionResult GetAcountInfo(user user, borrower borrower, string newpassword = null)
         {
+            //Knyter samman user och borrower -objekten
+            BorrowerWithUser borrowerWithUser = new BorrowerWithUser()
+            {
+                User = user,
+                Borrower = borrower
+            };
+
             if (Auth.HasUserPermission())
             {
                 if (ModelState.IsValid)
                 {
                     if (PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
                     {
-                        if (UserService.emailExists(user.Email) && Auth.LoggedInUser.User.Email != user.Email)
+                        if (UserService.EmailExists(user.Email) && Auth.LoggedInUser.User.Email != user.Email)
                         {
-                            Auth.PushAlert(AlertView.Build("Email existerar. Försök igen!", "danger"));
-                            return View();
+                            borrowerWithUser.PushAlert(AlertView.Build("Email existerar. Försök igen!", AlertType.Danger));
+                            return View(borrowerWithUser);
                         }
-
-                        BorrowerWithUser borrowerWithUser = new BorrowerWithUser()
-                        {
-                            User = user,
-                            Borrower = borrower
-                        };
-                        
 
                         if (newpassword == "")
                             UserService.Update(borrowerWithUser, user.Password);
                         else
                             UserService.Update(borrowerWithUser, newpassword);
 
-                        Session["User"] = Auth.LoggedInUser = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
+                        borrowerWithUser.PushAlert(AlertView.Build("Du har uppdaterat ditt konto.", AlertType.Success));
+                        Auth.UpdateUser(BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId));
 
-                        return Redirect("/User/GetAcountInfo/");
+                        return View(borrowerWithUser);
                     }
 
-                    Auth.PushAlert(AlertView.Build("Du måste ange ditt lösenord.", "danger"));
-                    return View();
+                    borrowerWithUser.PushAlert(AlertView.Build("Du måste ange ditt lösenord.", AlertType.Danger));
+                    return View(borrowerWithUser);
                 }
 
-                return View();
+                return View(borrowerWithUser);
             }
             return Redirect("/Error/Code/403");               
         }

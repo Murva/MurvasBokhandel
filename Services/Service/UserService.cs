@@ -1,5 +1,5 @@
 ﻿using Common.Model;
-using Common.Share;
+using Common;
 using Repository.EntityModel;
 using Repository.Repository;
 
@@ -16,7 +16,7 @@ namespace Services.Service
             };
         }
 
-        public static void changePassword()
+        public static void ChangePassword()
         {
             //u.Password = PasswordService.CreateHash(u.Password);
 
@@ -31,7 +31,7 @@ namespace Services.Service
             BorrowerService.UpdateBorrower(user.Borrower);
         }
         
-        public static bool emailExists(string inputEmail)
+        public static bool EmailExists(string inputEmail)
         {
             if (Repository.Repository.UserRepository.dbUserExists(inputEmail))
                 return (true);

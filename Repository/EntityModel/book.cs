@@ -14,7 +14,7 @@ namespace Repository.EntityModel
         public string ISBN { get; set; }
         [Required(ErrorMessage = "Sign krävs.")]
         public int SignId { get; set; }
-        [Required(ErrorMessage = "Publikationsår krävs.")]
+
         public string PublicationYear { get; set; }
         [Required(ErrorMessage = "Titel krävs.")]
         public string Title { get; set; }

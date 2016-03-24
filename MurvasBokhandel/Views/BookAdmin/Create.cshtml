@@ -55,6 +55,11 @@
         </select>
     </div>
     
+    @if (ViewBag.Alert != null)
+    {
+        @Html.Raw(ViewBag.Alert)
+    }
+    
     <div class="form-group">
         <input type="submit" value="Spara" class="btn btn-success btn-lg" />
     </div>

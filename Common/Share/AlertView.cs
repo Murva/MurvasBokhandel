@@ -6,11 +6,36 @@ using System.Web.Mvc;
 
 namespace Common.Share
 {
+    public enum AlertType
+    {
+        Danger,
+        Warning,
+        Info,
+        Success
+    }
+
     public class AlertView
     {
-        private static string buildInDiv(string message, string status)
+        private static string convertTypeToString(AlertType a)
         {
-            return "<div class=\"alert alert-" + status + "\">" + message + "</div>";
+            switch (a)
+            {
+                case AlertType.Danger:
+                    return "danger";
+                case AlertType.Warning:
+                    return "warning";
+                case AlertType.Info:
+                    return "info";
+                case AlertType.Success:
+                    return "success";
+            }
+
+            return "";
+        }
+
+        private static string buildInDiv(string message, AlertType a)
+        {
+            return "<div class=\"alert alert-" + convertTypeToString(a) + "\">" + message + "</div>";
         }
 
         public static string BuildErrors(ViewDataDictionary errorViewData)
@@ -38,12 +63,12 @@ namespace Common.Share
                 }
             }
 
-            return buildInDiv(errorBuild, "danger");
+            return buildInDiv(errorBuild, AlertType.Danger);
         }
 
-        public static string Build(string message, string alertType)
+        public static string Build(string message, AlertType a)
         {
-            return buildInDiv(message, alertType);
+            return buildInDiv(message, a);
         }
     }
 }

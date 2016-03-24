@@ -71,9 +71,9 @@
 {
     <div class="col-md-8 jumbotron" style="float:right" id="divAddUser">
         <h3>Skapa inloggning</h3>
-        @if (ViewBag.error != null)
+        @if (Model.IsAlerted())
         {
-            @Html.Raw(ViewBag.error)
+            @Html.Raw(Model.PopAlert())
         }
         <form method="post" action="/BorrowerAdmin/AddUser" id="form-addusertoborrower">
             <input type="hidden" name="PersonId" class="form-control" value="@Model.BorrowerWithUser.Borrower.PersonId" />
