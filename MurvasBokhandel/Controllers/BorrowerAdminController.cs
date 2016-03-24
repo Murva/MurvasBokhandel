@@ -35,7 +35,7 @@ namespace MurvasBokhandel.Controllers
                     return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
                 }
 
-                ViewBag.error = ErrorViewer.StringBuilder(ViewData);
+                ViewBag.error = AlertView.BuildErrors(ViewData);
                 return View("Borrower", BorrowerService.GetBorrowerWithBorrows(u.PersonId));
             }
 

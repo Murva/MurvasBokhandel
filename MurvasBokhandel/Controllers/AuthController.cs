@@ -1,5 +1,6 @@
 ﻿using Common.Model;
 using Common.Share;
+using MurvasBokhandel.Controllers.Share;
 using Repository.EntityModel;
 using Services.Service;
 using System;
@@ -25,12 +26,12 @@ namespace MurvasBokhandel.Controllers
             {
                 Session["IsLoggedIn"] = PasswordService.CreateHash(Guid.NewGuid().ToString());
                 Session["Permission"] = AuthService.GetRole(email).Name;
-                BorrowerWithUser b = BorrowerService.GetBorrowerWithUserByEmail(email);
-                Session["User"] = b;
-                Auth.LoggedInUser = b;
+                Session["User"] = Auth.LoggedInUser = BorrowerService.GetBorrowerWithUserByEmail(email);
 
                 return Redirect("/");
             }
+
+            ViewBag.Error = AlertView.Build("Fel email eller lösenord. Försök igen!", "danger");
 
             return View();
         }

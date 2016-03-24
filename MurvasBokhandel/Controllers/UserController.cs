@@ -61,7 +61,7 @@ namespace MurvasBokhandel.Controllers.User
         {
             if (Auth.HasUserPermission())
             {
-                if (true) //ModelState.IsValid
+                if (ModelState.IsValid)
                 {
                     if (PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
                     {
@@ -72,10 +72,12 @@ namespace MurvasBokhandel.Controllers.User
                             return View(Auth.LoggedInUser);
                         }
 
-                        BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
-                        borrowerWithUser.User = user;
-                        borrowerWithUser.Borrower = borrower;
-                        borrowerWithUser.Borrower.PersonId = user.PersonId;
+                        BorrowerWithUser borrowerWithUser = new BorrowerWithUser()
+                        {
+                            User = user,
+                            Borrower = borrower
+                        };
+                        
 
                         if (newpassword == "")
                             UserService.Update(borrowerWithUser, user.Password);

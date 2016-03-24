@@ -73,9 +73,7 @@
         <h3>Skapa inloggning</h3>
         @if (ViewBag.error != null)
         {
-            <div class="alert alert-danger">
-                @Html.Raw(ViewBag.error)
-            </div>
+            @Html.Raw(ViewBag.error)
         }
         <form method="post" action="/BorrowerAdmin/AddUser" id="form-addusertoborrower">
             <input type="hidden" name="PersonId" class="form-control" value="@Model.BorrowerWithUser.Borrower.PersonId" />

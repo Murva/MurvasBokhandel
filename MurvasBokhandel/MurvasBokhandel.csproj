@@ -206,7 +206,7 @@
     <Compile Include="Controllers\Api\FileController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\Share\ErrorViewer.cs" />
+    <Compile Include="Controllers\Share\AlertView.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BookController.cs" />
