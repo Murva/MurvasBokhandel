@@ -67,10 +67,8 @@
             </div>
         }
 
-        @if (ViewBag.Error != null)
+        @if (ViewBag.Alert != null)
         {
-            <div class="alert alert-danger">
-                @ViewBag.Error
-            </div>
+            @Html.Raw(ViewBag.Alert)
         }
 </div>

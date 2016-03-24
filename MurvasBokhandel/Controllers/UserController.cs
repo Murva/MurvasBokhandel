@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Services.Service;
 using Common.Model;
-using Repository.Repository;
 using Repository.EntityModel;
 using Common.Share;
 
@@ -65,11 +60,10 @@ namespace MurvasBokhandel.Controllers.User
                 {
                     if (PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
                     {
-                        if (UserService.emailExists(user.Email) && (!(Auth.LoggedInUser.User.Email == user.Email)))
+                        if (UserService.emailExists(user.Email) && Auth.LoggedInUser.User.Email != user.Email)
                         {
-                            ViewBag.Error = "Epostadressen finns redan registrerad.";
-
-                            return View(Auth.LoggedInUser);
+                            Auth.PushAlert(AlertView.Build("Email existerar. Försök igen!", "danger"));
+                            return View();
                         }
 
                         BorrowerWithUser borrowerWithUser = new BorrowerWithUser()
@@ -89,10 +83,11 @@ namespace MurvasBokhandel.Controllers.User
                         return Redirect("/User/GetAcountInfo/");
                     }
 
-                    ViewBag.Error = "Du måste ange ditt lösenord.";
-                    return View(Auth.LoggedInUser);
+                    Auth.PushAlert(AlertView.Build("Du måste ange ditt lösenord.", "danger"));
+                    return View();
                 }
-                return View(Auth.LoggedInUser);
+
+                return View();
             }
             return Redirect("/Error/Code/403");               
         }

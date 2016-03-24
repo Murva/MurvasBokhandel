@@ -1,7 +1,5 @@
 ﻿@{
-    Common.Model.BorrowerWithUser bwu = (Common.Model.BorrowerWithUser) Session["User"];
-    string Permission = Session["Permission"] as string;
-    bool IsLoggedIn = (Session["IsLoggedIn"] != null ? true : false);
+    Common.Model.BorrowerWithUser bwu = Common.Share.Auth.LoggedInUser;
 }
 <!DOCTYPE html>
 <html lang="en" ng-app="MurvasApp">
@@ -78,7 +76,7 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                @if (IsLoggedIn)
+                @if (Common.Share.Auth.HasUserPermission())
                 {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">@bwu.Borrower.FirstName @bwu.Borrower.LastName<b class="caret"></b></a>
@@ -107,72 +105,63 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    @if (IsLoggedIn)
+                    @if (Common.Share.Auth.HasAdminPermission())
                     {
-                        if (Permission == "Admin")
-                        {
-                            <li>
-                                <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Mitt Konto</a>
-                            </li>
-                            <li>
-                                <a href="/User/"><i class="fa fa-book"></i> Mina Lån</a>
-                            </li>
-                            <hr/>
-                            <li class="dropdown active">
-                                <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
-                                <ul id="author" class="collapse">
-                                    <li>
-                                        <a href="/AuthorAdmin">Alla författare</a>
-                                    </li>
-                                    <li>
-                                        <a href="/AuthorAdmin/Create">Skapa författare</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="javascript:;" data-toggle="collapse" data-target="#borrower"><i class="fa fa-wheelchair"></i> Låntagare <i class="fa fa-fw fa-caret-down"></i></a>
-                                <ul id="borrower" class="collapse">
-                                    <li>
-                                        <a href="/BorrowerAdmin">Alla låntagare</a>
-                                    </li>
-                                    <li>
-                                        <a href="/BorrowerAdmin/Create">Skapa låntagare</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="javascript:;" data-toggle="collapse" data-target="#book"><i class="fa fa-book"></i> Bok <i class="fa fa-fw fa-caret-down"></i></a>
-                                <ul id="book" class="collapse">
-                                    <li>
-                                        <a href="/BookAdmin">Alla böcker</a>
-                                    </li>
-                                    <li>
-                                        <a href="/BookAdmin/Create">Skapa bok</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
-                            </li>
-                        }
-                        else if (Permission == "User")
-                        {
-                            <li>
-                                <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Konto</a>
-                            </li>
-                            <li>
-                                <a href="/User/"><i class="fa fa-book"></i> Lån</a>
-                            </li>
-                            <li>
-                                <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
-                            </li>
-                        }
-                        @*else
-                        {
-                            <li>
-                                <a href="/Auth/Login"><i class="fa fa-key"></i> Logga in</a>
-                            </li>
-                        }*@
+                        <li>
+                            <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Mitt Konto</a>
+                        </li>
+                        <li>
+                            <a href="/User/"><i class="fa fa-book"></i> Mina Lån</a>
+                        </li>
+                        <hr/>
+                        <li class="dropdown active">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#author"><i class="fa fa-user"></i> Författare <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="author" class="collapse">
+                                <li>
+                                    <a href="/AuthorAdmin">Alla författare</a>
+                                </li>
+                                <li>
+                                    <a href="/AuthorAdmin/Create">Skapa författare</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#borrower"><i class="fa fa-wheelchair"></i> Låntagare <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="borrower" class="collapse">
+                                <li>
+                                    <a href="/BorrowerAdmin">Alla låntagare</a>
+                                </li>
+                                <li>
+                                    <a href="/BorrowerAdmin/Create">Skapa låntagare</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="javascript:;" data-toggle="collapse" data-target="#book"><i class="fa fa-book"></i> Bok <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="book" class="collapse">
+                                <li>
+                                    <a href="/BookAdmin">Alla böcker</a>
+                                </li>
+                                <li>
+                                    <a href="/BookAdmin/Create">Skapa bok</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
+                        </li>
+                    }
+                    else if (Common.Share.Auth.HasUserPermission())
+                    {
+                        <li>
+                            <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Konto</a>
+                        </li>
+                        <li>
+                            <a href="/User/"><i class="fa fa-book"></i> Lån</a>
+                        </li>
+                        <li>
+                            <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
+                        </li>
                     }
                     else { 
                     <li>
