@@ -9,7 +9,7 @@ namespace MurvasBokhandel.Controllers.Share
 {
     public class ErrorViewer
     {
-        public static string Build(ViewDataDictionary viewData)
+        public static string StringBuilder(ViewDataDictionary viewData)
         {
             string errorBuild = "";
             int x = 0;

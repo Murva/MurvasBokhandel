@@ -29,16 +29,16 @@ namespace MurvasBokhandel.Controllers
         {
             if (Auth.HasAdminPermission())
             {
-                if (ModelState.IsValid && (u.RoleId == 1 || u.RoleId == 2))
+                if (ModelState.IsValid)
                 {
                     AuthService.CreateUser(u);
                     return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
                 }
 
-                ViewBag.error = ErrorViewer.Build(ViewData);
-
+                ViewBag.error = ErrorViewer.StringBuilder(ViewData);
                 return View("Borrower", BorrowerService.GetBorrowerWithBorrows(u.PersonId));
             }
+
             return Redirect("/Error/Code/403");
         }
 

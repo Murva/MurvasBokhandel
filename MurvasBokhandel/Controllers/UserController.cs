@@ -61,7 +61,7 @@ namespace MurvasBokhandel.Controllers.User
         {
             if (Auth.HasUserPermission())
             {
-                if (ModelState.IsValid)
+                if (true) //ModelState.IsValid
                 {
                     if (PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
                     {

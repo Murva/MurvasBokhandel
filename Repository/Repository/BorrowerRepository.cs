@@ -64,7 +64,7 @@ namespace Repository.Repository
                     Value = b.Address == null ? DBNull.Value.ToString() : b.Address
                 },
                 new SqlParameter() {
-                    SqlDbType = System.Data.SqlDbType.Int,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
                     ParameterName = "@PERSONID",
                     IsNullable = false,
                     Value = b.PersonId
