@@ -75,6 +75,13 @@ namespace MurvasBokhandel.Controllers.User
                             borrowerWithUser.PushAlert(AlertView.Build("Email existerar. Försök igen!", AlertType.Danger));
                             return View(borrowerWithUser);
                         }
+                        //if ((Auth.LoggedInUser.Borrower == borrower) && (Auth.LoggedInUser.User.Email == user.Email) && (Auth.LoggedInUser.User.PersonId == user.PersonId) && (Auth.LoggedInUser.User.RoleId == user.RoleId))// 
+                        if ((newpassword != "")&&(Auth.LoggedInUser.Borrower.Address == borrowerWithUser.Borrower.Address) && (Auth.LoggedInUser.Borrower.FirstName == borrowerWithUser.Borrower.FirstName) && (Auth.LoggedInUser.Borrower.LastName == borrowerWithUser.Borrower.LastName) && (Auth.LoggedInUser.Borrower.Telno == borrowerWithUser.Borrower.Telno) && (Auth.LoggedInUser.User.Email == borrowerWithUser.User.Email) && (Auth.LoggedInUser.User.PersonId == borrowerWithUser.User.PersonId) && (Auth.LoggedInUser.User.RoleId == borrowerWithUser.User.RoleId))
+                        {
+                            borrowerWithUser.PushAlert(AlertView.Build("Du har inte ändrat några uppgifter.", AlertType.Danger));
+                            return View(borrowerWithUser);
+                        }
+
 
                         if (newpassword == "")
                         {
