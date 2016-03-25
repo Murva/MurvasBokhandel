@@ -2,6 +2,7 @@
 using Common.Model;
 using Common.Share;
 using Repository.EntityModel;
+using Repository.Validation;
 using Services.Service;
 using System;
 using System.Collections.Generic;
@@ -32,21 +33,28 @@ namespace MurvasBokhandel.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if (!UserService.EmailExists(u.Email))
+                    if (PasswordValidaton.IsValid(u.Password))
                     {
-                        AuthService.CreateUser(u);
-                        return Redirect("/BorrowerAdmin/Borrower/" + u.PersonId);
+                        if (!UserService.EmailExists(u.Email))
+                        {
+                            AuthService.CreateUser(u);
+                            return RedirectToAction("Borrower", new { id = u.PersonId });
+                        }
+
+                        Auth.PushAlert(AlertView.Build("Konto med emailen " + u.Email + " existerar. Ange en annan!", AlertType.Danger));
+
+                        return View("Borrower", b);
                     }
 
-                    b.PushAlert(AlertView.Build("Konto med emailen " + u.Email + " existerar. Ange en annan!", AlertType.Danger));
+                    Auth.PushAlert(AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger));
 
-                    return View("Borrower", b);
+                    return RedirectToAction("Borrower", new { id = u.PersonId });
                 }
 
-                
-                b.PushAlert(AlertView.BuildErrors(ViewData));
 
-                return View("Borrower", b);
+                Auth.PushAlert(AlertView.BuildErrors(ViewData));
+
+                return RedirectToAction("Borrower", new { id = u.PersonId });
             }
 
             return Redirect("/Error/Code/403");
@@ -56,7 +64,15 @@ namespace MurvasBokhandel.Controllers
         public ActionResult Borrower(string id)
         {
             if (Auth.HasAdminPermission())
+            {
+                if (!BorrowerService.BorrowerExists(id))
+                    return Redirect("/Error/Code/404");
+
+                if (Auth.LoggedInUser.User.PersonId == id)
+                    return Redirect("/User/GetAcountInfo");
+
                 return View(BorrowerService.GetBorrowerWithBorrows(id));
+            }
             
             return Redirect("/Error/Code/403");
         }
@@ -87,10 +103,12 @@ namespace MurvasBokhandel.Controllers
             {
                 if (!BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower))
                 {
-                    bwb.PushAlert(AlertView.Build("Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.", AlertType.Danger));
-                    
-                    return View("Borrower", bwb);
+                    Auth.PushAlert(AlertView.Build("Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.", AlertType.Danger));
+
+                    return RedirectToAction("Borrower", new { id = bwb.BorrowerWithUser.Borrower.PersonId });
                 }
+
+                Auth.PushAlert(AlertView.Build("Låntagare med PersonId "+bwb.BorrowerWithUser.Borrower.PersonId + " är nu borttagen", AlertType.Success));
                 
                 return Redirect("Start");
             }
@@ -110,44 +128,53 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             if (Auth.HasAdminPermission())
             {
                 return View(new BorrowerAndCategories()
                 {
-                    borrower = new borrower(),
-                    categories = CategoryService.getCategories()
+                    Borrower = new borrower(),
+                    Categories = CategoryService.GetCategories()
                 });
             }
             return Redirect("/Error/Code/403");
         }
 
         // Sparar en ny borrower till databasen
-        public ActionResult Store(BorrowerAndCategories baci)
+        [HttpPost]
+        public ActionResult Create(BorrowerAndCategories baci)
         {
             if (Auth.HasAdminPermission())
             {
-                if (ModelState.IsValid && !BorrowerService.CheckIfBorrowerExists(baci.borrower.PersonId) && (baci.CatergoryId == 1 ||
+                baci.Categories = CategoryService.GetCategories();
+
+                if (ModelState.IsValid && (baci.CatergoryId == 1 || 
                                              baci.CatergoryId == 2 ||
                                              baci.CatergoryId == 3 ||
                                              baci.CatergoryId == 4))
                 {
-                    borrower b = new borrower();
-                    b = baci.borrower;
-                    b.CategoryId = baci.CatergoryId;
-                    BorrowerService.StoreBorrower(b);
-                    return Redirect("Start");
-                }
-                else {
+                    if (!BorrowerService.BorrowerExists(baci.Borrower.PersonId))
+                    {
+
+                        borrower b = new borrower();
+                        b = baci.Borrower;
+                        b.CategoryId = baci.CatergoryId;
+                        BorrowerService.StoreBorrower(b);
+
+                        Auth.PushAlert(AlertView.Build("Låntagare " + baci.Borrower.FirstName + " " + baci.Borrower.LastName + " skapad.", AlertType.Success));
+
+                        return Redirect("Start");
+                    }
+
                     baci.PushAlert(AlertView.Build("Detta personnumret är redan registrerat hos oss", AlertType.Danger));
-                    //ViewBag.idExists = "Detta personnumret är redan registrerat hos oss";
-                    //BorrowerAndCategories bac = new BorrowerAndCategories();
-                    //bac.borrower = new borrower();
-                    //bac.categories = CategoryService.getCategories();
-                    return View("Create", baci);
-                } 
+                    return View(baci);
+                }
+                
+                return View(baci);
             }
+
             return Redirect("/Error/Code/403");
         }
     }

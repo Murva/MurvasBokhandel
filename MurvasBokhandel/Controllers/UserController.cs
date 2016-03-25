@@ -4,6 +4,7 @@ using Common.Share;
 using Repository.EntityModel;
 using System.Web.Mvc;
 using Services.Service;
+using Repository.Validation;
 
 
 namespace MurvasBokhandel.Controllers.User
@@ -67,7 +68,7 @@ namespace MurvasBokhandel.Controllers.User
             {
                 if (ModelState.IsValid)
                 {
-                    if (PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
+                    if (user.Password != null && PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
                     {
                         if (UserService.EmailExists(user.Email) && Auth.LoggedInUser.User.Email != user.Email)
                         {
@@ -76,9 +77,20 @@ namespace MurvasBokhandel.Controllers.User
                         }
 
                         if (newpassword == "")
+                        {
                             UserService.Update(borrowerWithUser, user.Password);
+                        }
                         else
+                        {
+                            if (!PasswordValidaton.IsValid(newpassword))
+                            {
+                                borrowerWithUser.PushAlert(AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger));
+                                return View(borrowerWithUser);
+                            }
+
                             UserService.Update(borrowerWithUser, newpassword);
+                            
+                        }
 
                         borrowerWithUser.PushAlert(AlertView.Build("Du har uppdaterat ditt konto.", AlertType.Success));
                         Auth.UpdateUser(BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId));
@@ -86,7 +98,7 @@ namespace MurvasBokhandel.Controllers.User
                         return View(borrowerWithUser);
                     }
 
-                    borrowerWithUser.PushAlert(AlertView.Build("Du måste ange ditt lösenord.", AlertType.Danger));
+                    borrowerWithUser.PushAlert(AlertView.Build("Du måste ange ditt eget lösenord.", AlertType.Danger));
                     return View(borrowerWithUser);
                 }
 

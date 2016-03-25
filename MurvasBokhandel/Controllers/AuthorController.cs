@@ -13,6 +13,9 @@ namespace MurvasBokhandel.Controllers
         // GET: Author
         public ActionResult GetAuthor(int aid)
         {
+            if (!AuthorService.AuthorExists(aid))
+                return Redirect("/Error/Code/404");
+
             return View(AuthorService.GetAuthorWithBooks(aid));
         }
     }

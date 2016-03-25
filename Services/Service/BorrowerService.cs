@@ -8,7 +8,7 @@ namespace Services.Service
 {
     public class BorrowerService
     {
-        public static bool CheckIfBorrowerExists(string PersonId) {
+        public static bool BorrowerExists(string PersonId) {
             return (BorrowerRepository.dbGetBorrower(PersonId) == null ? false : true);
         }
 
@@ -53,7 +53,7 @@ namespace Services.Service
             borrowerwithborrows.Borrows = new ActiveAndHistoryBorrows();
             borrowerwithborrows.Borrows.Active = BorrowService.GetActiveBorrowedBooks(b.PersonId);
             borrowerwithborrows.Borrows.History = BorrowService.GetHistoryBorrowedBooks(b.PersonId);
-            borrowerwithborrows.Categories = CategoryService.getCategories();
+            borrowerwithborrows.Categories = CategoryService.GetCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
 
             if (borrowerwithborrows.BorrowerWithUser.User == null)
@@ -85,7 +85,7 @@ namespace Services.Service
 
         public static void UpdateBorrower(borrower b)
         {
-            BorrowerRepository.dbUpdateBorrower(Auth.LoggedInUser.Borrower.PersonId, b);
+            BorrowerRepository.dbUpdateBorrower(b);
         }
 
         public static void StoreBorrower(borrower b){

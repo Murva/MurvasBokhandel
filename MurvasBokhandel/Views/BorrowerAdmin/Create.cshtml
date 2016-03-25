@@ -6,7 +6,7 @@
 
 <h2>Skapa</h2>
 
-@using (Html.BeginForm("Store", "BorrowerAdmin", FormMethod.Post, new {  @id="create_borrower_form" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
@@ -24,46 +24,46 @@
         <div class="form-group">
             @Html.Label("Personnummer", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.borrower.PersonId, new { htmlAttributes = new { @class = "form-control", placeholder = "XXXXXXXX-XXXX", data_parsley_required = "true" } })
-                @Html.ValidationMessageFor(model => model.borrower.PersonId, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Borrower.PersonId, new { htmlAttributes = new { @class = "form-control", placeholder = "XXXXXXXX-XXXX", data_parsley_required = "true" } })
+                @Html.ValidationMessageFor(model => model.Borrower.PersonId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Förnamn", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.borrower.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Förnamn", data_parsley_required = "true" } })
-                @Html.ValidationMessageFor(model => model.borrower.FirstName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Borrower.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "Förnamn" } })
+                @Html.ValidationMessageFor(model => model.Borrower.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Efternamn", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.borrower.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Efternamn", data_parsley_required = "true" } })
-                @Html.ValidationMessageFor(model => model.borrower.LastName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Borrower.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Efternamn"} })
+                @Html.ValidationMessageFor(model => model.Borrower.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Adress", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.borrower.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Adress" } })
-                @Html.ValidationMessageFor(model => model.borrower.Address, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Borrower.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Adress" } })
+                @Html.ValidationMessageFor(model => model.Borrower.Address, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.Label("Telefonnummer", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.borrower.Telno, new { htmlAttributes = new { @class = "form-control", placeholder = "0000-000000" } })
-                @Html.ValidationMessageFor(model => model.borrower.Telno, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Borrower.Telno, new { htmlAttributes = new { @class = "form-control", placeholder = "0000-000000" } })
+                @Html.ValidationMessageFor(model => model.Borrower.Telno, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                @Html.DropDownListFor(model => model.CatergoryId, new SelectList(Model.categories, "CatergoryId", "Category"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CatergoryId, new SelectList(Model.Categories, "CatergoryId", "Category"), new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
@@ -72,19 +72,4 @@
             </div>
         </div>
     </div>
-}
-
-@section Scripts {
-    <script type="text/javascript">
-        $("#create_borrower_form").parsley({
-            trigger: 'change',
-            successClass: "has-success",
-            errorClass: "has-error",
-            classHandler: function (el) {
-                return el.$element.closest('.form-group');
-            },
-            errorsWrapper: '<div class="invalid-message"></div>',
-            errorTemplate: '<span></span>',
-        });
-    </script>
 }

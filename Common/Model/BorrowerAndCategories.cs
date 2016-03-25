@@ -10,8 +10,8 @@ namespace Common.Model
 {
     public class BorrowerAndCategories : BaseModel
     {
-        public borrower borrower { get; set; }
-        public List<category> categories { get; set; }
+        public borrower Borrower { get; set; }
+        public List<category> Categories { get; set; }
         public int CatergoryId { get; set; }
     }
 }

@@ -28,8 +28,13 @@ namespace MurvasBokhandel.Controllers
         public ActionResult Book(string id)
         {
             if (Auth.HasAdminPermission())
+            {
+                if (!BookService.BookExists(id))
+                    return Redirect("/Error/Code/404");
+
                 return View(BookService.GetBookWithAuthorsAndAuthors(id));
-            
+            }
+                
             return Redirect("/Error/Code/403");
         }
 

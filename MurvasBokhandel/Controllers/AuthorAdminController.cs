@@ -27,10 +27,10 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Author(int id)
         {
-            if (Auth.HasAdminPermission() && ModelState.IsValid)
+            if (Auth.HasAdminPermission())
             {
-                if (id <= 0)
-                    return RedirectToAction("Start");
+                if (!AuthorService.AuthorExists(id))
+                    return Redirect("/Error/Code/404");
 
                 return View(AuthorService.GetAuthorWithBooksAndBooks(id));
             }

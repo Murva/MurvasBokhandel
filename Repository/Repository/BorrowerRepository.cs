@@ -28,10 +28,8 @@ namespace Repository.Repository
             });
         }
 
-        public static void dbUpdateBorrower(string personId, borrower b)
+        public static void dbUpdateBorrower(borrower b)
         {
-            //Om en användare skulle skicka eget personId ersätts det med den inloggades. Hindrar ev hacking
-            b.PersonId = personId;
             dbPost("UPDATE BORROWER SET FirstName = @FIRSTNAME, LastName = @LASTNAME, Telno = @TELNO, Address = @ADDRESS, CategoryId = @CATEGORYID WHERE PersonId = @PERSONID", mapBorrowerParameters(b)
             );
         }
