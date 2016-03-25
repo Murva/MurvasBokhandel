@@ -47,8 +47,6 @@ namespace MurvasBokhandel.Controllers
                 {
                     AuthorService.UpdateAuthor(a.Author);
 
-                    Auth.PushAlert(AlertView.Build("Författare uppdaterad.", AlertType.Success));
-
                     return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
                 }
 
@@ -78,8 +76,6 @@ namespace MurvasBokhandel.Controllers
                 {
                     AuthorService.StoreAuthor(a);
 
-                    Auth.PushAlert(AlertView.Build("Författare "+a.FirstName + " "+ a.LastName +" är skapad.", AlertType.Success));
-
                     return RedirectToAction("Start");
                 }
 
@@ -94,14 +90,6 @@ namespace MurvasBokhandel.Controllers
         {
             if (Auth.HasAdminPermission())
             {
-                if (BookService.GetBooksByAuthor(a.Author.Aid).Count > 0)
-                {
-                    Auth.PushAlert(AlertView.Build("Kontrollera att ingen bok finns registrerad på författaren.", AlertType.Danger));
-
-                    return RedirectToAction("Author", new { id = a.Author.Aid });
-                }
-
-                Auth.PushAlert(AlertView.Build("Författare med Aid: " + a.Author.Aid + " är nu borttagen.", AlertType.Success));
                 AuthorService.DeleteAuthor(a.Author);
 
                 return RedirectToAction("Start");

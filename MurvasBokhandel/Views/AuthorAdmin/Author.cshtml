@@ -56,10 +56,6 @@
         {
             @Html.HiddenFor(m => m.Author.Aid)
         }
-        @if (Common.Auth.IsAlerted())
-        {
-            @Html.Raw(Common.Auth.PopAlert())
-        }
     </div>
     <div class="col-md-6">
         <h4>Böcker av @Model.Author.FirstName @Model.Author.LastName
