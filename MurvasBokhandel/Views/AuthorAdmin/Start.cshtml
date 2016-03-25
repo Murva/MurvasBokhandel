@@ -11,6 +11,12 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-4">
+        @if (Common.Auth.IsAlerted())
+        {
+            @Html.Raw(Common.Auth.PopAlert())
+        }
+    </div>
     <div class="col-md-8 col-md-offset-2">
         @Html.Raw(Model.Render("/AuthorAdmin/?letter=", "/AuthorAdmin/Author/", "Aid", new string[] {"LastName", "FirstName"} ))
     </div>
