@@ -89,13 +89,17 @@ namespace MurvasBokhandel.Controllers
                                              BorrowerWithUser.Borrower.CategoryId == 4))
                 {
                     BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
+                    user tempU = AuthService.GetUserByPersonId(BorrowerWithUser.User.PersonId);
+                    if (BorrowerWithUser.User.Email != null && !(UserService.EmailExists(BorrowerWithUser.User.Email) && BorrowerWithUser.User.Email != tempU.Email)) {
+                                UserService.Update(BorrowerWithUser, null);
+                    }
                     return RedirectToAction("/Borrower/" + BorrowerWithUser.Borrower.PersonId);
                 }
                 return View(BorrowerService.GetBorrowerWithBorrows(BorrowerWithUser.Borrower.PersonId));
             }
             return Redirect("/Error/Code/403");
         }
-     
+
         // Tar bort en borrower och konto om det finns
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {

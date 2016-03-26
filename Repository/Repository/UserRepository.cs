@@ -65,11 +65,11 @@ namespace Repository.Repository
             //här ska det in ett anrop till databsen med det nya lösenordet
         }
         
-        public static void dbUpdateUser(string personId, user u)
+        public static void dbUpdateUser(user u)
         {
             //Om en användare skulle skicka eget personId ersätts det med den inloggades. Hindrar ev hacking
-            u.PersonId = personId;
-            dbPost("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD WHERE PersonId=@PERSONID;", _mapUserParameters(u));
+            //u.PersonId = personId;
+            dbPost("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD, RoleId = @ROLEID WHERE PersonId=@PERSONID;", _mapUserParameters(u));
         }
     }
 }

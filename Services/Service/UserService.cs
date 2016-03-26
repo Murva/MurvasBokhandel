@@ -25,9 +25,13 @@ namespace Services.Service
         
         public static void Update(BorrowerWithUser user, string password)
         {
-            user.User.Password = PasswordService.CreateHash(password);
+            if (password != null)
+                user.User.Password = PasswordService.CreateHash(password);
+            else
+                user.User.Password = AuthService.GetUserByPersonId(user.User.PersonId).Password;
 
-            UserRepository.dbUpdateUser(Auth.LoggedInUser.User.PersonId, user.User);
+            //UserRepository.dbUpdateUser(Auth.LoggedInUser.User.PersonId, user.User);
+            UserRepository.dbUpdateUser(user.User);
             BorrowerService.UpdateBorrower(user.Borrower);
         }
         
