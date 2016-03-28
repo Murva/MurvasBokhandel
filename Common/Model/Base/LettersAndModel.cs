@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Common.Model.Base
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class LettersAndModel<T>
         where T : class
     {

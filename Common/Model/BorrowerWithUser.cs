@@ -1,12 +1,10 @@
 ﻿using Repository.EntityModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.Model
 {
+    /// <summary>
+    /// Holds a userinfo with it's permissions connected to a borrower
+    /// </summary>
     public class BorrowerWithUser : Base.BaseModel
     {
         public borrower Borrower { get; set; }

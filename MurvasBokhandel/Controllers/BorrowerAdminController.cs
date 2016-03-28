@@ -4,6 +4,11 @@ using Common.Share;
 using Repository.EntityModel;
 using Repository.Validation;
 using Services.Service;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
@@ -19,11 +24,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        /// <summary>
-        /// Adds a user account to a borrower
-        /// </summary>
-        /// <param name="u"></param>
-        /// <returns></returns>
+        // Lägger till användarkonto till en borrower
         public ActionResult AddUser(user u)
         {
             if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
@@ -78,11 +79,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        /// <summary>
-        /// Updates a borrower
-        /// </summary>
-        /// <param name="BorrowerWithUser"></param>
-        /// <returns></returns>
+        // Används för att uppdatera en borrower
         [HttpPost]
         public ActionResult Borrower(BorrowerWithUser BorrowerWithUser)
         {
@@ -108,11 +105,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
      
-        /// <summary>
-        /// Removes a borrower and it's account(if account exists)
-        /// </summary>
-        /// <param name="bwb"></param>
-        /// <returns></returns>
+        // Tar bort en borrower och konto om det finns
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
             if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
@@ -137,7 +130,7 @@ namespace MurvasBokhandel.Controllers
             {
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
                 borrows.Active = BorrowService.GetActiveBorrowedBooks(personid);
-                BorrowService.RenewLoan(BorrowerService.GetBorrower(personid), borrows.Active[index].borrow.Barcode);
+                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.Active[index].Borrow.Barcode);
 
                 TempData["AlertView"] = AlertView.Build("Lån är uppdaterade.", AlertType.Success);
            
@@ -160,11 +153,7 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        /// <summary>
-        /// Creates a new borrower
-        /// </summary>
-        /// <param name="baci"></param>
-        /// <returns></returns>
+        // Sparar en ny borrower till databasen
         [HttpPost]
         public ActionResult Create(BorrowerAndCategories baci)
         {
