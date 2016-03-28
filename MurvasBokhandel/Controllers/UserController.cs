@@ -49,8 +49,8 @@ namespace MurvasBokhandel.Controllers.User
             Auth auth = new Auth((BorrowerWithUser)Session["User"]);
             if (auth.HasUserPermission()) 
             {
-                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
-                BorrowService.RenewLoan(_auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(auth.LoggedInUser.User.PersonId);
+                BorrowService.RenewLoan(auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
 
                 return View("Start", borrows);
             }
