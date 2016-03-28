@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using MurvasBokhandel.Controllers;
+﻿using System.Web.Mvc;
 using Services.Service;
 using Repository.EntityModel;
 using Common.Model;
-using MurvasBokhandel.Models;
 using Common.Share;
 using Common;
 
@@ -45,6 +39,7 @@ namespace MurvasBokhandel.Controllers
                 if (ModelState.IsValid)
                 {
                     AuthorService.UpdateAuthor(a.Author);
+
                     TempData["Alert"] = AlertView.Build("Du har uppdaterat författaren.", AlertType.Success);
                     return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
                 }

@@ -15,6 +15,10 @@
 </div>
 <div class="row">
     <div class="col-md-6">
+        @if (TempData["Alert"] != null)
+        {
+            @Html.Raw(TempData["Alert"])
+        }
         @using (Html.BeginForm("Borrower", "BorrowerAdmin", new { @id = "borrower_form" }))
         {            
             @Html.HiddenFor(m => m.BorrowerWithUser.Borrower.PersonId)
@@ -94,10 +98,6 @@
 {
     <div class="col-md-6 jumbotron" style="float:right" id="divAddUser">
         <h3>Skapa inloggning</h3>
-        @if (TempData["Alert"] != null)
-        {
-            @Html.Raw(TempData["Alert"])
-        }
         <form method="post" action="/BorrowerAdmin/AddUser" id="form-addusertoborrower">
             <input type="hidden" name="PersonId" class="form-control" value="@Model.BorrowerWithUser.Borrower.PersonId" />
             <div class="form-group">

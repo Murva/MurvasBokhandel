@@ -32,7 +32,7 @@
             <th class="info">
                 <form action="/User/ReloanAll" method="post">
                     <font size="5">Förseningsavgift</font>
-                    <input name="reloanAll" value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
+                    <input name="reloanAll" @(Model.Active.Count == 0 ? "disabled") value="Låna om alla" type="submit" style="float: right" class="btn btn-info" />
                 </form>
             </th>
             <!--TODO: Ändra om till foreach och rätta till kopplingar-->

@@ -12,8 +12,9 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        @if (ViewBag.Alert != null) { 
-            @Html.Raw(ViewBag.Alert)
+        @if (TempData["Alert"] != null)
+        { 
+            @Html.Raw(TempData["Alert"])
         }
     </div>
     <div class="col-md-8 col-md-offset-2">

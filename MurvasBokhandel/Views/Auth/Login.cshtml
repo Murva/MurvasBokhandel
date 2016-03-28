@@ -26,9 +26,9 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                @if (ViewBag.Alert != null)
+                @if (TempData["Alert"] != null)
                 {
-                    @Html.Raw(ViewBag.ALert)
+                    @Html.Raw(TempData["Alert"])
                 }
             </div>
         </div>

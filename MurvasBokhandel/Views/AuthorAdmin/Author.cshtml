@@ -57,9 +57,9 @@
             @Html.HiddenFor(m => m.Author.Aid)
         }
 
-        @if (ViewBag.Alert != null)
+        @if (TempData["Alert"] != null)
         {
-            @Html.Raw(ViewBag.Alert)
+            @Html.Raw(TempData["Alert"])
         }
     </div>
     <div class="col-md-6">

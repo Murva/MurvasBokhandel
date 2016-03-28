@@ -14,7 +14,7 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult Start() 
         {
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
-            if (_auth.HasAdminPermission())
+            if (_auth.HasUserPermission())
             {
                 return View(UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId));
             }
@@ -26,7 +26,7 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult ReloanAll() 
         {
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
-            if (_auth.HasAdminPermission())
+            if (_auth.HasUserPermission())
             {
                 //OBS! Hämta lån innan
                 ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
@@ -41,7 +41,7 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult Reloan(int index) 
         {
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
-            if (_auth.HasAdminPermission()) 
+            if (_auth.HasUserPermission()) 
             {
                 ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
                 BorrowService.RenewLoad(_auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
@@ -54,10 +54,8 @@ namespace MurvasBokhandel.Controllers.User
         public ActionResult GetAcountInfo()
         {
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
-            if (_auth.HasAdminPermission())
-            {
+            if (_auth.HasUserPermission())
                 return View(BorrowerService.GetBorrowerWithUserByPersonId(_auth.LoggedInUser.User.PersonId));
-            }
 
             return Redirect("/Error/Code/403");
         }
@@ -74,7 +72,7 @@ namespace MurvasBokhandel.Controllers.User
 
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
 
-            if (_auth.HasAdminPermission())
+            if (_auth.HasUserPermission())
             {
                 if (ModelState.IsValid)
                 {
@@ -86,26 +84,34 @@ namespace MurvasBokhandel.Controllers.User
                             return View(borrowerWithUser);
                         }
 
-                        if (newpassword == "")
+                        if (!_auth.IsSameAs(borrowerWithUser, newpassword))
                         {
-                            UserService.Update(borrowerWithUser, user.Password);
+                            if (newpassword == "")
+                            {
+                                UserService.Update(borrowerWithUser, user.Password);
+                            }
+                            else
+                            {
+                                if (!PasswordValidaton.IsValid(newpassword))
+                                {
+                                    borrowerWithUser.PushAlert(AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger));
+                                    return View(borrowerWithUser);
+                                }
+
+                                UserService.Update(borrowerWithUser, newpassword);
+
+                            }
+
+                            borrowerWithUser.PushAlert(AlertView.Build("Du har uppdaterat ditt konto.", AlertType.Success));
+                            Session["User"] = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
+
+                            return View(borrowerWithUser);
                         }
                         else
                         {
-                            if (!PasswordValidaton.IsValid(newpassword))
-                            {
-                                borrowerWithUser.PushAlert(AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger));
-                                return View(borrowerWithUser);
-                            }
-
-                            UserService.Update(borrowerWithUser, newpassword);
-                            
+                            borrowerWithUser.PushAlert(AlertView.Build("Inget har uppdaterats.", AlertType.Info));
+                            return View(borrowerWithUser);
                         }
-
-                        borrowerWithUser.PushAlert(AlertView.Build("Du har uppdaterat ditt konto.", AlertType.Success));
-                        Session["User"] = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
-
-                        return View(borrowerWithUser);
                     }
 
                     borrowerWithUser.PushAlert(AlertView.Build("Du måste ange ditt eget lösenord.", AlertType.Danger));

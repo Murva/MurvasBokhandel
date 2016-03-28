@@ -90,7 +90,13 @@ namespace MurvasBokhandel.Controllers
                                              BorrowerWithUser.Borrower.CategoryId == 3 ||
                                              BorrowerWithUser.Borrower.CategoryId == 4))
                 {
-                    BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
+                    user tempU = AuthService.GetUserByPersonId(BorrowerWithUser.Borrower.PersonId);
+
+                    if (BorrowerWithUser.User != null && !(UserService.EmailExists(BorrowerWithUser.User.Email) && BorrowerWithUser.User.Email != tempU.Email))
+                        UserService.Update(BorrowerWithUser, null);
+                    else
+                        BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
+                    
                     TempData["Alert"] = AlertView.Build("Du har uppdaterat låntagaren.", AlertType.Success);
                     return RedirectToAction("/Borrower/" + BorrowerWithUser.Borrower.PersonId);
                 }

@@ -28,9 +28,16 @@ namespace MurvasBokhandel.Controllers
                 return Redirect("/");
             }
 
-            ViewBag.Error = AlertView.Build("Fel email eller lösenord. Försök igen!", AlertType.Danger);
+            TempData["Alert"] = AlertView.Build("Fel email eller lösenord. Försök igen!", AlertType.Danger);
 
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Clear();
+
+            return Redirect("/");
         }
     }
 }

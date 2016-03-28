@@ -46,7 +46,7 @@
     </div>
 }
 
-@if (ViewBag.Alert != null)
+@if (TempData["Alert"] != null)
 {
-    @Html.Raw(ViewBag.Alert)
+    @Html.Raw(TempData["Alert"])
 }

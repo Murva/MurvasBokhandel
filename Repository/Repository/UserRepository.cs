@@ -67,9 +67,7 @@ namespace Repository.Repository
         
         public static void dbUpdateUser(string personId, user u)
         {
-            //Om en användare skulle skicka eget personId ersätts det med den inloggades. Hindrar ev hacking
-            u.PersonId = personId;
-            dbPost("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD WHERE PersonId=@PERSONID;", _mapUserParameters(u));
+            dbPost("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD, RoleId=@ROLEID WHERE PersonId=@PERSONID;", _mapUserParameters(u));
         }
     }
 }

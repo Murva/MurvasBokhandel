@@ -56,5 +56,21 @@ namespace Common
         {
             return (_alert != null ? true : false);
         }
+
+        public bool IsSameAs(BorrowerWithUser b, string newpassword)
+        {
+            if ((this.LoggedInUser.Borrower.Address == b.Borrower.Address) &&
+                (this.LoggedInUser.Borrower.FirstName == b.Borrower.FirstName) &&
+                (this.LoggedInUser.Borrower.CategoryId == b.Borrower.CategoryId) &&
+                (this.LoggedInUser.Borrower.LastName == b.Borrower.LastName) &&
+                (this.LoggedInUser.Borrower.Telno == b.Borrower.Telno) &&
+                (newpassword == "") &&
+                (this.LoggedInUser.User.Email == b.User.Email) &&
+                (this.LoggedInUser.User.PersonId == b.User.PersonId) &&
+                (this.LoggedInUser.User.RoleId == b.User.RoleId))
+                return true;
+            else
+                return false;
+        }
     }
 }
