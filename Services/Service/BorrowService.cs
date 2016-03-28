@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Common.Model;
-using Repository.Repository;
+﻿using Common.Model;
 using Repository.EntityModel;
+using Repository.Repository;
+using System;
+using System.Collections.Generic;
 
 namespace Services.Service
 {
@@ -15,11 +15,11 @@ namespace Services.Service
             return MapBorrow(BorrowRepository.dbGetHistoryBorrowListByPersonId(PersonId));
         }
         public static List<BorrowedBookCopy> MapBorrow(List<borrow> b) {
-            List<BorrowedBookCopy> borrowedBookCopy = new List<BorrowedBookCopy>();
+            List<BorrowedBookCopy> BorrowedBookCopy = new List<BorrowedBookCopy>();
             foreach (borrow borrow in b)
             {
                 copy c = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
-                borrowedBookCopy.Add(new BorrowedBookCopy() { 
+                BorrowedBookCopy.Add(new BorrowedBookCopy() { 
                     borrow = borrow,
                     authors = AuthorRepository.dbGetAuthorsByBookISBN(c.ISBN),
                     book = BookRepository.dbGetBook(c.ISBN),
@@ -27,20 +27,10 @@ namespace Services.Service
                     fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
                 });
             }
-            return borrowedBookCopy;
+            return BorrowedBookCopy;
         }
 
-        //public static void updateBorrowDate(borrow b) {
-        //    b.BorrowDate = DateTime.Today;
-        //    BorrowRepository.updateDate(b);
-        //}
-
-        //public static void updateToBeReturnedDate(borrow b, int period) {
-        //    b.ToBeReturnedDate = DateTime.Today.AddDays(period);
-        //    BorrowRepository.updateDate(b);
-        //}
-
-        public static void RenewLoad(borrower br, string barcode)
+        public static void RenewLoan(borrower br, string barcode)
         {
             DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.dbGetCategoryById(br.CategoryId).Period);
             BorrowRepository.dbUpdateBorrowDates(br.PersonId, barcode, ToBeReturnedDate);

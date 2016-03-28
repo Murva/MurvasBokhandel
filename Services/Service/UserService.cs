@@ -1,5 +1,4 @@
 ﻿using Common.Model;
-using Common;
 using Repository.EntityModel;
 using Repository.Repository;
 
@@ -15,13 +14,7 @@ namespace Services.Service
                 History = BorrowService.GetHistoryBorrowedBooks(PersonId)
             };
         }
-
-        public static void ChangePassword()
-        {
-            //u.Password = PasswordService.CreateHash(u.Password);
-
-            //UserRepository.dbCreateUser(u);
-        }
+              
         
         public static void Update(BorrowerWithUser user, string password)
         {
@@ -58,9 +51,9 @@ namespace Services.Service
             return false;
         }
 
-        public static bool BorrowerIsUser(BorrowerWithUser b, string PersonId)
+        public static bool BorrowerIsUser(BorrowerWithUser b, string personId)
         {
-            if (b.User.PersonId == PersonId)
+            if (b.User.PersonId == personId)
                 return true;
 
             return false;
