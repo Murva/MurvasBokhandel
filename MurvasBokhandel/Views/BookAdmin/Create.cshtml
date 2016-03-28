@@ -55,7 +55,7 @@
         </select>
     </div>
     
-    @if (TempData["Alert"] != null)
+    if (TempData["Alert"] != null)
     {
         @Html.Raw(TempData["Alert"])
     }
