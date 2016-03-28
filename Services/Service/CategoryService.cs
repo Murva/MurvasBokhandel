@@ -7,7 +7,7 @@ namespace Services.Service
     public class CategoryService
     {
         public static List<category> GetCategories() {
-            return CategoryRepository.dbGetCategories();
+            return CategoryRepository.GetCategories();
         }
     }
 }

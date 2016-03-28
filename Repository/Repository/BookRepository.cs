@@ -1,5 +1,4 @@
 ﻿using Repository.EntityModel;
-using Repository.Repositories;
 using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
@@ -9,21 +8,21 @@ namespace Repository.Repository
 {
     public class BookRepository : BaseRepository<book>
     {
-        public static book dbGetBook(string isbn) 
+        public static book GetBook(string isbn) 
         {
             return dbGet("SELECT * FROM BOOK WHERE ISBN = @ISBN;", new SqlParameter[] {
                 new SqlParameter("@ISBN", isbn)
             });
         }
 
-        public static List<book> dbGetBookListByAuthor(int aid)
+        public static List<book> GetBookListByAuthor(int aid)
         {
             return dbGetList("SELECT * FROM BOOK as B, BOOK_AUTHOR as BA WHERE B.ISBN = BA.ISBN AND BA.Aid = @AID;", new SqlParameter[] {
                 new SqlParameter("@AID", aid)
             });
         }
 
-        public static List<book> dbGetBooks()
+        public static List<book> GetBooks()
         {
             return dbGetList("SELECT * FROM BOOK ORDER BY TITLE", null);
         }
@@ -61,45 +60,45 @@ namespace Repository.Repository
                 },
                 new SqlParameter() {
                     SqlDbType = System.Data.SqlDbType.SmallInt,
-                    IsNullable = true,
+                    IsNullable = false,
                     ParameterName = "@PAGES",
-                    Value =  b.pages == null ? 0 : b.pages
+                    Value = b.pages
                 }
             }; 
         }
 
-        public static void dbUpdateBook(book b)
+        public static void UpdateBook(book b)
         {
             dbPost("UPDATE BOOK SET Title = @TITLE, PublicationYear = @PUBLICATIONYEAR, publicationinfo = @PUBLICATIONINFO, pages = @PAGES WHERE ISBN = @ISBN", _mapBookParameter(b));
         }
 
-        public static void dbStoreBook(book b)
+        public static void StoreBook(book b)
         {
             dbPost("INSERT INTO BOOK VALUES (@ISBN, @TITLE, @SIGNID, @PUBLICATIONYEAR, @PUBLICATIONINFO, @PAGES);", _mapBookParameter(b));
         }
 
-        public static void dbRemoveBook(string ISBN)
+        public static void RemoveBook(string ISBN)
         {
             dbPost("DELETE FROM BOOK WHERE ISBN = @ISBN;", new SqlParameter[] { 
                 new SqlParameter("@ISBN", ISBN)
             });
         }
         
-        public static List<book> dbGetBooksBySearch(string search)
+        public static List<book> GetBooksBySearch(string search)
         {
             return dbGetList("SELECT * FROM Book WHERE Title LIKE '%'+@SEARCH+'%';", new SqlParameter[] { 
                 new SqlParameter("@SEARCH", search)
             });
         }
         
-        public static List<book> dbGetBooksByLetter(string letter)
+        public static List<book> GetBooksByLetter(string letter)
         {
             return dbGetList("SELECT * FROM Book WHERE Title LIKE @LETTER+'%';", new SqlParameter[] { 
                 new SqlParameter("@LETTER", letter)
             });
         }
         
-        public static List<book> dbGetBooksByNumber(List<string> number)
+        public static List<book> GetBooksByNumber(List<string> number)
         {
             return dbGetList("SELECT * FROM Book WHERE Title LIKE @NUMBER0+'%' OR Title LIKE @NUMBER1+'%' OR Title LIKE @NUMBER2+'%' OR Title LIKE @NUMBER3+'%' OR Title LIKE @NUMBER4+'%' OR Title LIKE @NUMBER5+'%' OR Title LIKE @NUMBER6+'%' OR Title LIKE @NUMBER7+'%' OR Title LIKE @NUMBER8+'%' OR Title LIKE @NUMBER9+'%';", new SqlParameter[] { 
                 new SqlParameter("@NUMBER0", number[0]),

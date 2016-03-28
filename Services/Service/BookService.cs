@@ -9,16 +9,16 @@ namespace Services.Service
     {
         public static List<book> GetBooksByAuthor(int aid)
         {
-            return BookRepository.dbGetBookListByAuthor(aid);
+            return BookRepository.GetBookListByAuthor(aid);
         }
 
         public static book GetBook(string isbn) {
-            return BookRepository.dbGetBook(isbn);
+            return BookRepository.GetBook(isbn);
         }
 
         public static BookWithAuthorsAndAuthors GetBookWithAuthorsAndAuthors(string isbn)
         {
-            return MapBookWithAuthorsAndAuthors(BookRepository.dbGetBook(isbn));
+            return MapBookWithAuthorsAndAuthors(BookRepository.GetBook(isbn));
         }
 
         public static BookWithAuthorsAndAuthors MapBookWithAuthorsAndAuthors(book b)
@@ -33,20 +33,20 @@ namespace Services.Service
 
         public static List<book> GetBooks()
         {
-            return BookRepository.dbGetBooks();
+            return BookRepository.GetBooks();
         }
         public static List<book> GetBooksByLetter(string letter)
         {
-            return BookRepository.dbGetBooksByLetter(letter);
+            return BookRepository.GetBooksByLetter(letter);
         }
         public static List<book> GetBooksByNumber(List<string> number)
         {
-            return BookRepository.dbGetBooksByNumber(number);
+            return BookRepository.GetBooksByNumber(number);
         }
 
         public static BookWithAuthorS GetBookWithAuthors(string isbn)
         {
-            return MapBookWithAuthorS(BookRepository.dbGetBook(isbn));
+            return MapBookWithAuthorS(BookRepository.GetBook(isbn));
         }
 
         private static BookWithAuthorS MapBookWithAuthorS(book b)
@@ -59,7 +59,7 @@ namespace Services.Service
 
         public static bool BookExists(string ISBN)
         {
-            return (BookRepository.dbGetBook(ISBN) != null ? true : false);
+            return (BookRepository.GetBook(ISBN) != null ? true : false);
         }
 
         public static BookWithClassifications NewBookWithClassifications()
@@ -87,17 +87,17 @@ namespace Services.Service
 
         public static void UpdateBook(book b)
         {
-            BookRepository.dbUpdateBook(b);
+            BookRepository.UpdateBook(b);
         }
 
         public static List<book> GetBooksBySearch(string input)
         {
-            return BookRepository.dbGetBooksBySearch(input);
+            return BookRepository.GetBooksBySearch(input);
         }       
 
         public static bool StoreBook(book b, int copies, string library)
         {
-            BookRepository.dbStoreBook(b);
+            BookRepository.StoreBook(b);
             for (int i = 0; i < copies; i++)
                 CopyService.CreateCopy(b.ISBN, library);
 
@@ -111,14 +111,14 @@ namespace Services.Service
 
             CopyService.RemoveCopyByISBN(isbn);
             BookAuthorService.RemoveBookAuthorByISBN(isbn);
-            BookRepository.dbRemoveBook(isbn);
+            BookRepository.RemoveBook(isbn);
 
             return true;
         }
 
         public static bool HasBorrows(string isbn)
         {
-            foreach (copy c in CopyRepository.dbGetCopiesByISBN(isbn))
+            foreach (copy c in CopyRepository.GetCopiesByISBN(isbn))
                 if (CopyService.IsBorrowed(c))
                     return false;
             return true;

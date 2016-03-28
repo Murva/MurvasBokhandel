@@ -30,13 +30,13 @@ namespace Services.Service
             else
                 user.User.Password = AuthService.GetUserByPersonId(user.User.PersonId).Password;
 
-            UserRepository.dbUpdateUser(user.User.PersonId, user.User);
+            UserRepository.UpdateUser(user.User.PersonId, user.User);
             BorrowerService.UpdateBorrower(user.Borrower);
         }
         
         public static bool EmailExists(string inputEmail)
         {
-            if (Repository.Repository.UserRepository.dbUserExists(inputEmail))
+            if (Repository.Repository.UserRepository.UserExists(inputEmail))
                 return (true);
             else
                 return (false);

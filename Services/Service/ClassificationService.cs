@@ -8,7 +8,7 @@ namespace Services.Service
     {
         public static List<classification> GetClassifications()
         {
-            return ClassificationRepository.dbGetClassifications();
+            return ClassificationRepository.GetClassifications();
         }
     }
 }

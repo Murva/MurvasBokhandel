@@ -17,22 +17,22 @@ namespace Services.Service
 
         public static List<copy> GetCopiesByISBN(string ISBN)
         {
-            return CopyRepository.dbGetCopiesByISBN(ISBN);
+            return CopyRepository.GetCopiesByISBN(ISBN);
         }
 
         public static void RemoveCopy(string Barcode)
         {
-            CopyRepository.dbRemoveCopy(Barcode);
+            CopyRepository.RemoveCopy(Barcode);
         }
 
         public static void CreateCopy(string isbn, string library)
         {
-            CopyRepository.dbCreateCopy(isbn, library);
+            CopyRepository.CreateCopy(isbn, library);
         }
 
         public static bool IsBorrowed(copy c)
         {
-            if (StatusRepository.dbGetStatusByISBN(c.ISBN).statusid != 2)
+            if (StatusRepository.GetStatusByISBN(c.ISBN).statusid != 2)
                 return true;
 
             return false;

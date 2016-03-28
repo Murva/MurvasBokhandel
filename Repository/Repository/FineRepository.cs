@@ -1,4 +1,5 @@
 ﻿using Repository.Repositories;
+using Repository.Repository.Base;
 using System;
 using System.Data.SqlClient;
 
@@ -6,20 +7,25 @@ namespace Repository.Repository
 {
     public class FineRepository
     {
-        public static int dbGetFine(string barcode, string personId)
+        /// <summary>
+        /// Calculating a borrower's fine
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <param name="personId"></param>
+        /// <returns></returns>
+        public static int GetFine(string barcode, string personId)
         {
             int _fine = 0;
-            string _connectionString = DataSource.getConnectionString("projectmanager");
-            SqlConnection con = new SqlConnection(_connectionString);
-            // ' ' behövdes för att id skulle ses som string
-            //SqlCommand cmd = new SqlCommand("SELECT * FROM BOOK WHERE ISBN = '" + isbn + "';", con);
-            SqlCommand cmd = new SqlCommand("SELECT SUM(Penaltyperday * (DATEDIFF(DAY, ToBeReturnedDate,GETDATE()))) AS 'Avgift' FROM BORROWER, CATEGORY, BORROW, COPY WHERE BORROWER.CategoryId = CATEGORY.CatergoryId AND COPY.Barcode = @BARCODE AND BORROWER.PersonId= @PERSONID AND BORROW.Barcode = COPY.Barcode AND BORROW.PersonId = @PERSONID;", con);
-            cmd.Parameters.AddWithValue("@BARCODE", barcode);
-            cmd.Parameters.AddWithValue("@PERSONID", personId);
+            SqlIt sqlIt = new SqlIt(new SqlConnection(DataSource.getConnectionString("projectmanager")), "SELECT SUM(Penaltyperday * (DATEDIFF(DAY, ToBeReturnedDate,GETDATE()))) AS 'Avgift' FROM BORROWER, CATEGORY, BORROW, COPY WHERE BORROWER.CategoryId = CATEGORY.CatergoryId AND COPY.Barcode = @BARCODE AND BORROWER.PersonId= @PERSONID AND BORROW.Barcode = COPY.Barcode AND BORROW.PersonId = @PERSONID;");
+            sqlIt.Command.Parameters.AddRange(new SqlParameter[] {
+                new SqlParameter("@BARCODE", barcode),
+                new SqlParameter("@PERSONID", personId)
+            });
+
             try
             {
-                con.Open();
-                SqlDataReader dar = cmd.ExecuteReader();
+                sqlIt.Connection.Open();
+                SqlDataReader dar = sqlIt.Command.ExecuteReader();
                 if (dar.Read())
                 {
                     _fine = (int)dar["Avgift"];
@@ -29,12 +35,12 @@ namespace Repository.Repository
             }
             catch (Exception eObj)
             {
-                throw eObj;
+                throw new Exception("Database problem(s) when calculating fine!", eObj);
             }
             finally
             {
-                if (con != null)
-                    con.Close();
+                if (sqlIt.Connection != null)
+                    sqlIt.Connection.Close();
             }
 
             return _fine;

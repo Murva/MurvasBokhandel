@@ -1,5 +1,4 @@
 ﻿using Repository.EntityModel;
-using Repository.Repositories;
 using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
@@ -9,26 +8,26 @@ namespace Repository.Repository
 {
     public class BorrowerRepository : BaseRepository<borrower>
     {
-        public static borrower dbGetBorrower(string PersonId)
+        public static borrower GetBorrower(string PersonId)
         {
             return dbGet("SELECT * FROM BORROWER WHERE PersonId = @PERSONID;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", PersonId)
             });
         }
 
-        public static List<borrower> dbGetBorrowers()
+        public static List<borrower> GetBorrowers()
         {
             return dbGetList("SELECT * FROM BORROWER;", null);
         }
 
-        public static void dbRemoveBorrower(borrower b)
+        public static void RemoveBorrower(borrower b)
         {
             dbPost("DELETE FROM BORROWER WHERE PersonId = @PERSONID;", new SqlParameter[] {
                 new SqlParameter("@PERSONID", b.PersonId)
             });
         }
 
-        public static void dbUpdateBorrower(borrower b)
+        public static void UpdateBorrower(borrower b)
         {
             dbPost("UPDATE BORROWER SET FirstName = @FIRSTNAME, LastName = @LASTNAME, Telno = @TELNO, Address = @ADDRESS, CategoryId = @CATEGORYID WHERE PersonId = @PERSONID", mapBorrowerParameters(b)
             );
@@ -76,12 +75,12 @@ namespace Repository.Repository
             };
         }
 
-        public static void dbStoreBorrower(borrower b)
+        public static void StoreBorrower(borrower b)
         {
             dbPost("INSERT INTO BORROWER VALUES (@PERSONID, @FIRSTNAME, @LASTNAME, @ADDRESS, @TELNO, @CATEGORYID)", mapBorrowerParameters(b));
         }
 
-        public static List<borrower> dbGetBorrowersByLetter(string letter)
+        public static List<borrower> GetBorrowersByLetter(string letter)
         {
             return dbGetList("SELECT * FROM Borrower WHERE LastName LIKE @LETTER+'%';",
                 new SqlParameter[] {
