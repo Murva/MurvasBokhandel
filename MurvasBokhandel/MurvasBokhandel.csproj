@@ -181,7 +181,7 @@
     <Content Include="Scripts\plugins\morris\morris.js" />
     <Content Include="Scripts\plugins\morris\morris.min.js" />
     <Content Include="Scripts\plugins\morris\raphael.min.js" />
-    <Content Include="serverError.html" />
+    <Content Include="Views\serverError.html" />
     <Content Include="Views\TemplateViews\blank-page.html" />
     <Content Include="Views\TemplateViews\bootstrap-elements.html" />
     <Content Include="Views\TemplateViews\bootstrap-grid.html" />
@@ -246,6 +246,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\murvasbibliotek.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

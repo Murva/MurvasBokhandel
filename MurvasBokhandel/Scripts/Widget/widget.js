@@ -47,7 +47,7 @@
                 $scope.loading = true;
                 $http({
                     method: "GET",
-                    url: "http://localhost:49327/Api/Book/Search/" + search_field
+                    url: "http://murvasbibliotek.azurewebsites.net/Api/Book/Search/" + search_field
                 }).then(function successCallback(response) {
                     $scope.result = response.data;
                     $scope.loading = null;
@@ -62,7 +62,7 @@
         .directive('searchWidget', function () {
             return {
                 restrict: 'E',
-                templateUrl: 'http://localhost:49327/Api/File/Widget/html'
+                templateUrl: 'http://murvasbibliotek.azurewebsites.net/Api/File/Widget/html'
             };
         }).config(function ($sceProvider) {
             $sceProvider.enabled(false);
