@@ -6,6 +6,9 @@ using System.Web.Mvc;
 
 namespace Common.Share
 {
+    /// <summary>
+    /// Type of alerts.
+    /// </summary>
     public enum AlertType
     {
         Danger,
@@ -14,6 +17,9 @@ namespace Common.Share
         Success
     }
 
+    /// <summary>
+    /// Is used to create a html view with different alert types.
+    /// </summary>
     public class AlertView
     {
         private static string convertTypeToString(AlertType a)

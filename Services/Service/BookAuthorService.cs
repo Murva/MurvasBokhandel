@@ -7,22 +7,22 @@ namespace Services.Service
     {
         public static void StoreBookAuthor(bookAuthor ba)
         {
-            BookAuthorRepository.dbStoreBookAuthor(ba);
+            BookAuthorRepository.StoreBookAuthor(ba);
         }
 
         public static bool BookAuthorExists(int Aid, string ISBN)
         {
-            return (BookAuthorRepository.dbGetBookAuthor(Aid, ISBN) != null ? true : false);
+            return (BookAuthorRepository.GetBookAuthor(Aid, ISBN) != null ? true : false);
         }
 
         public static void RemoveBookAuthorByISBN(string ISBN)
         {
-            BookAuthorRepository.dbRemoveBookAuthorByISBN(ISBN);
+            BookAuthorRepository.RemoveBookAuthorByISBN(ISBN);
         }
 
         public static void RemoveBookAuthor(int Aid, string ISBN)
         {
-            BookAuthorRepository.dbRemoveBookAuthor(Aid, ISBN);
+            BookAuthorRepository.RemoveBookAuthor(Aid, ISBN);
         }
     }
 }

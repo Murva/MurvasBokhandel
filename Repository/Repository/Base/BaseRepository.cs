@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace Repository.Repository.Base
 {
+    /// <summary>
+    /// Containing a SqlConnection and SqlCommand to perform Sql-queries
+    /// </summary>
     public class SqlIt
     {
         public SqlConnection Connection { get; set; }
@@ -18,6 +21,10 @@ namespace Repository.Repository.Base
         }
     }
 
+    /// <summary>
+    /// Is used for getting and posting data from and to the database.
+    /// </summary>
+    /// <typeparam name="T">Entity model</typeparam>
     public abstract class BaseRepository<T>
         where T : class
     {
@@ -79,7 +86,7 @@ namespace Repository.Repository.Base
             }
             catch (Exception eObj)
             {
-                throw eObj;
+                throw new Exception("Database problem(s) when getting object property!", eObj);
             }
             finally
             {
@@ -107,7 +114,7 @@ namespace Repository.Repository.Base
             }
             catch (Exception eObj)
             {
-                throw eObj;
+                throw new Exception("Database problem(s) when getting data!", eObj);
             }
             finally
             {
@@ -141,7 +148,7 @@ namespace Repository.Repository.Base
             }
             catch (Exception eObj)
             {
-                throw eObj;
+                throw new Exception("Database problem(s) when getting list!", eObj);
             }
             finally
             {
@@ -167,7 +174,7 @@ namespace Repository.Repository.Base
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception("Database problem(s) when posting!",e);
             }
             finally
             {

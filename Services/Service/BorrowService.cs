@@ -9,48 +9,40 @@ namespace Services.Service
     public class BorrowService
     {
         public static List<BorrowedBookCopy> GetActiveBorrowedBooks(string PersonId) {
-            return MapBorrow(BorrowRepository.dbGetActiveBorrowListByPersonId(PersonId));    
+            return MapBorrow(BorrowRepository.GetActiveBorrowListByPersonId(PersonId));    
         }
+        
         public static List<BorrowedBookCopy> GetHistoryBorrowedBooks(string PersonId) {
-            return MapBorrow(BorrowRepository.dbGetHistoryBorrowListByPersonId(PersonId));
+            return MapBorrow(BorrowRepository.GetHistoryBorrowListByPersonId(PersonId));
         }
+        
         public static List<BorrowedBookCopy> MapBorrow(List<borrow> b) {
             List<BorrowedBookCopy> borrowedBookCopy = new List<BorrowedBookCopy>();
             foreach (borrow borrow in b)
             {
-                copy c = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
+                copy c = CopyRepository.GetCopyByBarcode(borrow.Barcode);
                 borrowedBookCopy.Add(new BorrowedBookCopy() { 
                     Borrow = borrow,
                     Authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
-                    Book = BookRepository.dbGetBook(c.ISBN),
-                    Category = CategoryRepository.dbGetCategoryById(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
-                    Fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
+                    Book = BookRepository.GetBook(c.ISBN),
+                    Category = CategoryRepository.GetCategoryById(BorrowerRepository.GetBorrower(borrow.PersonId).CategoryId),
+                    Fine = FineRepository.GetFine(borrow.Barcode, borrow.PersonId)
                 });
             }
             return borrowedBookCopy;
         }
 
-        //public static void updateBorrowDate(borrow b) {
-        //    b.BorrowDate = DateTime.Today;
-        //    BorrowRepository.updateDate(b);
-        //}
-
-        //public static void updateToBeReturnedDate(borrow b, int period) {
-        //    b.ToBeReturnedDate = DateTime.Today.AddDays(period);
-        //    BorrowRepository.updateDate(b);
-        //}
-
         public static void RenewLoad(borrower br, string barcode)
         {
-            DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.dbGetCategoryById(br.CategoryId).Period);
-            BorrowRepository.dbUpdateBorrowDates(br.PersonId, barcode, ToBeReturnedDate);
+            DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.GetCategoryById(br.CategoryId).Period);
+            BorrowRepository.UpdateBorrowDates(br.PersonId, barcode, ToBeReturnedDate);
         }
 
         public static void RenewAllLoans(borrower br, List<BorrowedBookCopy> borrowes)
         {
-            DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.dbGetCategoryById(br.CategoryId).Period);
+            DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.GetCategoryById(br.CategoryId).Period);
             foreach (BorrowedBookCopy b in borrowes)
-                BorrowRepository.dbUpdateBorrowDates(br.PersonId, b.Borrow.Barcode, ToBeReturnedDate);
+                BorrowRepository.UpdateBorrowDates(br.PersonId, b.Borrow.Barcode, ToBeReturnedDate);
         }
     }
 }

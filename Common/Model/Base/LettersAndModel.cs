@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace Common.Model.Base
 {
     /// <summary>
-    /// 
+    /// Is used to create a html view with a list of type T
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class LettersAndModel<T>
+    /// <typeparam name="T">View model</typeparam>
+    public class LettersAndModel<T> : BaseModel
         where T : class
     {
         protected List<string> _letters { get; set; }

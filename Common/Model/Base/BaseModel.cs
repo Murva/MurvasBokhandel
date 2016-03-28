@@ -1,7 +1,7 @@
 ﻿namespace Common.Model.Base
 {
     /// <summary>
-    /// Gives a possibillity to alert i the views
+    /// Is used for inheritence to other view models. Alert is used to alert a view.
     /// </summary>
     public class BaseModel
     {

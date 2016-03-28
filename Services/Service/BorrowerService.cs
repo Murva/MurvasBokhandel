@@ -8,28 +8,28 @@ namespace Services.Service
     public class BorrowerService
     {
         public static bool BorrowerExists(string PersonId) {
-            return (BorrowerRepository.dbGetBorrower(PersonId) == null ? false : true);
+            return (BorrowerRepository.GetBorrower(PersonId) == null ? false : true);
         }
 
         public static List<borrower> GetBorrowers() {
-            return BorrowerRepository.dbGetBorrowers();
+            return BorrowerRepository.GetBorrowers();
         }
 
         public static borrower GetBorrower(string PersonId)
         {
-            return BorrowerRepository.dbGetBorrower(PersonId);
+            return BorrowerRepository.GetBorrower(PersonId);
         }
 
         public static BorrowerWithBorrows GetBorrowerWithBorrows(string PersonId)
         {
-            return mapBorrowerWithBorrows(BorrowerRepository.dbGetBorrower(PersonId));
+            return mapBorrowerWithBorrows(BorrowerRepository.GetBorrower(PersonId));
         }
 
         public static BorrowerWithUser GetBorrowerWithUserByEmail(string Email)
         {
             BorrowerWithUser activeUser = new BorrowerWithUser();
             activeUser.User = AuthService.GetUser(Email);
-            activeUser.Borrower = BorrowerRepository.dbGetBorrower(activeUser.User.PersonId);
+            activeUser.Borrower = BorrowerRepository.GetBorrower(activeUser.User.PersonId);
            
             return activeUser;
         }
@@ -38,7 +38,7 @@ namespace Services.Service
         {
             BorrowerWithUser activeUser = new BorrowerWithUser();
             activeUser.User = AuthService.GetUserByPersonId(PersonId);
-            activeUser.Borrower = BorrowerRepository.dbGetBorrower(activeUser.User.PersonId);
+            activeUser.Borrower = BorrowerRepository.GetBorrower(activeUser.User.PersonId);
 
             return activeUser;
         }
@@ -53,12 +53,12 @@ namespace Services.Service
             borrowerwithborrows.Borrows.Active = BorrowService.GetActiveBorrowedBooks(b.PersonId);
             borrowerwithborrows.Borrows.History = BorrowService.GetHistoryBorrowedBooks(b.PersonId);
             borrowerwithborrows.Categories = CategoryService.GetCategories();
-            borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
+            borrowerwithborrows.BorrowerWithUser.User = UserRepository.GetUserByPersonId(b.PersonId);
 
             if (borrowerwithborrows.BorrowerWithUser.User == null)
                 borrowerwithborrows.BorrowerWithUser.User = new user();
 
-            borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
+            borrowerwithborrows.Roles = RoleRepository.GetRoles();
             return borrowerwithborrows;
         }
         
@@ -67,16 +67,16 @@ namespace Services.Service
             if (HasActiveBorrows(b.PersonId))
                 return false;
 
-            BorrowRepository.dbRemoveBorrowsByPersonId(b.PersonId);
-            UserRepository.dbRemoveUser(b.PersonId);
-            BorrowerRepository.dbRemoveBorrower(b);
+            BorrowRepository.RemoveBorrowsByPersonId(b.PersonId);
+            UserRepository.RemoveUser(b.PersonId);
+            BorrowerRepository.RemoveBorrower(b);
 
             return true;
         }
 
         public static bool HasActiveBorrows(string PersonId)
         {
-            if (BorrowRepository.dbGetActiveBorrowListByPersonId(PersonId).Count > 0)
+            if (BorrowRepository.GetActiveBorrowListByPersonId(PersonId).Count > 0)
                 return true;
 
             return false;
@@ -84,16 +84,16 @@ namespace Services.Service
 
         public static void UpdateBorrower(borrower b)
         {
-            BorrowerRepository.dbUpdateBorrower(b);
+            BorrowerRepository.UpdateBorrower(b);
         }
 
         public static void StoreBorrower(borrower b){
-            BorrowerRepository.dbStoreBorrower(b);
+            BorrowerRepository.StoreBorrower(b);
         }
 
         public static List<borrower> GetBorrowersByLetter(string letter)
         {
-            return BorrowerRepository.dbGetBorrowersByLetter(letter);
+            return BorrowerRepository.GetBorrowersByLetter(letter);
         }
     }
 }

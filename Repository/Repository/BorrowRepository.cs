@@ -1,5 +1,4 @@
 ﻿using Repository.EntityModel;
-using Repository.Repositories;
 using Repository.Repository.Base;
 using System;
 using System.Collections.Generic;
@@ -9,60 +8,53 @@ namespace Repository.Repository
 {
     public class BorrowRepository : BaseRepository<borrow>
     {
-        //static public List<borrow> dbGetActiveBorrowsByPersonId(string id) 
-        //{
-        //    return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
-        //        new SqlParameter("@PERSONID", id)
-        //    });
-        //}
-        //static public List<borrow> dbGetHistoryBorrowsByPersonId(string id) {
-        //    return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NOT NULL;", new SqlParameter[]{
-        //        new SqlParameter("@PERSONID", id)
-        //    });
-        //}
+        public static List<borrow> GetBorrowListByPersonId(string PersonId)
+        {
+            return dbGetList("SELECT * FROM Borrow WHERE PersonId = @PERSONID", new SqlParameter[] {
+                new SqlParameter("@PERSONID", PersonId)
+            });
+        }
 
-        static public List<borrow> dbGetActiveBorrowListByPersonId(string id)
+        public static List<borrow> GetActiveBorrowListByPersonId(string PersonId)
         {
             return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NULL;", new SqlParameter[] {
-                new SqlParameter("@PERSONID", id)
+                new SqlParameter("@PERSONID", PersonId)
             });
         }
-        static public List<borrow> dbGetHistoryBorrowListByPersonId(string id)
+        
+        public static List<borrow> GetHistoryBorrowListByPersonId(string PersonId)
         {
             return dbGetList("SELECT * FROM BORROW WHERE PersonId = @PERSONID AND ReturnDate IS NOT NULL;", new SqlParameter[] {
-                new SqlParameter("@PERSONID", id)
+                new SqlParameter("@PERSONID", PersonId)
             });
         }
 
-        public static List<borrow> dbGetBorrowListByISBN(string isbn)
+        public static List<borrow> GetBorrowListByISBN(string Isbn)
         {
             return dbGetList("SELECT * FROM BORROW AS B, COPY AS C WHERE B.Barcode = C.Barcode AND C.ISBN = @ISBN", new SqlParameter[] {
-                new SqlParameter("@ISBN", isbn)
+                new SqlParameter("@ISBN", Isbn)
             });
         }
 
-        public static List<borrow> dbGetBorrowListByBarcode(string Barcode)
+        public static List<borrow> GetBorrowListByBarcode(string Barcode)
         {
             return dbGetList("SELECT * FROM BORROW WHERE Barcode = @BARCODE", new SqlParameter[] {
                 new SqlParameter("@BARCODE", Barcode)
             });
         }
 
-        //public static void updateDate(borrow b)
-        //{
-        //    //dbPostData("UPDATE BORROW SET BorrowDate = '" + b.BorrowDate.ToString() + "', ToBeReturnedDate = '" + b.ToBeReturnedDate.ToString() + "' WHERE (Barcode = '" + b.Barcode + "' AND PersonId = '" +b.PersonId+"')");
-        //}
-
-        public static void dbRemoveBorrowsByPersonId(string PersonId)
-        {
-            //dbPostData("DELETE FROM BORROW WHERE PersonId = '" + PersonId + "';");
-        }
-
-        public static void dbUpdateBorrowDates(string PersonId, string Barcode, DateTime ToBeReturnedDate )
+        public static void UpdateBorrowDates(string PersonId, string Barcode, DateTime ToBeReturnedDate )
         {
             dbPost("UPDATE BORROW SET BorrowDate = GetDate(), ToBeReturnedDate = @TOBERETURNEDDATE WHERE Barcode = @BARCODE AND PersonId = @PERSONID;", new SqlParameter[] {
                 new SqlParameter("@TOBERETURNEDDATE", ToBeReturnedDate.ToString()),
                 new SqlParameter("@BARCODE", Barcode),
+                new SqlParameter("@PERSONID", PersonId)
+            });
+        }
+
+        public static void RemoveBorrowsByPersonId(string PersonId)
+        {
+            dbPost("DELETE FROM Borrow WHERE PersonId = @PERSONID", new SqlParameter[] { 
                 new SqlParameter("@PERSONID", PersonId)
             });
         }

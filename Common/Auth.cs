@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Common
 {
+    /// <summary>
+    /// Reflect users data through Session["User"]
+    /// </summary>
     public class Auth
     {
         private BorrowerWithUser _loggedInUser = null;

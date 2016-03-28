@@ -47,7 +47,7 @@
     <Compile Include="Model\AuthorWithBooksAndBooks.cs" />
     <Compile Include="Model\Base\BaseModel.cs" />
     <Compile Include="Model\Base\LettersAndModel.cs" />
-    <Compile Include="Model\BookWithAuthorS.cs" />
+    <Compile Include="Model\BookWithAuthors.cs" />
     <Compile Include="Model\BookWithAuthor.cs" />
     <Compile Include="Model\BookWithAuthorsAndAuthors.cs" />
     <Compile Include="Model\BookWithClassifications.cs" />
