@@ -1,10 +1,4 @@
-﻿using Common;
-using Common.Model;
-using Services.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Services.Service;
 using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers

@@ -1,9 +1,9 @@
-﻿using System.Web.Mvc;
-using Services.Service;
-using Repository.EntityModel;
+﻿using Common;
 using Common.Model;
 using Common.Share;
-using Common;
+using Repository.EntityModel;
+using Services.Service;
+using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -61,6 +61,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        /// <summary>
+        /// Creates a new author
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(author a)
         {
@@ -80,6 +85,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        /// <summary>
+        /// Removes an author
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public ActionResult Remove(AuthorWithBooks a)
         {
             if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())

@@ -3,7 +3,6 @@ using Common.Model;
 using Common.Share;
 using Repository.EntityModel;
 using Services.Service;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
@@ -60,6 +59,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        /// <summary>
+        /// Removes a book
+        /// </summary>
+        /// <param name="isbn"></param>
+        /// <returns></returns>
         public ActionResult Remove(string isbn)
         {
             if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
@@ -88,6 +92,13 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
+        /// <summary>
+        /// Creates a new book
+        /// </summary>
+        /// <param name="bwc"></param>
+        /// <param name="copies"></param>
+        /// <param name="library"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(BookWithClassifications bwc, int copies, string library)
         {

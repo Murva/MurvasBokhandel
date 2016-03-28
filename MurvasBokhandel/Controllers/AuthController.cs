@@ -1,10 +1,7 @@
-﻿using Common.Model.Base;
-using Common;
-using Services.Service;
-using System;
-using System.Web.Mvc;
+﻿using Common.Model;
 using Common.Share;
-using Common.Model;
+using Services.Service;
+using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
 {
