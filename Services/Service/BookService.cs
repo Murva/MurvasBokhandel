@@ -44,14 +44,14 @@ namespace Services.Service
             return BookRepository.GetBooksByNumber(number);
         }
 
-        public static BookWithAuthorS GetBookWithAuthors(string isbn)
+        public static BookWithAuthors GetBookWithAuthors(string isbn)
         {
-            return mapBookWithAuthorS(BookRepository.GetBook(isbn));
+            return mapBookWithAuthors(BookRepository.GetBook(isbn));
         }
 
-        private static BookWithAuthorS mapBookWithAuthorS(book b)
+        private static BookWithAuthors mapBookWithAuthors(book b)
         {
-            BookWithAuthorS bookandauthers = new BookWithAuthorS();
+            BookWithAuthors bookandauthers = new BookWithAuthors();
             bookandauthers.Book = b;
             bookandauthers.Authors = AuthorService.GetAuthersByBook(b.ISBN);
             return bookandauthers;

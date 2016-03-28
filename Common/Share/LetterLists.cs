@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Common.Share
 {
+    /// <summary>
+    /// Different type of lists 
+    /// </summary>
     public class LetterLists
     {
         public static List<string> LetterList = new List<string>(

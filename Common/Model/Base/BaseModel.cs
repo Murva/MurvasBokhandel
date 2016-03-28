@@ -1,5 +1,8 @@
 ﻿namespace Common.Model.Base
 {
+    /// <summary>
+    /// Is used for inheritence to other view models. Alert is used to alert a view.
+    /// </summary>
     public class BaseModel
     {
         private string _alert = null;
