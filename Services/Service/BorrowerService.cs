@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Common.Model;
 using Repository.EntityModel;
 using Repository.Repository;
-using Common.Model;
 using System.Collections.Generic;
-using Common;
+
 namespace Services.Service
 {
     public class BorrowerService
