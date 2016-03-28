@@ -43,12 +43,12 @@ namespace Repository.Repository
             };
         }
 
-        public static List<author> dbGetAuthors(string orderBy)
+        public static List<author> GetAuthors(string orderBy)
         {
             return dbGetList("SELECT * FROM Author ORDER BY "+orderBy+";", null);
         }
 
-        public static List<author> dbGetAuthorsBySearch(string search)
+        public static List<author> GetAuthorsBySearch(string search)
         {
             return dbGetList("SELECT * FROM Author WHERE FirstName LIKE '%'+@SEARCH+'%' OR LastName LIKE '%'+@SEARCH+'%';",
                  new SqlParameter[] {
@@ -56,14 +56,14 @@ namespace Repository.Repository
                  });
         }
 
-        public static List<author> dbGetAuthorsByBookISBN(string isbn)
+        public static List<author> GetAuthorsByBookISBN(string isbn)
         {
             return dbGetList("SELECT * FROM BOOK_AUTHOR INNER JOIN AUTHOR ON BOOK_AUTHOR.Aid=AUTHOR.Aid WHERE BOOK_AUTHOR.ISBN = @ISBN", new SqlParameter[] {
                 new SqlParameter("@ISBN", isbn)
             });
         }
 
-        public static List<author> dbGetAuthorsByLetter(string letter)
+        public static List<author> GetAuthorsByLetter(string letter)
         {
             return dbGetList("SELECT * FROM Author WHERE LastName LIKE @LETTER+'%';",
                  new SqlParameter[] {
@@ -71,7 +71,7 @@ namespace Repository.Repository
                 });
         }
 
-        public static author dbGetAuthor(int aid)
+        public static author GetAuthor(int aid)
         {
             return dbGet("SELECT * FROM author WHERE Aid = @AID;", new SqlParameter[] {
                 new SqlParameter("@AID", aid)
