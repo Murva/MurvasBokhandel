@@ -1,8 +1,8 @@
-﻿using Common.Model;
-using Repository.EntityModel;
-using Repository.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Common.Model;
+using Repository.Repository;
+using Repository.EntityModel;
 
 namespace Services.Service
 {
@@ -17,22 +17,22 @@ namespace Services.Service
         }
         
         public static List<BorrowedBookCopy> MapBorrow(List<borrow> b) {
-            List<BorrowedBookCopy> BorrowedBookCopy = new List<BorrowedBookCopy>();
+            List<BorrowedBookCopy> borrowedBookCopy = new List<BorrowedBookCopy>();
             foreach (borrow borrow in b)
             {
                 copy c = CopyRepository.GetCopyByBarcode(borrow.Barcode);
-                BorrowedBookCopy.Add(new BorrowedBookCopy() { 
-                    borrow = borrow,
-                    authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
-                    book = BookRepository.GetBook(c.ISBN),
-                    category = CategoryRepository.GetCategoryById(BorrowerRepository.GetBorrower(borrow.PersonId).CategoryId),
-                    fine = FineRepository.GetFine(borrow.Barcode, borrow.PersonId)
+                borrowedBookCopy.Add(new BorrowedBookCopy() { 
+                    Borrow = borrow,
+                    Authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
+                    Book = BookRepository.GetBook(c.ISBN),
+                    Category = CategoryRepository.GetCategoryById(BorrowerRepository.GetBorrower(borrow.PersonId).CategoryId),
+                    Fine = FineRepository.GetFine(borrow.Barcode, borrow.PersonId)
                 });
             }
-            return BorrowedBookCopy;
+            return borrowedBookCopy;
         }
 
-        public static void RenewLoan(borrower br, string barcode)
+        public static void RenewLoad(borrower br, string barcode)
         {
             DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.GetCategoryById(br.CategoryId).Period);
             BorrowRepository.UpdateBorrowDates(br.PersonId, barcode, ToBeReturnedDate);
@@ -42,7 +42,7 @@ namespace Services.Service
         {
             DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.GetCategoryById(br.CategoryId).Period);
             foreach (BorrowedBookCopy b in borrowes)
-                BorrowRepository.UpdateBorrowDates(br.PersonId, b.borrow.Barcode, ToBeReturnedDate);
+                BorrowRepository.UpdateBorrowDates(br.PersonId, b.Borrow.Barcode, ToBeReturnedDate);
         }
     }
 }

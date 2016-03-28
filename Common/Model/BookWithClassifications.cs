@@ -2,6 +2,9 @@
 
 namespace Common.Model
 {
+    /// <summary>
+    /// Used when creating a new book with classification
+    /// </summary>
     public class BookWithClassifications
     {
         public Repository.EntityModel.book Book {get; set;}
