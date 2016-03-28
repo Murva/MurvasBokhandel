@@ -1,10 +1,10 @@
-﻿using Common.Model;
-using Common;
+﻿using Common;
+using Common.Model;
 using Common.Share;
 using Repository.EntityModel;
-using System.Web.Mvc;
-using Services.Service;
 using Repository.Validation;
+using Services.Service;
+using System.Web.Mvc;
 
 
 namespace MurvasBokhandel.Controllers.User
@@ -22,13 +22,15 @@ namespace MurvasBokhandel.Controllers.User
             return Redirect("/Error/Code/403");
         }
 
-        // Lånar om de böcker som är möjliga att låna om
+        /// <summary>
+        /// Reloans all books possible
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ReloanAll() 
         {
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
             if (_auth.HasUserPermission())
             {
-                //OBS! Hämta lån innan
                 ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
                 BorrowService.RenewAllLoans(_auth.LoggedInUser.Borrower, borrows.Active);
 
@@ -37,7 +39,11 @@ namespace MurvasBokhandel.Controllers.User
             return Redirect("/Error/Code/403");
         }
 
-        // Lånar om enskild bok
+        /// <summary>
+        /// Reloan one chosen book
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public ActionResult Reloan(int index) 
         {
             Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
@@ -60,10 +66,17 @@ namespace MurvasBokhandel.Controllers.User
             return Redirect("/Error/Code/403");
         }
               
+        /// <summary>
+        /// Updates the logged in users own information
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="borrower"></param>
+        /// <param name="newpassword"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult GetAcountInfo(user user, borrower borrower, string newpassword = null)
         {
-            //Knyter samman user och borrower -objekten
+            // Maps borrower and user to one object
             BorrowerWithUser borrowerWithUser = new BorrowerWithUser()
             {
                 User = user,
