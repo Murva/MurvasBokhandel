@@ -1,4 +1,7 @@
 ﻿using Common;
+using Common.Model;
+using MurvasBokhandel.Controllers.Share;
+using Services.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,7 @@ namespace MurvasBokhandel.Controllers
         // GET: Administrator
         public ActionResult Start()
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
                 return View();
                 
             return Redirect("/");

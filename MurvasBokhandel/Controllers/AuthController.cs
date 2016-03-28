@@ -4,6 +4,7 @@ using Services.Service;
 using System;
 using System.Web.Mvc;
 using Common.Share;
+using Common.Model;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -20,7 +21,9 @@ namespace MurvasBokhandel.Controllers
         {
             if (AuthService.Login(email, password))
             {
-                Auth.Login(BorrowerService.GetBorrowerWithUserByEmail(email));
+                BorrowerWithUser b = BorrowerService.GetBorrowerWithUserByEmail(email);
+                Session["User"] = b;
+                Session["Permissions"] = b.User.RoleId;
 
                 return Redirect("/");
             }
@@ -28,13 +31,6 @@ namespace MurvasBokhandel.Controllers
             ViewBag.Error = AlertView.Build("Fel email eller lösenord. Försök igen!", AlertType.Danger);
 
             return View();
-        }
-
-        public ActionResult Logout()
-        {
-            Auth.Logout();
-
-            return Redirect("/");
         }
     }
 }

@@ -94,9 +94,9 @@
 {
     <div class="col-md-6 jumbotron" style="float:right" id="divAddUser">
         <h3>Skapa inloggning</h3>
-        @if (Common.Auth.IsAlerted())
+        @if (TempData["Alert"] != null)
         {
-            @Html.Raw(Common.Auth.PopAlert())
+            @Html.Raw(TempData["Alert"])
         }
         <form method="post" action="/BorrowerAdmin/AddUser" id="form-addusertoborrower">
             <input type="hidden" name="PersonId" class="form-control" value="@Model.BorrowerWithUser.Borrower.PersonId" />

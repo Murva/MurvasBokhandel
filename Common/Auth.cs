@@ -8,33 +8,23 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public static class Auth
+    public class Auth
     {
-        private static BorrowerWithUser _loggedInUser = null;
-        public static BorrowerWithUser LoggedInUser {
+        private BorrowerWithUser _loggedInUser = null;
+        public BorrowerWithUser LoggedInUser {
             get
             {
                 return _loggedInUser;
             } 
         }
-        private static string _alert = null;
+        private string _alert = null;
 
-        public static void Login(BorrowerWithUser b)
+        public Auth(BorrowerWithUser b)
         {
             _loggedInUser = b;
         }
 
-        public static void Logout()
-        {
-            _loggedInUser = null;
-        }
-
-        public static void UpdateUser(BorrowerWithUser b)
-        {
-            _loggedInUser = b;
-        }
-
-        public static bool HasAdminPermission()
+        public bool HasAdminPermission()
         {
             if (HasUserPermission() && LoggedInUser.User.RoleId == 2)
                 return true;
@@ -42,7 +32,7 @@ namespace Common
             return false;
         }
 
-        public static bool HasUserPermission()
+        public bool HasUserPermission()
         {
             if (LoggedInUser != null && LoggedInUser.User.RoleId >= 1)
                 return true;
@@ -50,19 +40,19 @@ namespace Common
             return false;
         }
 
-        public static void PushAlert(string alertView)
+        public void PushAlert(string alertView)
         {
             _alert = alertView;
         }
 
-        public static string PopAlert()
+        public string PopAlert()
         {
             string temp = _alert;
             _alert = null;
             return temp;
         }
 
-        public static bool IsAlerted()
+        public bool IsAlerted()
         {
             return (_alert != null ? true : false);
         }

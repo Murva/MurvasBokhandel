@@ -56,6 +56,11 @@
         {
             @Html.HiddenFor(m => m.Author.Aid)
         }
+
+        @if (ViewBag.Alert != null)
+        {
+            @Html.Raw(ViewBag.Alert)
+        }
     </div>
     <div class="col-md-6">
         <h4>Böcker av @Model.Author.FirstName @Model.Author.LastName

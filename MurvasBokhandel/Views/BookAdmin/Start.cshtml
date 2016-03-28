@@ -13,9 +13,9 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        @if (Common.Auth.IsAlerted())
+        @if (TempData["Alert"] != null)
         {
-            @Html.Raw(Common.Auth.PopAlert())
+            @Html.Raw(TempData["Alert"])
         }
     </div>
 </div>

@@ -14,11 +14,10 @@ using Common;
 namespace MurvasBokhandel.Controllers
 {
     public class AuthorAdminController : Controller
-    {
-        // GET: AuthorAdmin
+    {        
         public ActionResult Start(string letter = "A")
         {
-            if (Auth.HasAdminPermission() && LetterLists.LetterList.Contains(letter)) 
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission() && LetterLists.LetterList.Contains(letter)) 
                 return View(new LettersAndAuthors(LetterLists.LetterList, AuthorService.GetAuthorsByLetter(letter)));
             
             return Redirect("/Error/Code/403");            
@@ -27,7 +26,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Author(int id)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 if (!AuthorService.AuthorExists(id))
                     return Redirect("/Error/Code/404");
@@ -41,12 +40,12 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Author(AuthorWithBooksAndBooks a)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 if (ModelState.IsValid)
                 {
                     AuthorService.UpdateAuthor(a.Author);
-
+                    TempData["Alert"] = AlertView.Build("Du har uppdaterat författaren.", AlertType.Success);
                     return View(AuthorService.GetAuthorWithBooksAndBooks(a.Author.Aid));
                 }
 
@@ -59,7 +58,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 return View();
             }
@@ -70,12 +69,12 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Create(author a)
         {
-            if (Auth.HasAdminPermission()) 
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission()) 
             {
                 if (ModelState.IsValid)
                 {
                     AuthorService.StoreAuthor(a);
-
+                    TempData["Alert"] = AlertView.Build("Du har skapat författaren "+a.FirstName+" "+a.LastName, AlertType.Success);
                     return RedirectToAction("Start");
                 }
 
@@ -88,10 +87,10 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult Remove(AuthorWithBooks a)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 AuthorService.DeleteAuthor(a.Author);
-
+                TempData["Alert"] = AlertView.Build("Du har tagit bort författaren "+a.Author.FirstName+" "+a.Author.LastName, AlertType.Success);
                 return RedirectToAction("Start");
             }
 
@@ -100,7 +99,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult AddBookToAuthor(int Aid, string ISBN)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 if (!BookAuthorService.BookAuthorExists(Aid, ISBN))
                     BookAuthorService.StoreBookAuthor(new bookAuthor()
@@ -117,7 +116,7 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult RemoveBookFromAuthor(int Aid, string ISBN)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 BookAuthorService.RemoveBookAuthor(Aid, ISBN);
 

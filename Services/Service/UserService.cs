@@ -7,12 +7,12 @@ namespace Services.Service
 {
     public class UserService
     {
-        public static ActiveAndHistoryBorrows GetActiveAndHistoryBorrows() 
+        public static ActiveAndHistoryBorrows GetActiveAndHistoryBorrows(string PersonId) 
         {
             return new ActiveAndHistoryBorrows()
             {
-                Active = BorrowService.GetActiveBorrowedBooks(Auth.LoggedInUser.User.PersonId),
-                History = BorrowService.GetHistoryBorrowedBooks(Auth.LoggedInUser.User.PersonId)
+                Active = BorrowService.GetActiveBorrowedBooks(PersonId),
+                History = BorrowService.GetHistoryBorrowedBooks(PersonId)
             };
         }
 
@@ -27,7 +27,7 @@ namespace Services.Service
         {
             user.User.Password = PasswordService.CreateHash(password);
 
-            UserRepository.dbUpdateUser(Auth.LoggedInUser.User.PersonId, user.User);
+            UserRepository.dbUpdateUser(user.User.PersonId, user.User);
             BorrowerService.UpdateBorrower(user.Borrower);
         }
         
@@ -37,6 +37,30 @@ namespace Services.Service
                 return (true);
             else
                 return (false);
+        }
+
+        public static bool HasUserPermissions(int roleId)
+        {
+            if (roleId >= 1)
+                return true;
+
+            return false;
+        }
+
+        public static bool HasAdminPermissions(int roleId)
+        {
+            if (roleId == 2)
+                return true;
+
+            return false;
+        }
+
+        public static bool BorrowerIsUser(BorrowerWithUser b, string PersonId)
+        {
+            if (b.User.PersonId == PersonId)
+                return true;
+
+            return false;
         }
         
     }

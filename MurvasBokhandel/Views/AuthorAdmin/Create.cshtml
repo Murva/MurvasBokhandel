@@ -45,3 +45,8 @@
         </div>
     </div>
 }
+
+@if (ViewBag.Alert != null)
+{
+    @Html.Raw(ViewBag.Alert)
+}

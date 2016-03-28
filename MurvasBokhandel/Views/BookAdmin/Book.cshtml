@@ -44,9 +44,9 @@
             
         }
 
-       @if (Common.Auth.IsAlerted())
+       @if (TempData["Alert"] != null)
        {
-            @Html.Raw(Common.Auth.PopAlert())
+            @Html.Raw(TempData["Alert"])
        }
 
         <form action="/BookAdmin/Remove" method="post" id="form-remove-book">

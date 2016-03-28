@@ -10,11 +10,14 @@ using Repository.Validation;
 namespace MurvasBokhandel.Controllers.User
 {
     public class UserController : Controller
-    {   
+    {
         public ActionResult Start() 
         {
-            if (Auth.HasUserPermission())
-                return View(UserService.GetActiveAndHistoryBorrows());
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasAdminPermission())
+            {
+                return View(UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId));
+            }
 
             return Redirect("/Error/Code/403");
         }
@@ -22,11 +25,12 @@ namespace MurvasBokhandel.Controllers.User
         // Lånar om de böcker som är möjliga att låna om
         public ActionResult ReloanAll() 
         {
-            if (Auth.HasUserPermission())
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasAdminPermission())
             {
                 //OBS! Hämta lån innan
-                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows();
-                BorrowService.RenewAllLoans(Auth.LoggedInUser.Borrower, borrows.Active);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
+                BorrowService.RenewAllLoans(_auth.LoggedInUser.Borrower, borrows.Active);
 
                 return RedirectToAction("Start", borrows);
             }
@@ -36,10 +40,11 @@ namespace MurvasBokhandel.Controllers.User
         // Lånar om enskild bok
         public ActionResult Reloan(int index) 
         {
-            if (Auth.HasUserPermission()) 
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasAdminPermission()) 
             {
-                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows();
-                BorrowService.RenewLoad(Auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
+                BorrowService.RenewLoad(_auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
 
                 return View("Start", borrows);
             }
@@ -48,8 +53,11 @@ namespace MurvasBokhandel.Controllers.User
         [HttpGet]
         public ActionResult GetAcountInfo()
         {
-            if (Auth.HasUserPermission())
-                return View(BorrowerService.GetBorrowerWithUserByPersonId(Auth.LoggedInUser.User.PersonId));
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasAdminPermission())
+            {
+                return View(BorrowerService.GetBorrowerWithUserByPersonId(_auth.LoggedInUser.User.PersonId));
+            }
 
             return Redirect("/Error/Code/403");
         }
@@ -64,13 +72,15 @@ namespace MurvasBokhandel.Controllers.User
                 Borrower = borrower
             };
 
-            if (Auth.HasUserPermission())
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+
+            if (_auth.HasAdminPermission())
             {
                 if (ModelState.IsValid)
                 {
-                    if (user.Password != null && PasswordService.VerifyPassword(user.Password, Auth.LoggedInUser.User.Password))
+                    if (user.Password != null && PasswordService.VerifyPassword(user.Password, _auth.LoggedInUser.User.Password))
                     {
-                        if (UserService.EmailExists(user.Email) && Auth.LoggedInUser.User.Email != user.Email)
+                        if (UserService.EmailExists(user.Email) && _auth.LoggedInUser.User.Email != user.Email)
                         {
                             borrowerWithUser.PushAlert(AlertView.Build("Email existerar. Försök igen!", AlertType.Danger));
                             return View(borrowerWithUser);
@@ -93,7 +103,7 @@ namespace MurvasBokhandel.Controllers.User
                         }
 
                         borrowerWithUser.PushAlert(AlertView.Build("Du har uppdaterat ditt konto.", AlertType.Success));
-                        Auth.UpdateUser(BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId));
+                        Session["User"] = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
 
                         return View(borrowerWithUser);
                     }

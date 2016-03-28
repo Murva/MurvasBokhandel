@@ -17,7 +17,7 @@ namespace MurvasBokhandel.Controllers
     {
         public ActionResult Start(string letter = "A")
         {
-            if (Auth.HasAdminPermission() && LetterLists.LetterList.Contains(letter))
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission() && LetterLists.LetterList.Contains(letter))
             {
                 return View(new LettersAndBorrowers(LetterLists.LetterList, BorrowerService.GetBorrowersByLetter(letter))) ;
             }
@@ -27,7 +27,7 @@ namespace MurvasBokhandel.Controllers
         // Lägger till användarkonto till en borrower
         public ActionResult AddUser(user u)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 BorrowerWithBorrows b = BorrowerService.GetBorrowerWithBorrows(u.PersonId);
 
@@ -38,21 +38,22 @@ namespace MurvasBokhandel.Controllers
                         if (!UserService.EmailExists(u.Email))
                         {
                             AuthService.CreateUser(u);
+                            TempData["Alert"] = AlertView.Build("Du har skapat ett användarkonto till låntagaren.", AlertType.Success);
                             return RedirectToAction("Borrower", new { id = u.PersonId });
                         }
 
-                        Auth.PushAlert(AlertView.Build("Konto med emailen " + u.Email + " existerar. Ange en annan!", AlertType.Danger));
+                        TempData["Alert"] = AlertView.Build("Konto med emailen " + u.Email + " existerar. Ange en annan!", AlertType.Danger);
 
                         return View("Borrower", b);
                     }
 
-                    Auth.PushAlert(AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger));
+                    TempData["Alert"] = AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger);
 
                     return RedirectToAction("Borrower", new { id = u.PersonId });
                 }
 
 
-                Auth.PushAlert(AlertView.BuildErrors(ViewData));
+                TempData["Alert"] = AlertView.BuildErrors(ViewData);
 
                 return RedirectToAction("Borrower", new { id = u.PersonId });
             }
@@ -63,12 +64,13 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Borrower(string id)
         {
-            if (Auth.HasAdminPermission())
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasAdminPermission())
             {
                 if (!BorrowerService.BorrowerExists(id))
                     return Redirect("/Error/Code/404");
 
-                if (Auth.LoggedInUser.User.PersonId == id)
+                if (UserService.BorrowerIsUser(_auth.LoggedInUser, id))
                     return Redirect("/User/GetAcountInfo");
 
                 return View(BorrowerService.GetBorrowerWithBorrows(id));
@@ -81,7 +83,7 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Borrower(BorrowerWithUser BorrowerWithUser)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 if (ModelState.IsValid && (BorrowerWithUser.Borrower.CategoryId == 1 ||
                                              BorrowerWithUser.Borrower.CategoryId == 2 ||
@@ -89,6 +91,7 @@ namespace MurvasBokhandel.Controllers
                                              BorrowerWithUser.Borrower.CategoryId == 4))
                 {
                     BorrowerService.UpdateBorrower(BorrowerWithUser.Borrower);
+                    TempData["Alert"] = AlertView.Build("Du har uppdaterat låntagaren.", AlertType.Success);
                     return RedirectToAction("/Borrower/" + BorrowerWithUser.Borrower.PersonId);
                 }
                 return View(BorrowerService.GetBorrowerWithBorrows(BorrowerWithUser.Borrower.PersonId));
@@ -99,16 +102,16 @@ namespace MurvasBokhandel.Controllers
         // Tar bort en borrower och konto om det finns
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 if (!BorrowerService.RemoveBorrower(bwb.BorrowerWithUser.Borrower))
                 {
-                    Auth.PushAlert(AlertView.Build("Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.", AlertType.Danger));
+                    TempData["Alert"] = AlertView.Build("Det gick inte att ta bort låntagare. Kontrollera att inga aktiva lån finns.", AlertType.Danger);
 
                     return RedirectToAction("Borrower", new { id = bwb.BorrowerWithUser.Borrower.PersonId });
                 }
 
-                Auth.PushAlert(AlertView.Build("Låntagare med PersonId "+bwb.BorrowerWithUser.Borrower.PersonId + " är nu borttagen", AlertType.Success));
+                TempData["Alert"] = AlertView.Build("Låntagare med PersonId "+bwb.BorrowerWithUser.Borrower.PersonId + " är nu borttagen", AlertType.Success);
                 
                 return Redirect("Start");
             }
@@ -117,11 +120,13 @@ namespace MurvasBokhandel.Controllers
 
         public ActionResult RenewLoan(string barcode, string personid, int index)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
                 borrows.Active = BorrowService.GetActiveBorrowedBooks(personid);
                 BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.Active[index].borrow.Barcode);
+
+                TempData["AlertView"] = AlertView.Build("Lån är uppdaterade.", AlertType.Success);
            
                 return Redirect("/BorrowerAdmin/Borrower/" + personid);
             }
@@ -131,7 +136,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 return View(new BorrowerAndCategories()
                 {
@@ -146,7 +151,7 @@ namespace MurvasBokhandel.Controllers
         [HttpPost]
         public ActionResult Create(BorrowerAndCategories baci)
         {
-            if (Auth.HasAdminPermission())
+            if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
             {
                 baci.Categories = CategoryService.GetCategories();
 
@@ -163,7 +168,7 @@ namespace MurvasBokhandel.Controllers
                         b.CategoryId = baci.CatergoryId;
                         BorrowerService.StoreBorrower(b);
 
-                        Auth.PushAlert(AlertView.Build("Låntagare " + baci.Borrower.FirstName + " " + baci.Borrower.LastName + " skapad.", AlertType.Success));
+                        TempData["Alert"] = AlertView.Build("Låntagare " + baci.Borrower.FirstName + " " + baci.Borrower.LastName + " skapad.", AlertType.Success);
 
                         return Redirect("Start");
                     }

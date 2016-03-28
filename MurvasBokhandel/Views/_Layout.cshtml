@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Common.Auth _auth = new Common.Auth((Common.Model.BorrowerWithUser) Session["User"]);
+}
+<!DOCTYPE html>
 <html lang="en" ng-app="MurvasApp">
 <head>
 
@@ -73,10 +76,10 @@
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
-                @if (Common.Auth.HasUserPermission())
+                @if (_auth.HasUserPermission())
                 {
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Common.Auth.LoggedInUser.Borrower.FirstName @Common.Auth.LoggedInUser.Borrower.LastName<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@_auth.LoggedInUser.Borrower.FirstName @_auth.LoggedInUser.Borrower.LastName<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             @*<li>
                                 <a href="#"><i class="fa fa-fw fa-user"></i> Författare</a>
@@ -102,7 +105,7 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    @if (Common.Auth.HasAdminPermission())
+                    @if (_auth.HasAdminPermission()) 
                     {
                         <li>
                             <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Mitt Konto</a>
@@ -147,7 +150,7 @@
                             <a href="/Auth/Logout"><i class="fa fa-power-off"></i> Logga ut</a>
                         </li>
                     }
-                    else if (Common.Auth.HasUserPermission())
+                    else if (_auth.HasUserPermission())
                     {
                         <li>
                             <a href="/User/GetAcountInfo"><i class="fa fa-user"></i> Konto</a>
