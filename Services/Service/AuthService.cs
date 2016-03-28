@@ -14,7 +14,7 @@ namespace Services.Service
 
             return false;
         }
-
+        
         public static user GetUser(string email)
         {
             return UserRepository.GetUserByEmail(email);

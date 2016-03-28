@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Repository.Validation
 {
+    /// <summary>
+    /// Validates if the Password submitet is a suitable password. 
+    /// </summary>
+    /// <Returns>
+    /// True
+    /// False
     public class PasswordValidaton
     {
         public static string ErrorMessage = "Lösenord måste vara mellan 5-15 tecken långt och innehålla minst en siffra och en versal.";

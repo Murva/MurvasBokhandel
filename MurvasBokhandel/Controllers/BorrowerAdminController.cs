@@ -4,11 +4,6 @@ using Common.Share;
 using Repository.EntityModel;
 using Repository.Validation;
 using Services.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace MurvasBokhandel.Controllers
@@ -24,7 +19,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        // Lägger till användarkonto till en borrower
+        /// <summary>
+        /// Adds a user account to a borrower
+        /// </summary>
+        /// <param name="u"></param>
+        /// <returns></returns>
         public ActionResult AddUser(user u)
         {
             if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
@@ -79,7 +78,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        // Används för att uppdatera en borrower
+        /// <summary>
+        /// Updates a borrower
+        /// </summary>
+        /// <param name="BorrowerWithUser"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Borrower(BorrowerWithUser BorrowerWithUser)
         {
@@ -105,7 +108,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
      
-        // Tar bort en borrower och konto om det finns
+        /// <summary>
+        /// Removes a borrower and it's account(if account exists)
+        /// </summary>
+        /// <param name="bwb"></param>
+        /// <returns></returns>
         public ActionResult Remove(BorrowerWithBorrows bwb)
         {
             if (new Auth((BorrowerWithUser)Session["User"]).HasAdminPermission())
@@ -153,7 +160,11 @@ namespace MurvasBokhandel.Controllers
             return Redirect("/Error/Code/403");
         }
 
-        // Sparar en ny borrower till databasen
+        /// <summary>
+        /// Creates a new borrower
+        /// </summary>
+        /// <param name="baci"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Create(BorrowerAndCategories baci)
         {

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Common.Model;
-using Repository.Repository;
+﻿using Common.Model;
 using Repository.EntityModel;
+using Repository.Repository;
+using System;
+using System.Collections.Generic;
 
 namespace Services.Service
 {
@@ -17,11 +17,11 @@ namespace Services.Service
         }
         
         public static List<BorrowedBookCopy> MapBorrow(List<borrow> b) {
-            List<BorrowedBookCopy> borrowedBookCopy = new List<BorrowedBookCopy>();
+            List<BorrowedBookCopy> BorrowedBookCopy = new List<BorrowedBookCopy>();
             foreach (borrow borrow in b)
             {
                 copy c = CopyRepository.GetCopyByBarcode(borrow.Barcode);
-                borrowedBookCopy.Add(new BorrowedBookCopy() { 
+                BorrowedBookCopy.Add(new BorrowedBookCopy() { 
                     borrow = borrow,
                     authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
                     book = BookRepository.GetBook(c.ISBN),
@@ -29,7 +29,7 @@ namespace Services.Service
                     fine = FineRepository.GetFine(borrow.Barcode, borrow.PersonId)
                 });
             }
-            return borrowedBookCopy;
+            return BorrowedBookCopy;
         }
 
         public static void RenewLoan(borrower br, string barcode)

@@ -203,7 +203,6 @@
     <Compile Include="Controllers\Api\FileController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\Share\AuthInterface.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BookController.cs" />
@@ -257,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Controllers\Share\" />
     <Folder Include="Views\Api\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\File\" />

@@ -64,7 +64,7 @@ namespace Services.Service
         
         public static bool RemoveBorrower(borrower b) {
 
-            if (HasActiveBorrowes(b.PersonId))
+            if (HasActiveBorrows(b.PersonId))
                 return false;
 
             BorrowRepository.RemoveBorrowsByPersonId(b.PersonId);
@@ -74,7 +74,7 @@ namespace Services.Service
             return true;
         }
 
-        public static bool HasActiveBorrowes(string PersonId)
+        public static bool HasActiveBorrows(string PersonId)
         {
             if (BorrowRepository.GetActiveBorrowListByPersonId(PersonId).Count > 0)
                 return true;

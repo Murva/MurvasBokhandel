@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Common.Model;
-using Repository.Repository;
+﻿using Common.Model;
 using Repository.EntityModel;
+using Repository.Repository;
+using System.Collections.Generic;
 
 namespace Services.Service
 {
@@ -46,10 +46,10 @@ namespace Services.Service
 
         public static BookWithAuthorS GetBookWithAuthors(string isbn)
         {
-            return MapBookWithAuthorS(BookRepository.GetBook(isbn));
+            return mapBookWithAuthorS(BookRepository.GetBook(isbn));
         }
 
-        private static BookWithAuthorS MapBookWithAuthorS(book b)
+        private static BookWithAuthorS mapBookWithAuthorS(book b)
         {
             BookWithAuthorS bookandauthers = new BookWithAuthorS();
             bookandauthers.Book = b;
@@ -69,21 +69,7 @@ namespace Services.Service
                     Book = new Repository.EntityModel.book(),
                     Classifications = ClassificationService.GetClassifications()
                 };
-        }
-
-        //public static AuthorWithBooks GetAuthorWithBooks(int aid)
-        //{
-        //    return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
-        //}
-
-        //public static AuthorWithBooks MapAuthorWithBooks(author a)
-        //{
-        //    AuthorWithBooks authorwithbooks = new AuthorWithBooks();
-        //    authorwithbooks.Author = a;
-        //    authorwithbooks.Books = BookService.GetBooksByAuthor(a.Aid);
-
-        //    return authorwithbooks;
-        //}
+        }        
 
         public static void UpdateBook(book b)
         {
