@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Common.Model;
-using Repository.Repository;
+﻿using Common.Model;
 using Repository.EntityModel;
+using Repository.Repository;
+using System.Collections.Generic;
 
 namespace Services.Service
 {

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Common.Model;
 using Repository.EntityModel;
 using Repository.Repository;
-using Common.Model;
 using System.Collections.Generic;
-using Common;
 namespace Services.Service
 {
     public class BorrowerService
@@ -65,7 +63,7 @@ namespace Services.Service
         
         public static bool RemoveBorrower(borrower b) {
 
-            if (HasActiveBorrowes(b.PersonId))
+            if (HasActiveBorrows(b.PersonId))
                 return false;
 
             BorrowRepository.dbRemoveBorrowsByPersonId(b.PersonId);
@@ -75,7 +73,7 @@ namespace Services.Service
             return true;
         }
 
-        public static bool HasActiveBorrowes(string PersonId)
+        public static bool HasActiveBorrows(string PersonId)
         {
             if (BorrowRepository.dbGetActiveBorrowListByPersonId(PersonId).Count > 0)
                 return true;
