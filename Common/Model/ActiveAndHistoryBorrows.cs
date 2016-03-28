@@ -8,7 +8,7 @@ namespace Common.Model
 {
     public class ActiveAndHistoryBorrows
     {
-        public List<BorrowedBookCopy> active { get; set; }
-        public List<BorrowedBookCopy> history { get; set; }
+        public List<BorrowedBookCopy> Active { get; set; }
+        public List<BorrowedBookCopy> History { get; set; }
     }
 }

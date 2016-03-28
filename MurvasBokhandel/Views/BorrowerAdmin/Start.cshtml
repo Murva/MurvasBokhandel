@@ -12,6 +12,14 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-4">
+        @if (TempData["Alert"] != null)
+        {
+            @Html.Raw(TempData["Alert"])
+        }
+    </div>
+</div>
+<div class="row">
     <div class="col-md-8 col-md-offset-2">
         @Html.Raw(Model.Render("/BorrowerAdmin/?letter=", "/BorrowerAdmin/Borrower/", "PersonId", new string[] {
             "LastName", "FirstName"

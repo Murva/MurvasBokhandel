@@ -1,4 +1,5 @@
-﻿using Repository.EntityModel;
+﻿using Common.Model.Base;
+using Repository.EntityModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Common.Model
 {
-    public class BookWithAuthorsAndAuthors
+    public class BookWithAuthorsAndAuthors : BaseModel
     {
         public book Book { get; set; }
         public List<author> BookAuthors { get; set; }

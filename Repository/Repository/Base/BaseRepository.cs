@@ -74,6 +74,10 @@ namespace Repository.Repository.Base
                 {
                     _obj = mapItEach(dar, pi);
                 }
+                else
+                {
+                    _obj = null;
+                }
             }
             catch (Exception eObj)
             {

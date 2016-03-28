@@ -11,12 +11,13 @@ namespace MurvasBokhandel.Controllers
 {
     public class BookController : Controller
     {
-        
         // GET: Book
         public ActionResult GetBook(string isbn)
         {
-            BookWithAuthorS baa = BookService.GetBookWithAuthors(isbn);
-            return View(baa);
+            if (!BookService.BookExists(isbn))
+                return Redirect("/Error/Code/404");
+
+            return View(BookService.GetBookWithAuthors(isbn));
         }
     }
 }

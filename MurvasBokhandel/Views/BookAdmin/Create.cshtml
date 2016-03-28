@@ -55,6 +55,11 @@
         </select>
     </div>
     
+    @if (TempData["Alert"] != null)
+    {
+        @Html.Raw(TempData["Alert"])
+    }
+    
     <div class="form-group">
         <input type="submit" value="Spara" class="btn btn-success btn-lg" />
     </div>

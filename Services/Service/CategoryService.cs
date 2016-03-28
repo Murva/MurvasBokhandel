@@ -6,7 +6,7 @@ namespace Services.Service
 {
     public class CategoryService
     {
-        public static List<category> getCategories() {
+        public static List<category> GetCategories() {
             return CategoryRepository.dbGetCategories();
         }
     }

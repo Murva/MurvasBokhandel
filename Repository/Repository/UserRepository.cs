@@ -27,7 +27,7 @@ namespace Repository.Repository
 
         public static bool dbUserExists(string email)
         {
-            return (dbGetProperty("SELECT * FROM \"USER\" WHERE Email = @EMAIL", "Email", new SqlParameter[] {
+            return (dbGetProperty("SELECT Email FROM \"USER\" WHERE Email = @EMAIL", "Email", new SqlParameter[] {
                 new SqlParameter("@EMAIL", email)
             }) != null ? true : false);
         }
@@ -65,12 +65,9 @@ namespace Repository.Repository
             //här ska det in ett anrop till databsen med det nya lösenordet
         }
         
-        public static void dbUpdateUser(user u)
+        public static void dbUpdateUser(string personId, user u)
         {
-            //här ska det in ett anrop till databasen som ändrar emailen i databasen.
-            //förs vill vi bara se om den fungerar eller inte så vi kör utan string
-
-            dbPost("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD WHERE PersonId=@PERSONID;", _mapUserParameters(u));
+            dbPost("UPDATE \"USER\" SET Email = @EMAIL, Password = @PASSWORD, RoleId=@ROLEID WHERE PersonId=@PERSONID;", _mapUserParameters(u));
         }
     }
 }

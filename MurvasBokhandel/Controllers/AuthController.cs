@@ -1,10 +1,10 @@
-﻿using Repository.EntityModel;
+﻿using Common.Model.Base;
+using Common;
 using Services.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Common.Share;
+using Common.Model;
 
 namespace MurvasBokhandel.Controllers
 {
@@ -21,12 +21,14 @@ namespace MurvasBokhandel.Controllers
         {
             if (AuthService.Login(email, password))
             {
-                Session["IsLoggedIn"] = PasswordService.CreateHash(Guid.NewGuid().ToString());
-                Session["User"] = BorrowerService.GetBorrowerWithUserByEmail(email); 
-                Session["Permission"] = AuthService.GetRole(email).Name;
+                BorrowerWithUser b = BorrowerService.GetBorrowerWithUserByEmail(email);
+                Session["User"] = b;
+                Session["Permissions"] = b.User.RoleId;
 
                 return Redirect("/");
             }
+
+            TempData["Alert"] = AlertView.Build("Fel email eller lösenord. Försök igen!", AlertType.Danger);
 
             return View();
         }

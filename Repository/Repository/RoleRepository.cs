@@ -19,5 +19,12 @@ namespace Repository.Repository
                 new SqlParameter("@EMAIL", email)
             });
         }
+
+        public static role dbGetRoleById(int roleId)
+        {
+            return dbGet("SELECT * FROM \"ROLE\" WHERE RoleId = @ROLEID", new SqlParameter[] {
+                new SqlParameter("@ROLEID", roleId)
+            });
+        }
     }
 }

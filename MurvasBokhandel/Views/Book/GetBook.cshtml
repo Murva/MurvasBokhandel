@@ -31,15 +31,13 @@
             <thead class="alert-info">
                 <tr>
                     <th>Författare</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var author in Model.Authors)
                 {
                     <tr>
-                        <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.FirstName</a></td>
-                        <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.LastName</a></td>
+                        <td><a href="/Author/GetAuthor/?aid=@author.Aid">@author.FirstName @author.LastName</a></td>
                     </tr>
                 }
                 

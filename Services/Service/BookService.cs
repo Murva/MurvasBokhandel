@@ -104,24 +104,32 @@ namespace Services.Service
             return true;
         }
 
-        public static bool RemoveBook(book b)
+        public static bool RemoveBook(string isbn)
         {
-            if (HasBorrows(b))
+            if (HasBorrows(isbn) || HasAuthors(isbn))
                 return false;
 
-            CopyService.RemoveCopyByISBN(b.ISBN);
-            BookAuthorService.RemoveBookAuthorByISBN(b.ISBN);
-            BookRepository.dbRemoveBook(b.ISBN);
+            CopyService.RemoveCopyByISBN(isbn);
+            BookAuthorService.RemoveBookAuthorByISBN(isbn);
+            BookRepository.dbRemoveBook(isbn);
 
             return true;
         }
 
-        public static bool HasBorrows(book b)
+        public static bool HasBorrows(string isbn)
         {
-            foreach (copy c in CopyRepository.dbGetCopiesByISBN(b.ISBN))
+            foreach (copy c in CopyRepository.dbGetCopiesByISBN(isbn))
                 if (CopyService.IsBorrowed(c))
                     return false;
             return true;
+        }
+
+        public static bool HasAuthors(string isbn)
+        {
+            if (AuthorRepository.dbGetAuthorsByBookISBN(isbn).Count > 0)
+                return true;
+
+            return false;
         }
     }
 }

@@ -21,16 +21,15 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="remeberme"> Kom ihåg mig
-                    </label>
-                </div>
+                <button type="submit" class="btn btn-default">Logga in</button>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Logga in</button>
+                @if (TempData["Alert"] != null)
+                {
+                    @Html.Raw(TempData["Alert"])
+                }
             </div>
         </div>
     </form>

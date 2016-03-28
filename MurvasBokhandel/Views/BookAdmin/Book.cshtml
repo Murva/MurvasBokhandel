@@ -40,7 +40,14 @@
                 <input type="submit" value="Uppdate" class="btn btn-warning" />
                 <button type="submit" class="btn btn-danger pull-right" form="form-remove-book">Ta bort</button>
             </div>
+            
+            
         }
+
+       @if (TempData["Alert"] != null)
+       {
+            @Html.Raw(TempData["Alert"])
+       }
 
         <form action="/BookAdmin/Remove" method="post" id="form-remove-book">
             <input type="hidden" name="isbn" value="@Model.Book.ISBN" />

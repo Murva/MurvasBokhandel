@@ -1,6 +1,6 @@
 ﻿@model Common.Model.BorrowerWithUser
 @{
-    ViewBag.Title = "GetAcountInfo";
+    ViewBag.Title = "Konto";
 }
 
 <div class="row">
@@ -12,17 +12,21 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h4>Dina kontouppgifter</h4>
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-            
-            @Html.HiddenFor(m => m.User.PersonId)
-            @Html.HiddenFor(m => m.Borrower.PersonId)
+    <h4>Dina kontouppgifter</h4>
+</div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(m => m.User.PersonId)
+        @Html.HiddenFor(m => m.User.RoleId)
+        @Html.HiddenFor(m => m.Borrower.PersonId)
+        @Html.HiddenFor(m => m.Borrower.CategoryId)
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <label>Personnummer</label>
-                @Html.EditorFor(m => m.Borrower.PersonId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled"} })
+                @Html.EditorFor(m => m.Borrower.PersonId, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
                 @Html.ValidationMessageFor(m => m.Borrower.PersonId, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
@@ -40,66 +44,41 @@
                 @Html.EditorFor(m => m.Borrower.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(m => m.Borrower.Address, "", new { @class = "text-danger" })
             </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label>Telefonnummer</label>
                 @Html.EditorFor(m => m.Borrower.Telno, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(m => m.Borrower.Telno, "", new { @class = "text-danger" })
-            </div>           
+            </div>
             <div class="form-group">
                 <label>Email</label>
                 @Html.EditorFor(m => m.User.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(m => m.User.Email, "", new { @class = "text-danger" })
-            </div>   
+            </div>
             <div class="form-group">
-                <label>Lösenord</label>
+                <label>Nuvarande lösenord</label>
                 @Html.PasswordFor(m => m.User.Password, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.User.Password, "", new { @class = "text-danger" })
-            </div>   
+            </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-warning" value="Uppdatera" />                
-            </div>
-        }
-
-        @if (ViewBag.Error != null)
-        {//Denna visas alltid! måste gå att ta bort!
-            <div class="alert alert-danger">
-                @ViewBag.Error
-            </div>
-        }
-       
-    
-    <!-- Modal -->
-    <div class="modal fade" id="add-user" tabindex="-1" role="dialog" aria-labelledby="AddUser">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Skapa konto</h4>
-                </div>
-                @*<div class="modal-body">
-                    @using (Html.BeginForm("AddUser", "BorrowerAdmin", FormMethod.Post, new { @id = "form-addusertoborrower" }))
-                    {*@
-                        @*@Html.HiddenFor(m => m.BorrowerWithUser.User.PersonId, Model.BorrowerWithUser.Borrower.PersonId);*@
-                        @*<input type="hidden" name="PersonId" value="@Model.BorrowerWithUser.Borrower.PersonId" />
-                        <div class="form-group">
-                            <label>Personnummer</label>
-                            @Html.TextBoxFor(m => m.BorrowerWithUser.Borrower.PersonId, new { @class = "form-control", @disabled = "disabled" })
-                            <label>E-mail</label>
-                            @Html.TextBoxFor(m => m.BorrowerWithUser.User.Email, new { @class = "form-control" })
-                            <label>Password</label>
-                            @Html.PasswordFor(m => m.BorrowerWithUser.User.Password, new { @class = "form-control" })
-                            <label>Role</label>
-                            @Html.DropDownListFor(m => m.BorrowerWithUser.User.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
-
-                        </div>
-                    }
-                </div>*@
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-                    <button class="btn btn-primary" form="form-addusertoborrower">Spara</button>
-                </div>
+                <label>Nytt lösenord</label>
+                <small>Lämna tomt om du inte vill ändra</small>
+                <input type="password" name="newPassword" class="form-control" />
             </div>
         </div>
     </div>
-
-</div>
+    <div class="row">
+        <div class="col-md-8">
+            @if (Model.IsAlerted())
+            {
+                @Html.Raw(Model.PopAlert())
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-8">
+            <input type="submit" class="btn btn-warning btn-block" value="Uppdatera" />
+        </div>
+    </div>
+    }

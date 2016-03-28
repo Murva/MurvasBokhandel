@@ -22,10 +22,7 @@ namespace MurvasBokhandel.Controllers
         [HttpGet]
         public ActionResult Search(string search_field)
         {
-            
-            AuthorsAndBooks a = AuthorService.GetSearchResult(search_field);
-            
-            return View(a);
+            return View(AuthorService.GetSearchResult(search_field));
         }
 
         
@@ -45,15 +42,9 @@ namespace MurvasBokhandel.Controllers
             if (LetterLists.LetterListWithNum.Contains(letter))
             {
                 if (letter == "123")
-                {
-                    LettersAndBooks lb = new LettersAndBooks(LetterLists.LetterListWithNum, BookService.GetBooksByNumber(LetterLists.NumbList));
-                    return View(lb);
-                }
-                else
-                {
-                    LettersAndBooks lb = new LettersAndBooks(LetterLists.LetterListWithNum, BookService.GetBooksByLetter(letter));
-                    return View(lb);
-                }
+                    return View(new LettersAndBooks(LetterLists.LetterListWithNum, BookService.GetBooksByNumber(LetterLists.NumbList)));
+                
+                return View(new LettersAndBooks(LetterLists.LetterListWithNum, BookService.GetBooksByLetter(letter)));
             }
             return Redirect("/");
         }

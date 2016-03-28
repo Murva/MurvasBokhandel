@@ -45,3 +45,8 @@
         </div>
     </div>
 }
+
+@if (TempData["Alert"] != null)
+{
+    @Html.Raw(TempData["Alert"])
+}

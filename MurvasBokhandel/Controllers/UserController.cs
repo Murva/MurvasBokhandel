@@ -1,110 +1,126 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Common.Model;
+using Common;
+using Common.Share;
+using Repository.EntityModel;
 using System.Web.Mvc;
 using Services.Service;
-using Common.Model;
-using Repository.Repository;
-using Repository.EntityModel;
+using Repository.Validation;
+
 
 namespace MurvasBokhandel.Controllers.User
 {
     public class UserController : Controller
     {
-        // GET: /Borrower/        
-        
         public ActionResult Start() 
         {
-            if (Session["Permission"] as string != null)
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasUserPermission())
             {
-                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                BorrowerWithUser u = (BorrowerWithUser)Session["User"];
-                borrows.active = BorrowService.GetActiveBorrowedBooks(u.User.PersonId);
-                borrows.history = BorrowService.GetHistoryBorrowedBooks(u.User.PersonId);
-                return View(borrows);
+                return View(UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId));
             }
-            return Redirect("/");
+
+            return Redirect("/Error/Code/403");
         }
 
         // Lånar om de böcker som är möjliga att låna om
         public ActionResult ReloanAll() 
         {
-            if (Session["Permission"] as string != null)
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasUserPermission())
             {
                 //OBS! Hämta lån innan
-                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                
-                BorrowerWithUser b = (BorrowerWithUser) Session["User"];
-                borrows.active = BorrowService.GetActiveBorrowedBooks(b.User.PersonId);
-                borrows.history = BorrowService.GetHistoryBorrowedBooks(b.User.PersonId);
-                BorrowService.RenewAllLoans(b.Borrower, borrows.active);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
+                BorrowService.RenewAllLoans(_auth.LoggedInUser.Borrower, borrows.Active);
 
                 return RedirectToAction("Start", borrows);
             }
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
 
         // Lånar om enskild bok
         public ActionResult Reloan(int index) 
         {
-            if (Session["Permission"] as string != null) 
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasUserPermission()) 
             {
-                ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
-                BorrowerWithUser bwu = (BorrowerWithUser) Session["User"];
-                borrows.active = BorrowService.GetActiveBorrowedBooks(bwu.User.PersonId);
-                borrows.history = BorrowService.GetHistoryBorrowedBooks(bwu.User.PersonId);
-                BorrowService.RenewLoad(bwu.Borrower, borrows.active[index].borrow.Barcode);
+                ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
+                BorrowService.RenewLoad(_auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
+
                 return View("Start", borrows);
             }
-            return Redirect("/");
+            return Redirect("/Error/Code/403");
         }
         [HttpGet]
         public ActionResult GetAcountInfo()
         {
-            if (Session["Permission"] as string != null) {
-                BorrowerWithUser user = (BorrowerWithUser)Session["User"];        
-                BorrowerWithUser activeUser = BorrowerService.GetBorrowerWithUserByPersonId(user.User.PersonId);
-                return View(activeUser);
-            }
-            return Redirect("/");
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+            if (_auth.HasUserPermission())
+                return View(BorrowerService.GetBorrowerWithUserByPersonId(_auth.LoggedInUser.User.PersonId));
+
+            return Redirect("/Error/Code/403");
         }
               
         [HttpPost]
-        public ActionResult GetAcountInfo(user user, borrower borrower)
+        public ActionResult GetAcountInfo(user user, borrower borrower, string newpassword = null)
         {
-            if (Session["Permission"] as string != null)
+            //Knyter samman user och borrower -objekten
+            BorrowerWithUser borrowerWithUser = new BorrowerWithUser()
             {
-                if (ModelState.IsValid) 
+                User = user,
+                Borrower = borrower
+            };
+
+            Auth _auth = new Auth((BorrowerWithUser)Session["User"]);
+
+            if (_auth.HasUserPermission())
+            {
+                if (ModelState.IsValid)
                 {
-
-                    Repository.EntityModel.user activeUser = (Repository.EntityModel.user)Session["User"];
-
-                    if (Services.Service.UserService.emailExists(user.Email) && (!(activeUser.Email == user.Email)))
+                    if (user.Password != null && PasswordService.VerifyPassword(user.Password, _auth.LoggedInUser.User.Password))
                     {
-                        ViewBag.Error = "Epostadressen finns redan registrerad."; // denna går inte just nu!!!!!                        
-                        BorrowerWithUser someOneElseEmail = BorrowerService.GetBorrowerWithUserByPersonId(activeUser.PersonId);
+                        if (UserService.EmailExists(user.Email) && _auth.LoggedInUser.User.Email != user.Email)
+                        {
+                            borrowerWithUser.PushAlert(AlertView.Build("Email existerar. Försök igen!", AlertType.Danger));
+                            return View(borrowerWithUser);
+                        }
 
-                        return View(someOneElseEmail);   
+                        if (!_auth.IsSameAs(borrowerWithUser, newpassword))
+                        {
+                            if (newpassword == "")
+                            {
+                                UserService.Update(borrowerWithUser, user.Password);
+                            }
+                            else
+                            {
+                                if (!PasswordValidaton.IsValid(newpassword))
+                                {
+                                    borrowerWithUser.PushAlert(AlertView.Build(PasswordValidaton.ErrorMessage, AlertType.Danger));
+                                    return View(borrowerWithUser);
+                                }
+
+                                UserService.Update(borrowerWithUser, newpassword);
+
+                            }
+
+                            borrowerWithUser.PushAlert(AlertView.Build("Du har uppdaterat ditt konto.", AlertType.Success));
+                            Session["User"] = BorrowerService.GetBorrowerWithUserByPersonId(user.PersonId);
+
+                            return View(borrowerWithUser);
+                        }
+                        else
+                        {
+                            borrowerWithUser.PushAlert(AlertView.Build("Inget har uppdaterats.", AlertType.Info));
+                            return View(borrowerWithUser);
+                        }
                     }
 
-                    BorrowerWithUser borrowerWithUser = new BorrowerWithUser();
-                    borrowerWithUser.User = user;
-                    borrowerWithUser.Borrower = borrower;
-                    borrowerWithUser.Borrower.PersonId = user.PersonId;
-                    UserService.update(borrowerWithUser);
-                    Session["User"] = AuthService.GetUserByPersonId(user.PersonId);//Denna måste nog ändras
-
-                    return Redirect("/User/GetAcountInfo/");
+                    borrowerWithUser.PushAlert(AlertView.Build("Du måste ange ditt eget lösenord.", AlertType.Danger));
+                    return View(borrowerWithUser);
                 }
-                else
-                {
-                    BorrowerWithUser original = (BorrowerWithUser)Session["User"];
 
-                    return View(BorrowerService.GetBorrowerWithUserByPersonId(original.User.PersonId));
-                }
+                return View(borrowerWithUser);
             }
-            return View();               
+            return Redirect("/Error/Code/403");               
         }
 	}
 }

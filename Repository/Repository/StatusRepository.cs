@@ -18,7 +18,7 @@ namespace Repository.Repository
 
         public static Status dbGetStatusByISBN(string isbn)
         {
-            return dbGet("SELECT * FROM COPY AS C, STATUS AS S WHERE C.StatusId = S.id AND C.ISBN = @ISBN", new SqlParameter[] {
+            return dbGet("SELECT * FROM COPY AS C, STATUS AS S WHERE C.StatusId = S.statusid AND C.ISBN = @ISBN", new SqlParameter[] {
                 new SqlParameter("@ISBN", isbn)
             });
         }

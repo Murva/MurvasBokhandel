@@ -3,11 +3,12 @@ using Repository.EntityModel;
 using Repository.Repository;
 using Common.Model;
 using System.Collections.Generic;
+using Common;
 namespace Services.Service
 {
     public class BorrowerService
     {
-        public static bool CheckIfBorrowerExists(string PersonId) {
+        public static bool BorrowerExists(string PersonId) {
             return (BorrowerRepository.dbGetBorrower(PersonId) == null ? false : true);
         }
 
@@ -50,33 +51,45 @@ namespace Services.Service
             
             borrowerwithborrows.BorrowerWithUser.Borrower = b;
             borrowerwithborrows.Borrows = new ActiveAndHistoryBorrows();
-            borrowerwithborrows.Borrows.active = BorrowService.GetActiveBorrowedBooks(b.PersonId);
-            borrowerwithborrows.Borrows.history = BorrowService.GetHistoryBorrowedBooks(b.PersonId);
-            borrowerwithborrows.Categories = CategoryService.getCategories();
+            borrowerwithborrows.Borrows.Active = BorrowService.GetActiveBorrowedBooks(b.PersonId);
+            borrowerwithborrows.Borrows.History = BorrowService.GetHistoryBorrowedBooks(b.PersonId);
+            borrowerwithborrows.Categories = CategoryService.GetCategories();
             borrowerwithborrows.BorrowerWithUser.User = UserRepository.dbGetUserByPersonId(b.PersonId);
+
             if (borrowerwithborrows.BorrowerWithUser.User == null)
                 borrowerwithborrows.BorrowerWithUser.User = new user();
+
             borrowerwithborrows.Roles = RoleRepository.dbGetRoles();
             return borrowerwithborrows;
         }
         
-        public static void RemoveBorrower(borrower b) {
-            string PersonId = b.PersonId;
-            BorrowRepository.dbRemoveBorrowsByPersonId(PersonId);
-            UserRepository.dbRemoveUser(PersonId);
+        public static bool RemoveBorrower(borrower b) {
+
+            if (HasActiveBorrowes(b.PersonId))
+                return false;
+
+            BorrowRepository.dbRemoveBorrowsByPersonId(b.PersonId);
+            UserRepository.dbRemoveUser(b.PersonId);
             BorrowerRepository.dbRemoveBorrower(b);
+
+            return true;
         }
+
+        public static bool HasActiveBorrowes(string PersonId)
+        {
+            if (BorrowRepository.dbGetActiveBorrowListByPersonId(PersonId).Count > 0)
+                return true;
+
+            return false;
+        }
+
         public static void UpdateBorrower(borrower b)
         {
             BorrowerRepository.dbUpdateBorrower(b);
         }
+
         public static void StoreBorrower(borrower b){
             BorrowerRepository.dbStoreBorrower(b);
-        }
-
-        public static BorrowerWithUser GetBorrowerWithUser()
-        {
-            throw new NotImplementedException();
         }
 
         public static List<borrower> GetBorrowersByLetter(string letter)
