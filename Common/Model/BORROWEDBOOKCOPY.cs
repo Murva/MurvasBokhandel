@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using Repository.EntityModel;
 
 namespace Common.Model
 {
+    /// <summary>
+    /// Used when displaying a borrowed book
+    /// </summary>
     public class BorrowedBookCopy
     {
-        public book book { get; set; }
-        public List<author> authors { get; set; }
-        public borrow borrow { get; set; }
-        public category category { get; set; }
-        public int fine { get; set; }
+        public book Book { get; set; }
+        public List<author> Authors { get; set; }
+        public borrow Borrow { get; set; }
+        public category Category { get; set; }
+        public int Fine { get; set; }
     }
 }

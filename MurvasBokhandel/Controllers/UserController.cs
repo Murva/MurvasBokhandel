@@ -44,7 +44,7 @@ namespace MurvasBokhandel.Controllers.User
             if (_auth.HasUserPermission()) 
             {
                 ActiveAndHistoryBorrows borrows = UserService.GetActiveAndHistoryBorrows(_auth.LoggedInUser.User.PersonId);
-                BorrowService.RenewLoad(_auth.LoggedInUser.Borrower, borrows.Active[index].borrow.Barcode);
+                BorrowService.RenewLoad(_auth.LoggedInUser.Borrower, borrows.Active[index].Borrow.Barcode);
 
                 return View("Start", borrows);
             }

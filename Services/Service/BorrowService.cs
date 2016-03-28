@@ -20,11 +20,11 @@ namespace Services.Service
             {
                 copy c = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
                 borrowedBookCopy.Add(new BorrowedBookCopy() { 
-                    borrow = borrow,
-                    authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
-                    book = BookRepository.dbGetBook(c.ISBN),
-                    category = CategoryRepository.dbGetCategoryById(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
-                    fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
+                    Borrow = borrow,
+                    Authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
+                    Book = BookRepository.dbGetBook(c.ISBN),
+                    Category = CategoryRepository.dbGetCategoryById(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
+                    Fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
                 });
             }
             return borrowedBookCopy;
@@ -50,7 +50,7 @@ namespace Services.Service
         {
             DateTime ToBeReturnedDate = DateTime.Today.AddDays(CategoryRepository.dbGetCategoryById(br.CategoryId).Period);
             foreach (BorrowedBookCopy b in borrowes)
-                BorrowRepository.dbUpdateBorrowDates(br.PersonId, b.borrow.Barcode, ToBeReturnedDate);
+                BorrowRepository.dbUpdateBorrowDates(br.PersonId, b.Borrow.Barcode, ToBeReturnedDate);
         }
     }
 }

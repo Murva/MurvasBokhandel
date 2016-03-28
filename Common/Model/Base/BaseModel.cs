@@ -1,5 +1,8 @@
 ﻿namespace Common.Model.Base
 {
+    /// <summary>
+    /// Gives a possibillity to alert i the views
+    /// </summary>
     public class BaseModel
     {
         private string _alert = null;

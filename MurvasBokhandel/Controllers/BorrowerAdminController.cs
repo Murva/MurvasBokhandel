@@ -130,7 +130,7 @@ namespace MurvasBokhandel.Controllers
             {
                 ActiveAndHistoryBorrows borrows = new ActiveAndHistoryBorrows();
                 borrows.Active = BorrowService.GetActiveBorrowedBooks(personid);
-                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.Active[index].borrow.Barcode);
+                BorrowService.RenewLoad(BorrowerService.GetBorrower(personid), borrows.Active[index].Borrow.Barcode);
 
                 TempData["AlertView"] = AlertView.Build("Lån är uppdaterade.", AlertType.Success);
            
