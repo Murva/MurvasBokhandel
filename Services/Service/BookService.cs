@@ -112,7 +112,7 @@ namespace Services.Service
 
         public static bool HasAuthors(string isbn)
         {
-            if (AuthorRepository.dbGetAuthorsByBookISBN(isbn).Count > 0)
+            if (AuthorRepository.GetAuthorsByBookISBN(isbn).Count > 0)
                 return true;
 
             return false;

@@ -1,11 +1,4 @@
-﻿using Common.Share;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Model.Base
+﻿namespace Common.Model.Base
 {
     public class BaseModel
     {

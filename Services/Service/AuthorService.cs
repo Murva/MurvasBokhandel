@@ -9,17 +9,17 @@ namespace Services.Service
     {
         public static List<author> GetAuthors(string orderBy)
         {
-            return AuthorRepository.dbGetAuthors(orderBy);
+            return AuthorRepository.GetAuthors(orderBy);
         }
         
         public static List<author> GetAuthorsByLetter(string letter)
         {
-            return AuthorRepository.dbGetAuthorsByLetter(letter);
+            return AuthorRepository.GetAuthorsByLetter(letter);
         }
 
         public static AuthorWithBooks GetAuthorWithBooks(int aid)
         {
-            return MapAuthorWithBooks(AuthorRepository.dbGetAuthor(aid));
+            return MapAuthorWithBooks(AuthorRepository.GetAuthor(aid));
         }
 
         public static AuthorWithBooksAndBooks GetAuthorWithBooksAndBooks(int aid)
@@ -48,12 +48,12 @@ namespace Services.Service
         
         public static List<author> GetAuthersByBook(string isbn)
         {
-            return AuthorRepository.dbGetAuthorsByBookISBN(isbn);
+            return AuthorRepository.GetAuthorsByBookISBN(isbn);
         }
 
         public static bool AuthorExists(int Aid)
         {
-            return (AuthorRepository.dbGetAuthor(Aid) != null ? true : false);
+            return (AuthorRepository.GetAuthor(Aid) != null ? true : false);
         }
 
         public static void UpdateAuthor(author a)
@@ -74,7 +74,7 @@ namespace Services.Service
         public static AuthorsAndBooks GetSearchResult(string input)
         {
             AuthorsAndBooks authorsandbooks = new AuthorsAndBooks();
-            authorsandbooks.Authors = AuthorRepository.dbGetAuthorsBySearch(input);
+            authorsandbooks.Authors = AuthorRepository.GetAuthorsBySearch(input);
             authorsandbooks.Books = BookService.GetBooksBySearch(input);
 
             return authorsandbooks;
