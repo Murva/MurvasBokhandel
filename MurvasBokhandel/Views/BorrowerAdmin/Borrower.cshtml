@@ -151,28 +151,28 @@
                     {
                         <form method="post" action="/BorrowerAdmin/RenewLoan/">
                             <input type="hidden" value="@i" name="index" />
-                            <input type="hidden" value="@Model.Borrows.Active[i].borrow.Barcode" name="barcode" />
-                            <input type="hidden" value="@Model.Borrows.Active[i].borrow.PersonId" name="personid" />
+                            <input type="hidden" value="@Model.Borrows.Active[i].Borrow.Barcode" name="barcode" />
+                            <input type="hidden" value="@Model.Borrows.Active[i].Borrow.PersonId" name="personid" />
                             <tr>
                                 <td>
-                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.Active[i].book.ISBN">@Model.Borrows.Active[i].book.Title</a>
+                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.Active[i].Book.ISBN">@Model.Borrows.Active[i].Book.Title</a>
                                 </td>
                                 <td>
-                                    @for (int j = 0; j < Model.Borrows.Active[i].authors.Count; j++)
+                                    @for (int j = 0; j < Model.Borrows.Active[i].Authors.Count; j++)
                                     {
-                                        <a href="/Author/GetAuthor/?aid=@Model.Borrows.Active[i].authors[j].Aid">@Model.Borrows.Active[i].authors[j].FirstName @Model.Borrows.Active[i].authors[j].LastName,</a>
+                                        <a href="/Author/GetAuthor/?aid=@Model.Borrows.Active[i].Authors[j].Aid">@Model.Borrows.Active[i].Authors[j].FirstName @Model.Borrows.Active[i].Authors[j].LastName,</a>
                                     }
                                 </td>
                                 <td>
-                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.Active[i].book.ISBN">@Model.Borrows.Active[i].book.ISBN</a>
+                                    <a href="/Book/GetBook/?isbn=@Model.Borrows.Active[i].Book.ISBN">@Model.Borrows.Active[i].Book.ISBN</a>
                                 </td>
-                                <td>@Model.Borrows.Active[i].book.PublicationYear</td>
-                                <td>@Model.Borrows.Active[i].borrow.Barcode</td>
-                                <td>@Model.Borrows.Active[i].borrow.BorrowDate</td>
+                                <td>@Model.Borrows.Active[i].Book.PublicationYear</td>
+                                <td>@Model.Borrows.Active[i].Borrow.Barcode</td>
+                                <td>@Model.Borrows.Active[i].Borrow.BorrowDate</td>
                                 <td>
-                                    @Model.Borrows.Active[i].fine:-
+                                    @Model.Borrows.Active[i].Fine:-
                                     <input name="reloan" value="Låna om" type="submit" style="float: right" class="btn btn-default" />
-                                    @if (Model.Borrows.Active[i].borrow.ToBeReturnedDate < DateTime.Today)
+                                    @if (Model.Borrows.Active[i].Borrow.ToBeReturnedDate < DateTime.Today)
                                     {
                                         <font color="red" style="float:right">Försenad</font>
                                     }
@@ -204,21 +204,21 @@
                 {
                     <tr>
                         <td>
-                            <a href="/Book/GetBook/?isbn=@Model.Borrows.History[i].book.ISBN">@Model.Borrows.History[i].book.Title</a>
+                            <a href="/Book/GetBook/?isbn=@Model.Borrows.History[i].Book.ISBN">@Model.Borrows.History[i].Book.Title</a>
                         </td>
                         <td>
-                            @for (int j = 0; j < Model.Borrows.History[i].authors.Count; j++)
+                            @for (int j = 0; j < Model.Borrows.History[i].Authors.Count; j++)
                             {
-                                <a href="/Author/GetAuthor/?aid=@Model.Borrows.History[i].authors[j].Aid">@Model.Borrows.History[i].authors[j].FirstName @Model.Borrows.History[i].authors[j].LastName,</a>
+                                <a href="/Author/GetAuthor/?aid=@Model.Borrows.History[i].Authors[j].Aid">@Model.Borrows.History[i].Authors[j].FirstName @Model.Borrows.History[i].Authors[j].LastName,</a>
                             }
                     </td>
                     <td>
-                        <a href="/Book/GetBook/?isbn=@Model.Borrows.History[i].book.ISBN">@Model.Borrows.History[i].book.ISBN</a>
+                        <a href="/Book/GetBook/?isbn=@Model.Borrows.History[i].Book.ISBN">@Model.Borrows.History[i].Book.ISBN</a>
                     </td>
-                    <td>@Model.Borrows.History[i].book.PublicationYear</td>
-                    <td>@Model.Borrows.History[i].borrow.Barcode</td>
-                    <td>@Model.Borrows.History[i].borrow.BorrowDate</td>
-                    <td>@Model.Borrows.History[i].borrow.ReturnDate</td>
+                    <td>@Model.Borrows.History[i].Book.PublicationYear</td>
+                    <td>@Model.Borrows.History[i].Borrow.Barcode</td>
+                    <td>@Model.Borrows.History[i].Borrow.BorrowDate</td>
+                    <td>@Model.Borrows.History[i].Borrow.ReturnDate</td>
                 </tr>
                 }
             </tbody>
