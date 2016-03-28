@@ -1,9 +1,7 @@
-﻿using Repository.EntityModel;
-using Repository.Repositories;
+﻿using Repository.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Dynamic;
 using System.Reflection;
 
 namespace Repository.Repository.Base

@@ -21,7 +21,7 @@ namespace Services.Service
                 copy c = CopyRepository.dbGetCopyByBarcode(borrow.Barcode);
                 borrowedBookCopy.Add(new BorrowedBookCopy() { 
                     borrow = borrow,
-                    authors = AuthorRepository.dbGetAuthorsByBookISBN(c.ISBN),
+                    authors = AuthorRepository.GetAuthorsByBookISBN(c.ISBN),
                     book = BookRepository.dbGetBook(c.ISBN),
                     category = CategoryRepository.dbGetCategoryById(BorrowerRepository.dbGetBorrower(borrow.PersonId).CategoryId),
                     fine = FineRepository.dbGetFine(borrow.Barcode, borrow.PersonId)
